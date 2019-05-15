@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_window_focused="false">
+        <layer-list>
+            <item
+                    android:left="-3dp"
+                    android:right="-3dp"
+                    android:top="-3dp">
+                <shape>
+                    <solid android:color="@color/colorTransparent"/>
+                    <stroke
+                            android:width="3px"
+                            android:color="@color/colorMuted"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_focused="true">
+        <layer-list>
+            <item
+                    android:left="-3dp"
+                    android:right="-3dp"
+                    android:top="-3dp">
+                <shape>
+                    <solid android:color="@color/colorTransparent"/>
+                    <stroke
+                            android:width="3px"
+                            android:color="@color/colorPrimary"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

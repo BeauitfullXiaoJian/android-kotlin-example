@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Login Fragment Values -->
+    <dimen name="login_tips_height">100dp</dimen>
+    <dimen name="login_btn_height">45dp</dimen>
+
+    <!-- Default Until Values -->
+    <dimen name="margin_sm">5dp</dimen>
+    <dimen name="margin_md">8dp</dimen>
+    <dimen name="margin_lg">13dp</dimen>
+    <dimen name="margin_xl">16dp</dimen>
+    <dimen name="padding_sm">@dimen/margin_sm</dimen>
+    <dimen name="padding_md">@dimen/margin_md</dimen>
+    <dimen name="padding_lg">@dimen/margin_lg</dimen>
+    <dimen name="padding_xl">@dimen/margin_xl</dimen>
+    <dimen name="radius_sm">5dp</dimen>
+    <dimen name="radius_md">10dp</dimen>
+    <dimen name="radius_lg">15dp</dimen>
+    <dimen name="radius_xl">20dp</dimen>
+    <dimen name="title_xl">24sp</dimen>
+    <dimen name="title_lg">22sp</dimen>
+    <dimen name="title_md">20sp</dimen>
+    <dimen name="title_sm">18sp</dimen>
+    <dimen name="font_xl">16sp</dimen>
+    <dimen name="font_lg">14sp</dimen>
+    <dimen name="font_md">12sp</dimen>
+    <dimen name="font_sm">10sp</dimen>
+</resources>
