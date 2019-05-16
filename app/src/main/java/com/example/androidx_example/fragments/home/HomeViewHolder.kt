@@ -22,11 +22,11 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val resources = itemView.resources
         val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
         val density = resources.displayMetrics.density
-        layoutParams.topMargin = resources.getInteger(R.integer.)
-//        params.bottomMargin = params.topMargin
-//        params.leftMargin = getResources().getInteger(R.integer.space_sm_num) * density
-//        params.rightMargin = params.leftMargin
-//        holder.cardView.setLayoutParams(params)
+        layoutParams.topMargin = (resources.getInteger(R.integer.space_sm_value) * density).toInt()
+        layoutParams.bottomMargin = layoutParams.topMargin
+        layoutParams.leftMargin = layoutParams.bottomMargin
+        layoutParams.rightMargin = layoutParams.leftMargin
+        itemView.layoutParams = layoutParams
         title.text = videoData.videoTitle
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.reObserve
@@ -45,6 +46,7 @@ class HomeFragment : BaseFragment() {
 
     private fun initView() {
         home_recycler.adapter = listAdapter
+        home_recycler.layoutManager = GridLayoutManager(context, 2);
     }
 
 }
