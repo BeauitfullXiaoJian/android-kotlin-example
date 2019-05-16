@@ -2,8 +2,16 @@ package com.example.androidx_example.fragments
 
 import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+
+fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
+    removeObserver(observer)
+    observe(owner, observer)
+}
 
 open class BaseFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
@@ -13,9 +21,7 @@ open class BaseFragment : Fragment() {
     }
 
     fun showToast(message: String) {
-        activity?.runOnUiThread {
-            com.example.androidx_example.until.showToast(message, activity)
-        }
+        com.example.androidx_example.until.showToast(message, activity)
     }
 
     fun debugLog(message: String) {

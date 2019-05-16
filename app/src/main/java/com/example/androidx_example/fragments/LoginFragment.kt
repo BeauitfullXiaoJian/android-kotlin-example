@@ -10,9 +10,7 @@ import android.widget.EditText
 import  androidx.core.content.ContextCompat
 
 import com.example.androidx_example.R
-import com.example.androidx_example.until.HttpRequest
 import com.example.androidx_example.until.postSuccess
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.btn_login
 

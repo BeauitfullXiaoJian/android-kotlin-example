@@ -5,6 +5,7 @@
     <dimen name="login_btn_height">45dp</dimen>
 
     <!-- Default Until Values -->
+    <integer name=""
     <dimen name="margin_sm">5dp</dimen>
     <dimen name="margin_md">8dp</dimen>
     <dimen name="margin_lg">13dp</dimen>

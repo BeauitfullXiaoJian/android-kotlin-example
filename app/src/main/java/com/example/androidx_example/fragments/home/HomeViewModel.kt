@@ -1,25 +1,28 @@
 package com.example.androidx_example.fragments.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.androidx_example.R
+import com.example.androidx_example.data.Video
 
 class HomeViewModel : ViewModel() {
 
-    private val menuRows: MutableLiveData<List<MenuItem>> = MutableLiveData()
+    private val videos: MutableLiveData<List<Video>> = MutableLiveData()
 
-    fun getMenuRows(): LiveData<List<MenuItem>> {
-        loadMenuItem()
-        return menuRows
+    fun getVideos(): LiveData<List<Video>> {
+        loadVideos()
+        return videos
     }
 
-    private fun loadMenuItem() {
-        val list = ArrayList<MenuItem>();
-        list.add(MenuItem(R.drawable.home_01, "店铺管理"));
-        list.add(MenuItem(R.drawable.home_02, "店铺管理"));
-        list.add(MenuItem(R.drawable.home_03, "店铺管理"));
-        list.add(MenuItem(R.drawable.home_04, "店铺管理"));
-        menuRows.value = list
+    private fun loadVideos() {
+        val list = ArrayList<Video>();
+        list.add(
+            Video(
+                id = 0,
+                videoTitle = "",
+                videoSourceUrl = "",
+                videoThumbUrl = ""
+            )
+        );
+        videos.value = list
     }
 }
