@@ -5,8 +5,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.home.HomeFragment"
-        android:background="@color/colorAccent"
-        android:id="@+id/home_recycler">
+        android:background="@color/colorWhite"
+        android:id="@+id/home_recycler"
+        android:padding="@dimen/padding_sm">
 
 
 </androidx.recyclerview.widget.RecyclerView>

@@ -6,13 +6,9 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.androidx_example.data.Video
 
 class HomeAdapter() : ListAdapter<Video, HomeViewHolder>(
-
     object : DiffUtil.ItemCallback<Video>() {
-
         override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean = oldItem == newItem
-
         override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean = oldItem.id == newItem.id
-
     }
 ) {
 

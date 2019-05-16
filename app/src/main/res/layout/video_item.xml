@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -16,32 +15,50 @@
                 android:contentDescription="@string/video_thumb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"/>
 
         <TextView
                 android:id="@+id/video_title"
+                android:paddingStart="@dimen/margin_md"
+                android:paddingEnd="@dimen/margin_md"
+                android:paddingTop="@dimen/margin_md"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/font_lg"
                 android:text="@string/video_title"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/font_space_sm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         <LinearLayout
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_md"
+                android:paddingEnd="@dimen/margin_md"
+                android:paddingBottom="@dimen/margin_md"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
             <TextView
                     android:id="@+id/video_label"
+                    android:textSize="@dimen/font_md"
+                    android:textColor="@color/colorSecondary"
                     android:text="@string/video_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
             <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/btn_opt"
+                    android:padding="@dimen/video_item_more_icon_padding"
+                    android:background="@color/colorTransparent"
+                    android:scaleType="centerInside"
                     android:contentDescription="@string/video_opt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_login_password_default"/>
+                    android:layout_width="@dimen/video_item_more_icon_size"
+                    android:layout_height="@dimen/video_item_more_icon_size"
+                    android:src="@drawable/ic_more_default"/>
 
         </LinearLayout>
 

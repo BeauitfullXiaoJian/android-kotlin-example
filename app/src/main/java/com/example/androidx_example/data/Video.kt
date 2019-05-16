@@ -5,6 +5,7 @@ data class Video(
     val videoTitle: String,
     val videoSourceUrl: String,
     val videoThumbUrl: String,
+    val videoLabel: String,
     val likeNum: Int = 0,
     val dislikeNum: Int = 0
 )

@@ -4,6 +4,10 @@
     <dimen name="login_tips_height">100dp</dimen>
     <dimen name="login_btn_height">45dp</dimen>
 
+    <!--  Home Fragment Values -->
+    <dimen name="video_item_more_icon_size">20dp</dimen>
+    <dimen name="video_item_more_icon_padding">3dp</dimen>
+
     <!-- Default Until Values -->
     <integer name="space_sm_value">5</integer>
     <integer name="space_md_value">8</integer>
@@ -28,4 +32,8 @@
     <dimen name="font_lg">14sp</dimen>
     <dimen name="font_md">12sp</dimen>
     <dimen name="font_sm">10sp</dimen>
+    <dimen name="font_space_sm">2dp</dimen>
+    <dimen name="font_space_md">3dp</dimen>
+    <dimen name="font_space_lg">4dp</dimen>
+    <dimen name="font_space_xl">5dp</dimen>
 </resources>
