@@ -1,5 +1,6 @@
 package com.example.androidx_example.fragments.home
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
 
-    private val listAdapter = HomeAdapter()
+    private var listAdapter: HomeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,20 +32,21 @@ class HomeFragment : BaseFragment() {
 //        btn_login.setOnClickListener {
 //            Navigation.findNavController(view).navigate(R.id.action_home_to_login)
 //        }
-        initViewModel()
         initView()
+        initViewModel()
     }
 
     private fun initViewModel() {
         val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application)
             .create(HomeViewModel::class.java)
         viewModel.getVideos().reObserve(this, Observer { videos ->
-            listAdapter.submitList(videos)
+            listAdapter?.submitList(videos)
             debugLog("刷新列表数据")
         })
     }
 
     private fun initView() {
+        listAdapter = HomeAdapter(activity as Activity)
         home_recycler.adapter = listAdapter
         home_recycler.layoutManager = GridLayoutManager(context, 2);
     }

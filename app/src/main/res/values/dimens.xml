@@ -7,6 +7,7 @@
     <!--  Home Fragment Values -->
     <dimen name="video_item_more_icon_size">20dp</dimen>
     <dimen name="video_item_more_icon_padding">3dp</dimen>
+    <dimen name="video_pop_label_size">35dp</dimen>
 
     <!-- Default Until Values -->
     <integer name="space_sm_value">5</integer>

@@ -1,16 +1,24 @@
 package com.example.androidx_example.fragments.home
 
 import androidx.lifecycle.*
-import com.example.androidx_example.R
 import com.example.androidx_example.data.Video
 
 class HomeViewModel : ViewModel() {
 
     private val videos: MutableLiveData<List<Video>> = MutableLiveData()
+    private val activeVideo: MutableLiveData<Video> = MutableLiveData()
 
     fun getVideos(): LiveData<List<Video>> {
         loadVideos()
         return videos
+    }
+
+    fun setActiveVideo(video: Video) {
+        activeVideo.value = video
+    }
+
+    fun getActiveVideo(): LiveData<Video> {
+        return activeVideo
     }
 
     private fun loadVideos() {

@@ -42,7 +42,16 @@
 
             <androidx.gridlayout.widget.GridLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:rowCount="2"
+                    app:columnCount="2">
+
+                <Button
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:background="@drawable/bg_outline_white_click"
+                        android:layout_width="0dp"
+                        app:layout_columnWeight="1"
+                        android:layout_height="@dimen/video_pop_label_size"/>
 
             </androidx.gridlayout.widget.GridLayout>
 
@@ -50,6 +59,7 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_lg"
                     android:background="@drawable/bg_solid_click"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/font_xl"
