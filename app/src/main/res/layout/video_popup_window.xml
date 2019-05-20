@@ -1,72 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="video" type="com.example.androidx_example.data.Video"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/popup_window_bg">
+
+        <View android:id="@+id/dismiss_container"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/popup_window_bg">
+              android:layout_height="0dp"
+              android:layout_weight="1"/>
 
-    <View
-            android:id="@+id/dismiss_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-    <androidx.cardview.widget.CardView
-            android:id="@+id/menu_container"
-            app:cardCornerRadius="0dp"
-            app:elevation="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <LinearLayout
-                android:orientation="vertical"
-                android:padding="@dimen/padding_lg"
+        <androidx.cardview.widget.CardView
+                android:id="@+id/menu_container"
+                app:cardCornerRadius="0dp"
+                app:elevation="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-            <TextView
-                    android:text="视频XX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-            <View
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_lg"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorLine"/>
+                    android:layout_height="match_parent">
 
-            <TextView
-                    android:text="反馈"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
+                <TextView
+                        android:textColor="@color/colorBlack"
+                        android:text="@{video.videoTitle}"
+                        android:textSize="@dimen/font_xl"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-            <androidx.gridlayout.widget.GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:rowCount="2"
-                    app:columnCount="2">
+                <View
+                        android:layout_marginTop="@dimen/padding_lg"
+                        android:layout_marginBottom="@dimen/padding_lg"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLine"/>
+
+                <TextView
+                        android:text="@string/feedback"
+                        android:textColor="@color/colorText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                <androidx.gridlayout.widget.GridLayout
+                        android:id="@+id/feedback_label_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rowCount="2"
+                        app:columnCount="2">
+
+                    <Button
+                            android:text="11111"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:background="@drawable/bg_outline_white_click"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/video_pop_label_size"
+                            app:layout_columnWeight="1"/>
+
+                </androidx.gridlayout.widget.GridLayout>
 
                 <Button
+                        android:id="@+id/btn_cancel"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:background="@drawable/bg_outline_white_click"
-                        android:layout_width="0dp"
-                        app:layout_columnWeight="1"
-                        android:layout_height="@dimen/video_pop_label_size"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_lg"
+                        android:background="@drawable/bg_solid_click"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_xl"
+                        android:text="@string/cancel"
+                />
+            </LinearLayout>
 
-            </androidx.gridlayout.widget.GridLayout>
+        </androidx.cardview.widget.CardView>
 
-            <Button
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_lg"
-                    android:background="@drawable/bg_solid_click"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/font_xl"
-                    android:text="取消"
-            />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,13 +1,10 @@
 package com.example.androidx_example.fragments.home
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
@@ -37,8 +34,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initViewModel() {
-        val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application)
-            .create(HomeViewModel::class.java)
+        val viewModel = createViewModel(HomeViewModel::class.java)
         viewModel.getVideos().reObserve(this, Observer { videos ->
             listAdapter?.submitList(videos)
             debugLog("刷新列表数据")
@@ -46,9 +42,9 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initView() {
-        listAdapter = HomeAdapter(activity as Activity)
+        listAdapter = HomeAdapter(this)
         home_recycler.adapter = listAdapter
-        home_recycler.layoutManager = GridLayoutManager(context, 2);
+        home_recycler.layoutManager = GridLayoutManager(context, 2)
     }
 
 }

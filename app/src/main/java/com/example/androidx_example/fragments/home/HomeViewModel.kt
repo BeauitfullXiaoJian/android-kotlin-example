@@ -6,23 +6,14 @@ import com.example.androidx_example.data.Video
 class HomeViewModel : ViewModel() {
 
     private val videos: MutableLiveData<List<Video>> = MutableLiveData()
-    private val activeVideo: MutableLiveData<Video> = MutableLiveData()
 
     fun getVideos(): LiveData<List<Video>> {
         loadVideos()
         return videos
     }
 
-    fun setActiveVideo(video: Video) {
-        activeVideo.value = video
-    }
-
-    fun getActiveVideo(): LiveData<Video> {
-        return activeVideo
-    }
-
     private fun loadVideos() {
-        val list = ArrayList<Video>();
+        val list = ArrayList<Video>()
         list.add(
             Video(
                 id = 0,
@@ -31,7 +22,7 @@ class HomeViewModel : ViewModel() {
                 videoLabel = "趣味科普人文",
                 videoThumbUrl = "http://i1.hdslb.com/bfs/archive/0037921aa530e40603dd93545eb165f73c2b0cc5.jpg"
             )
-        );
+        )
         list.add(
             Video(
                 id = 0,
@@ -40,7 +31,7 @@ class HomeViewModel : ViewModel() {
                 videoSourceUrl = "视频地址",
                 videoThumbUrl = "http://i2.hdslb.com/bfs/archive/dbf1cbf84016fc9392cb851fe24384014205406c.jpg"
             )
-        );
+        )
         videos.value = list
     }
 }

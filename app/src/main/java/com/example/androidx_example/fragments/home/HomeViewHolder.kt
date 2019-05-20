@@ -1,6 +1,5 @@
 package com.example.androidx_example.fragments.home
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,9 @@ import androidx.core.content.ContextCompat
 import android.graphics.drawable.AnimationDrawable
 import android.widget.ImageButton
 import android.widget.ImageView
-import com.example.androidx_example.until.debugInfo
+import androidx.fragment.app.Fragment
 
-
-class HomeViewHolder(view: View, private val parent: ViewGroup, private val activity: Activity) :
+class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: Fragment) :
     RecyclerView.ViewHolder(view) {
 
     private val title: TextView = view.findViewById(R.id.video_title)
@@ -53,16 +51,15 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val acti
             .into(thumb)
         // 设置弹出菜单
         opt.setOnClickListener {
-            debugInfo("按下了菜单")
-            VideoPopupWindow(activity, parent).showAsDropDown(opt)
+            VideoPopupWindow.createAndShow(parentFragment, parent, videoData)
         }
     }
 
     companion object {
-        fun create(parent: ViewGroup, activity: Activity): HomeViewHolder {
+        fun create(parent: ViewGroup, context: Fragment): HomeViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.video_item, parent, false)
-            return HomeViewHolder(view, parent, activity)
+            return HomeViewHolder(view, parent, context)
         }
     }
 }

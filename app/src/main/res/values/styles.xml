@@ -8,9 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppSplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppSplashTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@drawable/launch_splash</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         // 校验登入状态
 
         // 跳转到主页
-        startActivity(Intent(this, MainActivity::class.java));
-        finish()
+         startActivity(Intent(this, MainActivity::class.java));
+         finish()
     }
 }
