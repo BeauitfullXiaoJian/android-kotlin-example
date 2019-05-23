@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.reObserve
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
@@ -35,7 +34,7 @@ class HomeFragment : BaseFragment() {
 
     private fun initViewModel() {
         val viewModel = createViewModel(HomeViewModel::class.java)
-        viewModel.getVideos().reObserve(this, Observer { videos ->
+        viewModel.getVideos().observe(this, Observer { videos ->
             listAdapter?.submitList(videos)
             debugLog("刷新列表数据")
         })

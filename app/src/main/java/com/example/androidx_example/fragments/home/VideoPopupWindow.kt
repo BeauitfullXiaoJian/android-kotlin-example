@@ -1,6 +1,5 @@
 package com.example.androidx_example.fragments.home
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
@@ -9,18 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.gridlayout.widget.GridLayout
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.data.Video
 import com.example.androidx_example.databinding.VideoPopupWindowBinding
+import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.AnimateUntil
+import com.example.androidx_example.until.debugInfo
 
-
-class VideoPopupWindow(parentFragment: Fragment, rootView: ViewGroup, video: Video) :
+class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video: Video) :
     PopupWindow(parentFragment.context) {
     init {
         // 初始化弹出窗口视图
@@ -39,35 +39,72 @@ class VideoPopupWindow(parentFragment: Fragment, rootView: ViewGroup, video: Vid
         contentView.findViewById<View>(R.id.dismiss_container).setOnClickListener {
             AnimateUntil.down(menuContainer, doOnEnd = { dismiss() })
         }
-        contentView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+        contentView.findViewById<Button>(R.id.btn_submit).setOnClickListener {
             AnimateUntil.down(menuContainer, doOnEnd = { dismiss() })
+            parentFragment.showToast("反馈成功～")
         }
 
-        // 添加反馈标签
-        val gridLayout = contentView.findViewById<GridLayout>(R.id.feedback_label_grid)
-//        gridLayout.addView(createLabelBtn("违规", parentFragment.context!!, gridLayout))
-//        gridLayout.addView(createLabelBtn("违规", parentFragment.context!!, gridLayout))
-//        gridLayout.addView(createLabelBtn("违规", parentFragment.context!!, gridLayout))
-        gridLayout.addView(createLabelBtn("违规", parentFragment.context!!, gridLayout))
         // 视图数据绑定
         val viewDataBinding = DataBindingUtil.bind<VideoPopupWindowBinding>(contentView)
         viewDataBinding?.video = video
+
+        // 初始化标签列表
+        val feedbackRecyclerView = contentView.findViewById<RecyclerView>(R.id.feedback_recycler).apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = FeedbackLabelAdapter()
+        }
+
+        parentFragment.createViewModel(HomeViewModel::class.java).apply {
+            getFeedbackLabels().observe(parentFragment, Observer { labels ->
+                (feedbackRecyclerView.adapter as FeedbackLabelAdapter).updateList(labels)
+            })
+        }
     }
 
     companion object {
-        fun createAndShow(parentFragment: Fragment, rootView: ViewGroup, video: Video) {
+        fun createAndShow(parentFragment: BaseFragment, rootView: ViewGroup, video: Video) {
             VideoPopupWindow(parentFragment, rootView, video).showAtLocation(rootView, Gravity.CENTER, 0, 0)
         }
+    }
 
-        private fun createLabelBtn(title: String, context: Context, parentView: ViewGroup): Button {
-            val labelBtn = LayoutInflater.from(context)
-                .inflate(R.layout.video_feedback_label, null) as Button
-            return labelBtn.apply {
-                text = title
-                background = AppCompatResources.getDrawable(
-                    context,
-                    R.drawable.bg_outline_white_click
-                )
+    class FeedbackLabelAdapter() : RecyclerView.Adapter<FeedbackLabelAdapter.ViewHolder>() {
+
+        private var labels = listOf<String>()
+
+        fun updateList(labels: List<String>) {
+            this.labels = labels
+            notifyDataSetChanged()
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(labels[position])
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder.create(parent)
+        }
+
+        override fun getItemCount(): Int {
+            return labels.size
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            init {
+                itemView.setOnClickListener {
+                    it.isSelected = !it.isSelected
+                }
+            }
+
+            fun bind(label: String) {
+                (itemView as Button).text = label
+            }
+
+            companion object {
+                fun create(host: ViewGroup): ViewHolder {
+                    val view = LayoutInflater.from(host.context).inflate(R.layout.video_feedback_label, host, false)
+                    return ViewHolder(view)
+                }
             }
         }
     }

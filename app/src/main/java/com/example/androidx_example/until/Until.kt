@@ -2,13 +2,16 @@ package com.example.androidx_example.until
 
 import android.app.Activity
 import android.app.Application
+import android.content.res.Resources
 import android.util.Log
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.fragments.home.HomeViewModel
 import io.reactivex.disposables.Disposable
+import java.lang.reflect.Type
 
 /**
  * 发送一个POST请求，并剔除掉错误的消息
@@ -59,4 +62,15 @@ fun debugInfo(message: String) {
 fun <T : ViewModel> createViewModel(app: Application, modelClass: Class<T>): T {
     return ViewModelProvider.AndroidViewModelFactory.getInstance(app)
         .create(modelClass)
+}
+
+fun dpToPx(dp: Int): Int {
+    val res = Resources.getSystem()
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), res.displayMetrics)
+        .toInt()
+}
+
+fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
+    val dp = res.getInteger(id)
+    return dpToPx(dp)
 }

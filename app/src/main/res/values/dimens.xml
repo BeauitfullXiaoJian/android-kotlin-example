@@ -8,6 +8,7 @@
     <dimen name="video_item_more_icon_size">20dp</dimen>
     <dimen name="video_item_more_icon_padding">3dp</dimen>
     <dimen name="video_pop_label_size">35dp</dimen>
+    <integer name="video_pop_label_size_value">35</integer>
 
     <!-- Default Until Values -->
     <integer name="space_sm_value">5</integer>
@@ -37,4 +38,8 @@
     <dimen name="font_space_md">3dp</dimen>
     <dimen name="font_space_lg">4dp</dimen>
     <dimen name="font_space_xl">5dp</dimen>
+    <dimen name="btn_height_sm">16dp</dimen>
+    <dimen name="btn_height_md">35dp</dimen>
+    <dimen name="btn_height_lg">45dp</dimen>
+    <dimen name="btn_height_xl">55dp</dimen>
 </resources>

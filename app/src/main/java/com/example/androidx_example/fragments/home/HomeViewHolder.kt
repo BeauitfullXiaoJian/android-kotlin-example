@@ -12,9 +12,9 @@ import androidx.core.content.ContextCompat
 import android.graphics.drawable.AnimationDrawable
 import android.widget.ImageButton
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
+import com.example.androidx_example.fragments.BaseFragment
 
-class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: Fragment) :
+class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
     RecyclerView.ViewHolder(view) {
 
     private val title: TextView = view.findViewById(R.id.video_title)
@@ -56,7 +56,7 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
     }
 
     companion object {
-        fun create(parent: ViewGroup, context: Fragment): HomeViewHolder {
+        fun create(parent: ViewGroup, context: BaseFragment): HomeViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.video_item, parent, false)
             return HomeViewHolder(view, parent, context)

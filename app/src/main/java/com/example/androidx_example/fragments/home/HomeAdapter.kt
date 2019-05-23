@@ -1,13 +1,13 @@
 package com.example.androidx_example.fragments.home
 
-import android.app.Activity
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.androidx_example.data.Video
+import com.example.androidx_example.fragments.BaseFragment
 
-class HomeAdapter(private val context: Fragment) : ListAdapter<Video, HomeViewHolder>(
+class HomeAdapter(private val parentFragment: BaseFragment) : ListAdapter<Video, HomeViewHolder>(
     object : DiffUtil.ItemCallback<Video>() {
         override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean = oldItem == newItem
         override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean = oldItem.id == newItem.id
@@ -15,7 +15,7 @@ class HomeAdapter(private val context: Fragment) : ListAdapter<Video, HomeViewHo
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        return HomeViewHolder.create(parent, context)
+        return HomeViewHolder.create(parent, parentFragment)
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
