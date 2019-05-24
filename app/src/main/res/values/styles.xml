@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- 分割线颜色 -->
+        <item name="android:listDivider">@color/colorLine</item>
     </style>
 
     <style name="AppSplashTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">

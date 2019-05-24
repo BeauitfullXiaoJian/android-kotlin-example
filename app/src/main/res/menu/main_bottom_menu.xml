@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/homeFragment"
           android:title="@string/home"
+          android:checkable="true"
           android:icon="@drawable/ic_vector_tab_bar_home"/>
     <item android:id="@+id/webFragment"
           android:title="@string/web"
+          android:checkable="true"
           android:icon="@drawable/ic_vector_tab_bar_moments"/>
     <item android:id="@+id/publicFragment"
           android:title="@string/open"
+          android:checkable="true"
           android:icon="@drawable/ic_vector_tab_bar_partition"/>
     <item android:id="@+id/userCenterFragment"
           android:title="@string/center"
+          android:checkable="true"
           android:icon="@drawable/ic_vector_tab_bar_me"/>
 </menu>
