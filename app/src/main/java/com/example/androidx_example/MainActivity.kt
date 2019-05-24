@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initNav() {
-        // main_bottom_navigation.setup
         val navCtrl = nav_host.findNavController()
         main_bottom_navigation.setupWithNavController(navCtrl)
     }

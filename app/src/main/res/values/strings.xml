@@ -1,6 +1,36 @@
 <resources>
     <string name="app_name">androidx-example</string>
 
+    <!-- Global Label/Title -->
+    <string name="image">图片</string>
+    <string name="avatar">头像</string>
+    <string name="feedback">反馈</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="submit">提交</string>
+    <string name="next">下一个</string>
+    <string name="nick">昵称</string>
+    <string name="address">地址</string>
+    <string name="focus">关注</string>
+    <string name="fans">粉丝</string>
+    <string name="article">文章</string>
+    <string name="empty_num">0</string>
+    <string name="empty_decimal">0.0</string>
+    <string name="lv_1">Lv1</string>
+    <string name="lv_2">Lv2</string>
+    <string name="lv_3">Lv3</string>
+    <string name="lv_4">Lv4</string>
+    <string name="lv_5">Lv5</string>
+    <string name="lv_6">Lv6</string>
+    <string name="vip">大会员</string>
+    <string name="super_vip">年度大会员</string>
+    <string name="coin">硬币</string>
+    <string name="coin_label">硬币：</string>
+    <string name="b_coin">B币</string>
+    <string name="b_coin_label">B币：</string>
+    <string name="girl">女孩</string>
+    <string name="body">男孩</string>
+
     <!--  Login Fragment -->
     <string name="icon_22">icon_22</string>
     <string name="icon_33">icon_22</string>
@@ -9,6 +39,21 @@
     <string name="input_password_help">请输入密码</string>
     <string name="button_register_title">注册账号</string>
     <string name="button_login_title">登入</string>
+
+    <!-- DevMenu Item -->
+    <string name="banner">幻灯片</string>
+    <string name="draw">涂鸦</string>
+    <string name="flv">播放器</string>
+    <string name="camera">相机</string>
+    <string name="music">音乐</string>
+    <string name="notify">通知</string>
+    <string name="live">直播</string>
+    <string name="tv">电视机</string>
+    <string name="animation">动画</string>
+    <string name="spring_animation">弹性动画</string>
+    <string name="fling_animation">惯性动画</string>
+    <string name="value_animation">值动画</string>
+    <string name="scale_animation">缩放动画</string>
 
     <!-- Video Item -->
     <string name="video_thumb">视频封面</string>
@@ -20,15 +65,10 @@
     <string name="video_feedback_label">反馈标签</string>
     <string name="video_feedback_tip">（您的反馈可以让我们变得更好）</string>
 
-    <!-- Global Label/Title -->
-    <string name="feedback">反馈</string>
-    <string name="cancel">取消</string>
-    <string name="confirm">确认</string>
-    <string name="submit">提交</string>
-
     <!-- Main BottomNavigationView Menu -->
     <string name="home">首页</string>
     <string name="web">浏览器</string>
     <string name="open">公开</string>
     <string name="center">我</string>
+
 </resources>

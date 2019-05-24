@@ -11,13 +11,16 @@
     <integer name="video_pop_label_size_value">35</integer>
 
     <!-- Default Until Values -->
+    <integer name="space_tiny_value">2</integer>
     <integer name="space_sm_value">5</integer>
     <integer name="space_md_value">8</integer>
     <integer name="space_lg_value">13</integer>
+    <dimen name="margin_tiny">2dp</dimen>
     <dimen name="margin_sm">5dp</dimen>
     <dimen name="margin_md">8dp</dimen>
     <dimen name="margin_lg">13dp</dimen>
     <dimen name="margin_xl">16dp</dimen>
+    <dimen name="padding_tiny">@dimen/margin_tiny</dimen>
     <dimen name="padding_sm">@dimen/margin_sm</dimen>
     <dimen name="padding_md">@dimen/margin_md</dimen>
     <dimen name="padding_lg">@dimen/margin_lg</dimen>
@@ -42,4 +45,15 @@
     <dimen name="btn_height_md">35dp</dimen>
     <dimen name="btn_height_lg">45dp</dimen>
     <dimen name="btn_height_xl">55dp</dimen>
+    <dimen name="avatar_size_sm">35dp</dimen>
+    <dimen name="avatar_size_md">45dp</dimen>
+    <dimen name="avatar_size_lg">55dp</dimen>
+    <dimen name="avatar_size_xl">65dp</dimen>
+    <dimen name="icon_sm">15dp</dimen>
+    <dimen name="icon_md">20dp</dimen>
+    <dimen name="icon_lg">30dp</dimen>
+    <dimen name="icon_xl">40dp</dimen>
+    <dimen name="actionbar_height">50dp</dimen>
+    <dimen name="bottom_nav_height">@dimen/actionbar_height</dimen>
+    <dimen name="line_height">1dp</dimen>
 </resources>

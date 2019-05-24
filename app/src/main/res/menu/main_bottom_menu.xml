@@ -5,11 +5,11 @@
           android:icon="@drawable/ic_vector_tab_bar_home"/>
     <item android:id="@+id/webFragment"
           android:title="@string/web"
-          android:icon="@drawable/ic_vector_tab_bar_web"/>
+          android:icon="@drawable/ic_vector_tab_bar_moments"/>
     <item android:id="@+id/publicFragment"
           android:title="@string/open"
-          android:icon="@drawable/ic_vector_tab_bar_home"/>
+          android:icon="@drawable/ic_vector_tab_bar_partition"/>
     <item android:id="@+id/userCenterFragment"
           android:title="@string/center"
-          android:icon="@drawable/ic_vector_tab_bar_home"/>
+          android:icon="@drawable/ic_vector_tab_bar_me"/>
 </menu>
