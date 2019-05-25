@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import android.graphics.drawable.AnimationDrawable
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.navigation.Navigation
 import com.example.androidx_example.fragments.BaseFragment
 
 class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
@@ -24,7 +25,7 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
 
     init {
         view.setOnClickListener {
-
+            Navigation.findNavController(view).navigate(R.id.action_home_to_login)
         }
     }
 

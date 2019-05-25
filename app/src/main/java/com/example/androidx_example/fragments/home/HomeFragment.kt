@@ -25,9 +25,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        btn_login.setOnClickListener {
-//            Navigation.findNavController(view).navigate(R.id.action_home_to_login)
-//        }
         initView()
         initViewModel()
     }

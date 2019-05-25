@@ -2,6 +2,7 @@ package com.example.androidx_example
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         val navCtrl = nav_host.findNavController().apply {
             addOnDestinationChangedListener { _, destination, _ ->
                 navigation_side?.setCheckedItem(destination.id)
+                main_bottom_navigation?.visibility = when (destination.id) {
+                    R.id.homeFragment, R.id.webFragment, R.id.publicFragment, R.id.userCenterFragment -> View.VISIBLE
+                    else -> View.GONE
+                }
             }
         }
         main_bottom_navigation.setupWithNavController(navCtrl)
