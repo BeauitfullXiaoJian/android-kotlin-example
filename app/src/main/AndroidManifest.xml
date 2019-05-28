@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.androidx_example">
 
+    <!-- 应用需要使用网络-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 媒体播放器需要屏幕常亮-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
             android:allowBackup="true"
