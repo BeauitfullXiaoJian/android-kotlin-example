@@ -25,7 +25,7 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
 
     init {
         view.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_home_to_login)
+            Navigation.findNavController(view).navigate(R.id.action_home_to_player)
         }
     }
 
