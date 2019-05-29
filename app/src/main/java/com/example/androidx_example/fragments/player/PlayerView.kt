@@ -3,12 +3,16 @@ package com.example.androidx_example.fragments.player
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.util.AttributeSet
+import android.util.Size
 import android.view.Surface
 import android.view.TextureView
+import android.view.WindowManager
 import com.example.androidx_example.until.debugInfo
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 const val DEFAULT_PLAY_SPEED = 1f
+const val AR_16_9 = 16.0 / 9.0
+const val AR_4_3 = 4.0 / 3.0
 
 class PlayerView : TextureView {
 
@@ -41,6 +45,10 @@ class PlayerView : TextureView {
             setOnPreparedListener {
                 start()
             }
+            // 
+            setOnVideoSizeChangedListener { _, w, h, _, _ ->
+                debugInfo("尺寸$w$h")
+            }
             // 视频跳转
             setOnSeekCompleteListener { }
             // 缓冲更新
@@ -64,6 +72,27 @@ class PlayerView : TextureView {
         mPlayer?.apply {
             dataSource = urlStr
             prepareAsync()
+        }
+    }
+
+    companion object {
+
+        /**
+         * 计算一个适合面板的缩放尺寸
+         */
+        fun getScaleFitSize(containerSize: Size, originSize: Size): Size {
+            val cwOW = 1f * containerSize.width / originSize.width
+            val chOH = 1f * containerSize.height / originSize.height
+            return if (containerSize.width < originSize.height * chOH)
+                Size(containerSize.width, (originSize.height * cwOW).toInt())
+            else Size((containerSize.width * chOH).toInt(), originSize.height)
+        }
+
+        /**
+         * 宽度不变，按宽高比计算出一个适合的尺寸
+         */
+        fun getFitWidthByAspectRatio(size: Size, aspectRatio: Float): Size {
+            return Size(size.width, (size.height / aspectRatio).toInt())
         }
     }
 }
