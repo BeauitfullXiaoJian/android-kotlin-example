@@ -1,17 +1,24 @@
 package com.example.androidx_example.until
 
+import android.Manifest
 import android.app.Activity
 import android.app.Application
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.androidx_example.BaseActivity
 import com.example.androidx_example.fragments.home.HomeViewModel
 import io.reactivex.disposables.Disposable
 import java.lang.reflect.Type
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * 发送一个POST请求，并剔除掉错误的消息
@@ -64,13 +71,34 @@ fun <T : ViewModel> createViewModel(app: Application, modelClass: Class<T>): T {
         .create(modelClass)
 }
 
+/**
+ * 将dp转换为px
+ */
 fun dpToPx(dp: Int): Int {
     val res = Resources.getSystem()
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), res.displayMetrics)
         .toInt()
 }
 
-fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
-    val dp = res.getInteger(id)
-    return dpToPx(dp)
+//fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
+//    val dp = res.getInteger(id)
+//    return dpToPx(dp)
+//}
+
+/**
+ * 请求权限
+ */
+var requestCodeCx = 1000;
+fun requestPermission(activity: BaseActivity, permission: String, successDo: () -> Unit) {
+    val hasPermission = ContextCompat.checkSelfPermission(activity, permission)
+    if (hasPermission == PackageManager.PERMISSION_DENIED) {
+        ActivityCompat.requestPermissions(
+            activity,
+            listOf(permission).toTypedArray(),
+            ++requestCodeCx
+        )
+        activity.addPermissionRequest(requestCodeCx, successDo)
+    } else {
+        successDo()
+    }
 }

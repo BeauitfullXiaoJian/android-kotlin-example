@@ -123,9 +123,7 @@ class PlayerView : TextureView {
      * 播放指定视频
      */
     fun startPlay(urlStr: String? = null) {
-        debugInfo("方法执行了")
         mPlayer?.apply {
-            debugInfo("怎么回事啊小老弟")
             if (urlStr != null) {
                 try {
                     dataSource = urlStr

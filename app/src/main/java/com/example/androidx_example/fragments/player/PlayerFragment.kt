@@ -42,7 +42,7 @@ class PlayerFragment : Fragment() {
 //            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 //            gesture_container.layoutParams = layoutParams
 //            player_view.updateViewSize()
-            gesture_container.tinyWindow(activity!!)
+            gesture_container.floatInActivity(activity!!)
         }
         seek_width.progress = 100
         seek_height.progress = 100
