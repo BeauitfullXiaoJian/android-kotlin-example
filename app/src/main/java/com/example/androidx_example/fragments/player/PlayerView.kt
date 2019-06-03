@@ -1,6 +1,7 @@
 package com.example.androidx_example.fragments.player
 
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.util.AttributeSet
 import android.util.Size
@@ -47,52 +48,50 @@ class PlayerView : TextureView {
                 return true
             }
 
-            override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) =
-                createPlayer(surface!!)
+            override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
+                createPlayer()
+                mPlayer?.setSurface(Surface(surface))
+            }
         }
     }
 
     /**
      * 创建播放器
      */
-    private fun createPlayer(surface: SurfaceTexture) {
+    private fun createPlayer() {
         debugInfo("创建播放器")
-        mPlayer = IjkMediaPlayer().apply {
-            // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
-            setSpeed(DEFAULT_PLAY_SPEED)
-            setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1)
-            setSurface(Surface(surface))
-            // 视频准备就绪
-            setOnPreparedListener {
-                start()
-            }
-            // 视频尺寸变化
-            setOnVideoSizeChangedListener { _, w, h, _, _ ->
-                this@PlayerView.videoWidth = w
-                this@PlayerView.videoHeight = h
-                setPlayViewSize()
-            }
-            // 视频跳转
-            setOnSeekCompleteListener { }
-            // 缓冲更新
-            setOnBufferingUpdateListener { _, _ -> }
-            // 播放器消息
-            setOnInfoListener { _, what, _ ->
-                when (what) {
-                    IjkMediaPlayer.MEDIA_INFO_BUFFERING_START -> {
-                        // 正在缓冲
-                    }
-                    IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
-                        // 缓冲结束
-                    }
+        if (mPlayer == null) {
+            mPlayer = IjkMediaPlayer().apply {
+                // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
+                setSpeed(DEFAULT_PLAY_SPEED)
+                setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1)
+                // 视频准备就绪
+                setOnPreparedListener {
+                    start()
                 }
-                return@setOnInfoListener false
+                // 视频尺寸变化
+                setOnVideoSizeChangedListener { _, w, h, _, _ ->
+                    this@PlayerView.videoWidth = w
+                    this@PlayerView.videoHeight = h
+                    setPlayViewSize()
+                }
+                // 视频跳转
+                setOnSeekCompleteListener { }
+                // 缓冲更新
+                setOnBufferingUpdateListener { _, _ -> }
+                // 播放器消息
+                setOnInfoListener { _, what, _ ->
+                    when (what) {
+                        IjkMediaPlayer.MEDIA_INFO_BUFFERING_START -> {
+                            // 正在缓冲
+                        }
+                        IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
+                            // 缓冲结束
+                        }
+                    }
+                    return@setOnInfoListener false
+                }
             }
-        }
-        // 判断是否需要恢复播放
-        if (playUrl.isNotEmpty()) {
-            debugInfo("恢复播放$playUrl")
-            this@PlayerView.startPlay(playUrl)
         }
     }
 
@@ -100,12 +99,9 @@ class PlayerView : TextureView {
      * 视图处于区域中心
      */
     private fun fitVideoCenter() {
-        x = (maxWidth - fitWidth) / 2f
-        y = (maxHeight - fitHeight) / 2f
-        debugInfo("坐标计算===============")
-        debugInfo("可用视图大小：$maxWidth,$maxHeight")
-        debugInfo("视频区域大小：$fitWidth,$fitHeight")
-        debugInfo("当前坐标：$x,$y")
+        val p = getCenterPoint()
+        x = p.x
+        y = p.y
     }
 
     /**
@@ -123,6 +119,7 @@ class PlayerView : TextureView {
      * 播放指定视频
      */
     fun startPlay(urlStr: String? = null) {
+        createPlayer()
         mPlayer?.apply {
             if (urlStr != null) {
                 try {
@@ -164,6 +161,13 @@ class PlayerView : TextureView {
         scaleX = 1f
         scaleY = 1f
         setPlayViewSize()
+    }
+
+    /**
+     * 获取视频视图中心坐标
+     */
+    fun getCenterPoint(): PointF {
+        return PointF((maxWidth - fitWidth) / 2f, (maxHeight - fitHeight) / 2f)
     }
 
     /**

@@ -8,15 +8,12 @@
 
     <com.example.androidx_example.fragments.player.PlayerCtrlView
             android:id="@+id/gesture_container"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:background="@color/colorBlack">
+            app:layout_constraintEnd_toEndOf="parent">
 
         <com.example.androidx_example.fragments.player.PlayerView
                 android:id="@+id/player_view"
@@ -25,45 +22,54 @@
 
     </com.example.androidx_example.fragments.player.PlayerCtrlView>
 
-    <Button
-            android:id="@+id/btn_play"
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="播放" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
-    <Button
-            android:id="@+id/btn_fullscreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="全屏" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@+id/btn_play" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_scale"/>
+            app:layout_constraintEnd_toEndOf="@+id/gesture_container"
+            app:layout_constraintStart_toStartOf="@+id/gesture_container"
+            app:layout_constraintBottom_toBottomOf="@+id/gesture_container"
+            app:layout_constraintTop_toTopOf="@+id/gesture_container"/>
 
-    <Button
-            android:id="@+id/btn_scale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="缩放" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
-    <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seek_width"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="150dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:max="1000"/>
+    <!--<Button-->
+    <!--android:id="@+id/btn_play"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="播放" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>-->
+    <!--<Button-->
+    <!--android:id="@+id/btn_fullscreen"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="全屏" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/btn_play" android:layout_marginStart="8dp"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/btn_scale"/>-->
 
-    <SeekBar
-            android:max="1000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seek_height" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="100dp"/>
+    <!--<Button-->
+    <!--android:id="@+id/btn_scale"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="缩放" android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>-->
+    <!--<SeekBar-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/seek_width"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginBottom="150dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--android:max="1000"/>-->
+
+    <!--<SeekBar-->
+    <!--android:max="1000"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/seek_height" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"-->
+    <!--app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="100dp"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
