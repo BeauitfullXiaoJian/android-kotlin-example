@@ -1,6 +1,7 @@
 package com.example.androidx_example.fragments.player
 
 import android.content.Context
+import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.SurfaceTexture
 import android.util.AttributeSet
@@ -19,15 +20,14 @@ class PlayerView : TextureView {
     private var videoHeight = 1080
     private var aspectRatio: Float = AspectRatio.AR_16_9.value
     private var sizeMode: SizeMode = SizeMode.AUTO_FIT
-    private var fitWidth = 0
-    private var fitHeight = 0
 
     private var playUrl = ""
     private var currentPlayState = PlayState.DEFAULT
 
+    var fitWidth = 0
+    var fitHeight = 0
     var maxWidth = 0
     var maxHeight = 0
-
     val isPlaying
         get() = mPlayer?.isPlaying ?: false
 
@@ -168,6 +168,14 @@ class PlayerView : TextureView {
      */
     fun getCenterPoint(): PointF {
         return PointF((maxWidth - fitWidth) / 2f, (maxHeight - fitHeight) / 2f)
+    }
+
+    fun getPoint(): PointF {
+        val mtrValues = FloatArray(9)
+        matrix.getValues(mtrValues)
+        val x = mtrValues[Matrix.MTRANS_X]
+        val y = mtrValues[Matrix.MTRANS_Y]
+        return PointF(x, y)
     }
 
     /**

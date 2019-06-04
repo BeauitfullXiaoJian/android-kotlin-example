@@ -72,23 +72,25 @@ class PlayerCtrlView : FrameLayout {
      */
     private fun fixPlayViewPosition() {
         playerView?.apply {
+            val centerPoint = getCenterPoint()
+            val currentPoint = getPoint()
             val point = if (scaleX < 1 || scaleY < 1) {
-                getCenterPoint()
+                PointF(centerPoint.x - currentPoint.x, centerPoint.y - currentPoint.y)
             } else {
-                val centerPoint = getCenterPoint()
+
                 val targetX = when {
                     width < this@PlayerCtrlView.width -> centerPoint.x
-                    x > 0 -> {
-                        debugInfo("左侧超出$x")
+                    currentPoint.x > 0 -> {
+                        debugInfo("左侧超出${playerView!!.x}")
                         0f
                     }
-                    x + (width * scaleX) < this@PlayerCtrlView.width -> {
+                    x + fitWidth < this@PlayerCtrlView.width -> {
                         debugInfo("右侧超出$x")
                         this@PlayerCtrlView.width - width.toFloat()
                     }
                     else -> x
                 }
-                PointF(targetX, y)
+                PointF(targetX, 0f)
             }
             moveViewToPoint(this, point)
         }
@@ -114,7 +116,6 @@ class PlayerCtrlView : FrameLayout {
 
             override fun onDown(e: MotionEvent?): Boolean {
                 downPosition = getWindowPoint(displayMode, this@PlayerCtrlView)
-                debugInfo("当前坐标${downPosition.toString()}")
                 return super.onDown(e)
             }
 
@@ -140,7 +141,6 @@ class PlayerCtrlView : FrameLayout {
                         y = downPosition.y + dy
                     }
                     DisplayMode.DEFAULT -> {
-                        debugInfo("移动视图")
                         playerView?.apply {
                             x -= distanceX
                             y -= distanceY
@@ -261,10 +261,10 @@ class PlayerCtrlView : FrameLayout {
         /**
          * 移动视图到指定位置（动画）
          */
-        fun moveViewToPoint(view: View, centerPoint: PointF) {
+        fun moveViewToPoint(view: View, targetPoint: PointF) {
 
             // X轴方向移动
-            val animatorX = ValueAnimator.ofFloat(view.x, centerPoint.x)
+            val animatorX = ValueAnimator.ofFloat(view.x, targetPoint.x)
             animatorX.duration = 500
             animatorX.addUpdateListener { animation ->
                 view.x = animation.animatedValue as Float
@@ -272,7 +272,7 @@ class PlayerCtrlView : FrameLayout {
             animatorX.start()
 
             // Y轴方向移动
-            val animatorY = ValueAnimator.ofFloat(view.y, centerPoint.y)
+            val animatorY = ValueAnimator.ofFloat(view.y, targetPoint.y)
             animatorY.duration = 500
             animatorY.addUpdateListener { animation ->
                 view.y = animation.animatedValue as Float
