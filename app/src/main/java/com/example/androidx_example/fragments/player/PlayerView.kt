@@ -11,8 +11,6 @@ import android.view.TextureView
 import com.example.androidx_example.until.debugInfo
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
-const val DEFAULT_PLAY_SPEED = 1f
-
 class PlayerView : TextureView {
 
     private var mPlayer: IjkMediaPlayer? = null
@@ -63,7 +61,7 @@ class PlayerView : TextureView {
         if (mPlayer == null) {
             mPlayer = IjkMediaPlayer().apply {
                 // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
-                setSpeed(DEFAULT_PLAY_SPEED)
+                setSpeed(PlaySpeed.DEFAULT_PLAY_SPEED.value)
                 setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1)
                 // 视频准备就绪
                 setOnPreparedListener {
@@ -113,6 +111,7 @@ class PlayerView : TextureView {
             release()
         }
         mPlayer = null
+        debugInfo("销毁播放器")
     }
 
     /**
@@ -229,8 +228,6 @@ class PlayerView : TextureView {
         layoutParams.width = fitWidth
         layoutParams.height = fitHeight
         layoutParams = layoutParams
-        // debugInfo("计算前的尺寸：$maxWidth,$maxHeight")
-        // debugInfo("计算后的尺寸：${size.width},${size.height}")
     }
 
     /**
@@ -267,6 +264,10 @@ class PlayerView : TextureView {
                 Size(expW, expH)
             else return Size((containerSize.height * (1f * expW / expH)).toInt(), containerSize.height)
         }
+    }
+
+    enum class PlaySpeed(val value: Float) {
+        DEFAULT_PLAY_SPEED(1f)
     }
 
     enum class PlayState {

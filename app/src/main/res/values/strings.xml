@@ -30,6 +30,8 @@
     <string name="b_coin_label">B币：</string>
     <string name="girl">女孩</string>
     <string name="body">男孩</string>
+    <string name="detail">详情</string>
+    <string name="comment">评论</string>
 
     <!--  Login Fragment -->
     <string name="icon_22">icon_22</string>

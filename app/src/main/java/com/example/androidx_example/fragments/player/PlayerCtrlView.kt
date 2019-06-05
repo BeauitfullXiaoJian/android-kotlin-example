@@ -27,19 +27,6 @@ class PlayerCtrlView : FrameLayout {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = getDefaultSize(suggestedMinimumWidth, widthMeasureSpec)
         val height = (width / PlayerView.AspectRatio.AR_16_9.value).toInt()
-//            when (MeasureSpec.getMode(heightMeasureSpec)) {
-//                MeasureSpec.UNSPECIFIED -> {
-//                    debugInfo("内容填充")
-//                    (width / PlayerView.AspectRatio.AR_4_3.value).toInt()
-//                }
-//                MeasureSpec.AT_MOST, MeasureSpec.EXACTLY -> {
-//                    debugInfo("全部")
-//                    getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
-//                }
-//                else -> getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
-//            }
-        debugInfo("推荐尺寸${getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)}")
-        debugInfo("面板尺寸$width,$height")
         playerView?.apply {
             maxWidth = width
             maxHeight = height
@@ -65,35 +52,6 @@ class PlayerCtrlView : FrameLayout {
             fixPlayViewPosition()
         }
         return true
-    }
-
-    /**
-     * 修复播放视图位置（如果有必要的话）
-     */
-    private fun fixPlayViewPosition() {
-        playerView?.apply {
-            val centerPoint = getCenterPoint()
-            val currentPoint = getPoint()
-            val point = if (scaleX < 1 || scaleY < 1) {
-                PointF(centerPoint.x - currentPoint.x, centerPoint.y - currentPoint.y)
-            } else {
-
-                val targetX = when {
-                    width < this@PlayerCtrlView.width -> centerPoint.x
-                    currentPoint.x > 0 -> {
-                        debugInfo("左侧超出${playerView!!.x}")
-                        0f
-                    }
-                    x + fitWidth < this@PlayerCtrlView.width -> {
-                        debugInfo("右侧超出$x")
-                        this@PlayerCtrlView.width - width.toFloat()
-                    }
-                    else -> x
-                }
-                PointF(targetX, 0f)
-            }
-            moveViewToPoint(this, point)
-        }
     }
 
     init {
@@ -207,6 +165,18 @@ class PlayerCtrlView : FrameLayout {
         return this
     }
 
+    /**
+     * 修复播放视图位置（如果有必要的话）
+     */
+    private fun fixPlayViewPosition() {
+        playerView?.apply {
+            if (scaleX < 1 || scaleY < 1) {
+                val point =
+                moveViewToPoint(this, getCenterPoint())
+            }
+        }
+    }
+
     companion object {
 
         /**
@@ -284,6 +254,6 @@ class PlayerCtrlView : FrameLayout {
     enum class DisplayMode {
         TINY_WINDOW,
         IN_ACTIVITY,
-        DEFAULT,
+        DEFAULT
     }
 }

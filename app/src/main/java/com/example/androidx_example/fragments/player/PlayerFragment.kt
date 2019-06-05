@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-
 import com.example.androidx_example.R
 import kotlinx.android.synthetic.main.fragment_player.*
 
@@ -25,14 +23,14 @@ class PlayerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        btn_play.setOnClickListener {
-//            if (player_view.isPlaying) {
-//                player_view.pausePlay()
-//            } else {
-//                player_view.startPlay("https://www.cool1024.com:8000/flv?video=1.flv")
-//            }
-//        }
-        gesture_container.playerView = player_view
-        player_view.startPlay("https://www.cool1024.com:8000/flv?video=1.flv")
+        initTabs()
+        // gesture_container.playerView = player_view
+        // player_view.startPlay("https://www.cool1024.com:8000/flv?video=1.flv")
+    }
+
+    private fun initTabs() {
+        val pagerAdapter = TabPagerAdapter(childFragmentManager)
+        view_pager.adapter = pagerAdapter
+        tab_layout.setupWithViewPager(view_pager)
     }
 }
