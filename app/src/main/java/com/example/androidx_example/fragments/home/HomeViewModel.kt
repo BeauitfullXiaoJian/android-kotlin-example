@@ -1,9 +1,16 @@
 package com.example.androidx_example.fragments.home
 
 import androidx.lifecycle.*
+import androidx.paging.toLiveData
 import com.example.androidx_example.data.Video
+import com.example.androidx_example.data.VideoDataSourceFactory
 
 class HomeViewModel : ViewModel() {
+
+    private val videoDataSourceFactory = VideoDataSourceFactory()
+    val videoRows = videoDataSourceFactory.toLiveData(
+        pageSize = 10
+    )
 
     private val _videos: MutableLiveData<List<Video>>by lazy {
         MutableLiveData<List<Video>>().also { loadVideos(it) }

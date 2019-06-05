@@ -1,6 +1,5 @@
 package com.example.androidx_example.until
 
-import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageManager
@@ -10,14 +9,11 @@ import android.util.TypedValue
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.BaseActivity
-import com.example.androidx_example.fragments.home.HomeViewModel
+import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
-import java.lang.reflect.Type
-import java.util.*
 import kotlin.collections.HashMap
 
 /**
@@ -30,12 +26,28 @@ import kotlin.collections.HashMap
 fun postSuccess(
     apiName: String,
     params: HashMap<String, Any>,
-    activity: Activity?,
+    activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
 }
 
+/**
+ * 发送一个GET请求，并剔除掉错误的消息
+ * @param apiName String 接口名称
+ * @param params HashMap<String, Any> 请求参数
+ * @param activity? Activity 当前活动，如果提供了这个参数，将显示错误提示消息
+ * @param successDo (res: HttpRequest.ApiData) -> Unit 成功回调方法
+ */
+fun getSuccess(
+    apiName: String,
+    params: HashMap<String, Any>,
+    activity: Activity? = null,
+    successDo: (res: HttpRequest.ApiData) -> Unit
+): Disposable = HttpRequest.get(apiName, params).subscribe {
+    debugInfo("到底什么原因${it.getMessage()}")
+    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+}
 
 // 每次允许显示TOAST的最小间隔
 const val MIN_TOAST_TIME = 3000
@@ -89,6 +101,7 @@ fun dpToPx(dp: Int): Int {
  * 请求权限
  */
 var requestCodeCx = 1000;
+
 fun requestPermission(activity: BaseActivity, permission: String, successDo: () -> Unit) {
     val hasPermission = ContextCompat.checkSelfPermission(activity, permission)
     if (hasPermission == PackageManager.PERMISSION_DENIED) {

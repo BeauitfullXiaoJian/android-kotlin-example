@@ -3,7 +3,7 @@ package com.example.androidx_example
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.androidx_example.until.HttpRequest
+import com.example.androidx_example.until.api.HttpRequest
 
 class SplashActivity : AppCompatActivity() {
 

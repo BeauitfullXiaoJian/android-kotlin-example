@@ -1,9 +1,10 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.api
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.androidx_example.R
+import com.example.androidx_example.until.debugInfo
 import java.util.*
 import kotlin.collections.HashMap
 import io.reactivex.Observable
@@ -66,22 +67,32 @@ class HttpRequest {
             val inputStream = context.resources.openRawResource(rawId)
             val properties = Properties()
             properties.load(inputStream)
-            config = HttpConfig(
-                requestHost = properties.getProperty(REQUEST_HOST, REQUEST_DEFAULT_HOST),
-                requestTimeout = properties.getProperty(REQUEST_TIMEOUT, REQUEST_DEFAULT_TIME_OUT).toInt()
-            )
+            config =
+                HttpConfig(
+                    requestHost = properties.getProperty(
+                        REQUEST_HOST,
+                        REQUEST_DEFAULT_HOST
+                    ),
+                    requestTimeout = properties.getProperty(
+                        REQUEST_TIMEOUT,
+                        REQUEST_DEFAULT_TIME_OUT
+                    ).toInt()
+                )
         }
 
         fun get(apiName: String, params: HashMap<String, Any>? = null): Observable<ApiData> {
             var apiPath = apiName
-            if (params != null) apiPath += getQueryString(params)
+            if (params != null) apiPath += getQueryString(
+                params
+            )
             apiPath = getRequestUrl(apiPath)
             val request = Request.Builder().url(apiPath).build()
             return sendRequest(request)
         }
 
         fun post(apiName: String, params: HashMap<String, Any>? = null): Observable<ApiData> {
-            val request = createPostRequest(apiName, params)
+            val request =
+                createPostRequest(apiName, params)
             return sendRequest(request)
         }
 
@@ -97,7 +108,11 @@ class HttpRequest {
 
         private fun createPostRequest(requestUrl: String, params: HashMap<String, Any>? = null): Request {
             var requestBuilder = Request.Builder()
-            requestBuilder = requestBuilder.url(getRequestUrl(requestUrl))
+            requestBuilder = requestBuilder.url(
+                getRequestUrl(
+                    requestUrl
+                )
+            )
             if (params != null) {
                 val jsonStr = Gson().toJson(params)
                 val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr)
@@ -120,10 +135,13 @@ class HttpRequest {
                     val response = getInstance().newCall(request).execute()
                     val body = response.body()
                     return@fromCallable when (val code = response.code()) {
-                        CODE_SUCCESS -> if (body != null) ApiData.createFromString(body.string())
+                        CODE_SUCCESS -> if (body != null) ApiData.createFromString(
+                            body.string()
+                        )
                         else ApiData.errorData(RESPONSE_BODY_EMPTY)
                         else -> ApiData.errorData(
-                            HTTP_CODE_MESSAGES[code] ?: HTTP_CODE_UNKNOWN_MESSAGE
+                            HTTP_CODE_MESSAGES[code]
+                                ?: HTTP_CODE_UNKNOWN_MESSAGE
                         )
                     }
                 }.subscribeOn(Schedulers.newThread())
@@ -176,9 +194,11 @@ class HttpRequest {
                 if (sourceData.data != null) {
                     val jsonObject = JsonParser().parse(sourceData.data).asJsonObject
                     val jsonArray = jsonObject.get("rows").asJsonArray
-                    pageData = PageData(total = jsonObject.get("total").asInt, rows = jsonArray.map {
-                        Gson().fromJson(it.toString(), classOfT)
-                    })
+                    pageData = PageData(
+                        total = jsonObject.get("total").asInt,
+                        rows = jsonArray.map {
+                            Gson().fromJson(it.toString(), classOfT)
+                        })
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
@@ -195,13 +215,20 @@ class HttpRequest {
             }
 
             fun successData(msg: String, data: String): ApiData {
-                return ApiData(ApiSourceData(result = false, message = msg, data = data))
+                return ApiData(
+                    ApiSourceData(
+                        result = false,
+                        message = msg,
+                        data = data
+                    )
+                )
             }
 
             fun createFromString(responseData: String): ApiData {
 
                 val jsonObject = JsonParser().parse(responseData).asJsonObject
                 return try {
+                    debugInfo(jsonObject.toString())
                     ApiData(
                         ApiSourceData(
                             result = jsonObject.get("result").asBoolean,

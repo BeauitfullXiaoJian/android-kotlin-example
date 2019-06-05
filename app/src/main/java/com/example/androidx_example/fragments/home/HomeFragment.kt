@@ -12,14 +12,12 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
 
-    private var listAdapter: HomeAdapter? = null
+    private var listAdapter: VideoPagedAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -31,14 +29,14 @@ class HomeFragment : BaseFragment() {
 
     private fun initViewModel() {
         val viewModel = createViewModel(HomeViewModel::class.java)
-        viewModel.getVideos().observe(this, Observer { videos ->
+        viewModel.videoRows.observe(this, Observer { videos ->
             listAdapter?.submitList(videos)
             debugLog("刷新列表数据")
         })
     }
 
     private fun initView() {
-        listAdapter = HomeAdapter(this)
+        listAdapter = VideoPagedAdapter(this) // HomeAdapter(this)
         home_recycler.adapter = listAdapter
         home_recycler.layoutManager = GridLayoutManager(context, 2)
     }
