@@ -48,6 +48,7 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         animationDrawable!!.start()
         GlideApp.with(context)
             .load(videoData.videoThumbUrl)
+            // .override(388, 242)
             .placeholder(animationDrawable)
             .into(thumb)
         // 设置弹出菜单

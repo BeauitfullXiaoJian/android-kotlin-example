@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.androidx_example.R
-import com.example.androidx_example.until.debugInfo
 import java.util.*
 import kotlin.collections.HashMap
 import io.reactivex.Observable
@@ -43,7 +42,7 @@ const val CODE_403 = 403
 const val CODE_422 = 422
 const val CODE_500 = 500
 const val CODE_SUCCESS = CODE_200
-const val CODE_ERROR = CODE_500
+// const val CODE_ERROR = CODE_500
 const val HTTP_CODE_UNKNOWN_MESSAGE = "其它错误"
 
 val HTTP_CODE_MESSAGES = mapOf(
@@ -138,14 +137,15 @@ class HttpRequest {
                         CODE_SUCCESS -> if (body != null) ApiData.createFromString(
                             body.string()
                         )
-                        else ApiData.errorData(RESPONSE_BODY_EMPTY)
+                        else ApiData.errorData(RESPONSE_BODY_EMPTY, RESPONSE_BODY_EMPTY)
                         else -> ApiData.errorData(
                             HTTP_CODE_MESSAGES[code]
-                                ?: HTTP_CODE_UNKNOWN_MESSAGE
+                                ?: HTTP_CODE_UNKNOWN_MESSAGE,
+                            body?.string() ?: RESPONSE_BODY_EMPTY
                         )
                     }
                 }.subscribeOn(Schedulers.newThread())
-                .onErrorReturn { ApiData.errorData(REQUEST_ERROR) }
+                .onErrorReturn { ApiData.errorData(REQUEST_ERROR, REQUEST_ERROR) }
         }
     }
 
@@ -165,7 +165,7 @@ class HttpRequest {
         var rows: List<T> = listOf()
     )
 
-    class ApiData(private val sourceData: ApiSourceData) {
+    class ApiData(private val sourceData: ApiSourceData, val originBodyStr: String) {
 
         fun getMessage(): String {
             return sourceData.message
@@ -208,19 +208,21 @@ class HttpRequest {
 
         companion object {
 
-            fun errorData(errorMsg: String): ApiData {
+            fun errorData(errorMsg: String, responseData: String): ApiData {
                 return ApiData(
-                    ApiSourceData(result = false, message = errorMsg)
+                    ApiSourceData(result = false, message = errorMsg),
+                    responseData
                 )
             }
 
-            fun successData(msg: String, data: String): ApiData {
+            fun successData(msg: String, data: String, responseData: String): ApiData {
                 return ApiData(
                     ApiSourceData(
-                        result = false,
+                        result = true,
                         message = msg,
                         data = data
-                    )
+                    ),
+                    responseData
                 )
             }
 
@@ -228,17 +230,17 @@ class HttpRequest {
 
                 val jsonObject = JsonParser().parse(responseData).asJsonObject
                 return try {
-                    debugInfo(jsonObject.toString())
                     ApiData(
                         ApiSourceData(
                             result = jsonObject.get("result").asBoolean,
                             message = jsonObject.get("message").asOnlyString,
                             data = jsonObject.get("data")?.asOnlyString
-                        )
+                        ),
+                        responseData
                     )
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
-                    errorData(RESPONSE_DATA_ERROR)
+                    errorData(RESPONSE_DATA_ERROR, responseData)
                 }
             }
         }

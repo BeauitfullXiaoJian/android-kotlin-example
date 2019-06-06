@@ -16,6 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"/>
 
         <TextView
@@ -30,7 +31,7 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/font_space_sm"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="50dp"/>
 
         <LinearLayout
                 android:orientation="horizontal"

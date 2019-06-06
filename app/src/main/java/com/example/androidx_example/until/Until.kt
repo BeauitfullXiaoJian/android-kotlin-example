@@ -29,6 +29,7 @@ fun postSuccess(
     activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
+    // debugInfo(it.originBodyStr)
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
 }
 
@@ -45,7 +46,7 @@ fun getSuccess(
     activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
-    debugInfo("到底什么原因${it.getMessage()}")
+    // debugInfo(it.originBodyStr)
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
 }
 
@@ -84,7 +85,7 @@ fun <T : ViewModel> createViewModel(app: Application, modelClass: Class<T>): T {
 }
 
 /**
- * 将dp转换为px
+ * 将dp转换为pxf
  */
 fun dpToPx(dp: Int): Int {
     val res = Resources.getSystem()

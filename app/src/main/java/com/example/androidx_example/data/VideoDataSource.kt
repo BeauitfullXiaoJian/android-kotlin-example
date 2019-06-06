@@ -11,7 +11,7 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
     override fun loadInitial(params: LoadInitialParams<Pagination>, callback: LoadInitialCallback<Pagination, Video>) {
         val page = Pagination.create(params.requestedLoadSize)
         getSuccess(
-            apiName = "list",
+            apiName = "videos",
             params = page.pageParams,
             successDo = { res ->
                 val pageData = res.getPageData(Video::class.java)
@@ -26,7 +26,7 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
         if (page.hasPrev) {
             page.prevPage()
             getSuccess(
-                apiName = "list",
+                apiName = "videos",
                 params = page.pageParams,
                 successDo = { res ->
                     val pageData = res.getPageData(Video::class.java)
@@ -42,7 +42,7 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
         if (page.hasNext) {
             page.nextPage()
             getSuccess(
-                apiName = "list",
+                apiName = "videos",
                 params = page.pageParams,
                 successDo = { res ->
                     val pageData = res.getPageData(Video::class.java)
