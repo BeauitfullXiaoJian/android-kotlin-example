@@ -3,6 +3,7 @@
 
     <!-- Global Label/Title -->
     <string name="image">图片</string>
+    <string name="thumb">缩略图</string>
     <string name="avatar">头像</string>
     <string name="feedback">反馈</string>
     <string name="cancel">取消</string>

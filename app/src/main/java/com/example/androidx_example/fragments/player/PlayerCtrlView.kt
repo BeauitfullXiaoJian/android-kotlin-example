@@ -10,6 +10,9 @@ import android.view.*
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.FrameLayout
+import android.widget.ImageView
+import com.example.androidx_example.data.Video
+import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.debugInfo
 
 class PlayerCtrlView : FrameLayout {
@@ -19,6 +22,7 @@ class PlayerCtrlView : FrameLayout {
     private var displayMode = DisplayMode.DEFAULT
     private var windowManager: WindowManager? = null
     var playerView: PlayerView? = null
+    var playerImageView: ImageView? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -111,6 +115,28 @@ class PlayerCtrlView : FrameLayout {
     }
 
     /**
+     * 启动播放器
+     */
+    fun startPlay() {
+        playerView?.startPlay("https://www.cool1024.com:8000/flv?video=1.flv")
+    }
+
+    /**
+     * 播放指定视频对象
+     */
+    fun preparePlayer(video: Video) {
+        playerImageView?.apply {
+            debugInfo(video.videoThumbUrl)
+            layoutParams.width = this@PlayerCtrlView.width
+            layoutParams.height = this@PlayerCtrlView.height
+            layoutParams = layoutParams
+//            GlideApp.with(this@PlayerCtrlView)
+//                .load(video.videoThumbUrl)
+//                .into(this)
+        }
+    }
+
+    /**
      * 全局小窗口模式
      */
     fun floatInWindow(activity: Activity) {
@@ -172,7 +198,7 @@ class PlayerCtrlView : FrameLayout {
         playerView?.apply {
             if (scaleX < 1 || scaleY < 1) {
                 val point =
-                moveViewToPoint(this, getCenterPoint())
+                    moveViewToPoint(this, getCenterPoint())
             }
         }
     }

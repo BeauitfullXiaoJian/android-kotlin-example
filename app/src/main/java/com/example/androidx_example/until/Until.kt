@@ -46,7 +46,6 @@ fun getSuccess(
     activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
-    // debugInfo(it.originBodyStr)
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
 }
 

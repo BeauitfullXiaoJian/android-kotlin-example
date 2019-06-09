@@ -9,8 +9,10 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+        <!-- 播放器 -->
         <com.example.androidx_example.fragments.player.PlayerCtrlView
-                android:id="@+id/gesture_container"
+                android:id="@+id/player_ctr_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBlack"
@@ -21,9 +23,17 @@
                     android:id="@+id/player_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+            <ImageView
+                    android:id="@+id/player_thumb_view"
+                    android:layout_width="312dp"
+                    android:layout_height="199dp"
+                    android:contentDescription="@string/thumb"
+                    android:src="@drawable/bg_center"
+                    android:scaleType="fitXY"/>
 
         </com.example.androidx_example.fragments.player.PlayerCtrlView>
 
+        <!-- 加载动画控件 -->
         <ProgressBar
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"

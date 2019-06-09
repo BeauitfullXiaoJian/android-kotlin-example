@@ -14,10 +14,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.androidx_example.fragments.player.PlayerFragmentArgs
 
 class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
     RecyclerView.ViewHolder(view) {
 
+    private var id: Int = 0
     private val title: TextView = view.findViewById(R.id.video_title)
     private val thumb: ImageView = view.findViewById(R.id.video_thumb)
     private val label: TextView = view.findViewById(R.id.video_label)
@@ -25,7 +27,8 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
 
     init {
         view.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_home_to_player)
+            val action = HomeFragmentDirections.actionHomeToPlayer(id)
+            Navigation.findNavController(view).navigate(action)
         }
     }
 
@@ -39,6 +42,8 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         layoutParams.leftMargin = layoutParams.bottomMargin
         layoutParams.rightMargin = layoutParams.leftMargin
         itemView.layoutParams = layoutParams
+        // 保存视频编号
+        id = videoData.id
         // 设置标题
         title.text = videoData.videoTitle
         // 设置标签
@@ -48,7 +53,6 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         animationDrawable!!.start()
         GlideApp.with(context)
             .load(videoData.videoThumbUrl)
-            // .override(388, 242)
             .placeholder(animationDrawable)
             .into(thumb)
         // 设置弹出菜单

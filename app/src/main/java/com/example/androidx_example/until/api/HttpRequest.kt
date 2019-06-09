@@ -145,7 +145,10 @@ class HttpRequest {
                         )
                     }
                 }.subscribeOn(Schedulers.newThread())
-                .onErrorReturn { ApiData.errorData(REQUEST_ERROR, REQUEST_ERROR) }
+                .onErrorReturn {
+                    it.printStackTrace()
+                    ApiData.errorData(REQUEST_ERROR, REQUEST_ERROR)
+                }
         }
     }
 
