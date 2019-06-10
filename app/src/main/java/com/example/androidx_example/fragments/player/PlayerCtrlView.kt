@@ -12,7 +12,6 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.example.androidx_example.data.Video
-import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.debugInfo
 
 class PlayerCtrlView : FrameLayout {
@@ -127,9 +126,10 @@ class PlayerCtrlView : FrameLayout {
     fun preparePlayer(video: Video) {
         playerImageView?.apply {
             debugInfo(video.videoThumbUrl)
-            layoutParams.width = this@PlayerCtrlView.width
-            layoutParams.height = this@PlayerCtrlView.height
-            layoutParams = layoutParams
+            val lp = layoutParams as FrameLayout.LayoutParams
+            lp.width = this@PlayerCtrlView.width
+            lp.height = this@PlayerCtrlView.height
+            layoutParams = lp
 //            GlideApp.with(this@PlayerCtrlView)
 //                .load(video.videoThumbUrl)
 //                .into(this)
@@ -197,8 +197,7 @@ class PlayerCtrlView : FrameLayout {
     private fun fixPlayViewPosition() {
         playerView?.apply {
             if (scaleX < 1 || scaleY < 1) {
-                val point =
-                    moveViewToPoint(this, getCenterPoint())
+                moveViewToPoint(this, getCenterPoint())
             }
         }
     }

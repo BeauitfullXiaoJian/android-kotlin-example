@@ -25,10 +25,10 @@
                     android:layout_height="match_parent"/>
             <ImageView
                     android:id="@+id/player_thumb_view"
-                    android:layout_width="312dp"
-                    android:layout_height="199dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/colorWhite"
                     android:contentDescription="@string/thumb"
-                    android:src="@drawable/bg_center"
                     android:scaleType="fitXY"/>
 
         </com.example.androidx_example.fragments.player.PlayerCtrlView>

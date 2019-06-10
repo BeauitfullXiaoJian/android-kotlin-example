@@ -19,8 +19,8 @@ class PlayerView : TextureView {
     /**
      * 尺寸计算相关变量
      */
-    private var videoWidth = 1920
-    private var videoHeight = 1080
+    private var videoWidth = 0
+    private var videoHeight = 0
     private var aspectRatio: Float = AspectRatio.AR_16_9.value
     private var sizeMode: SizeMode = SizeMode.AUTO_FIT
     private var fitWidth = 0
