@@ -6,28 +6,19 @@
 
     <fragment android:id="@+id/homeFragment" android:name="com.example.androidx_example.fragments.home.HomeFragment"
               android:label="home" tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_home_to_login" app:destination="@id/loginFragment"
-                app:enterAnim="@anim/nav_default_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"/>
         <action android:id="@+id/action_home_to_player" app:destination="@id/playerFragment"/>
-        <action android:id="@+id/action_homeFragment_to_webFragment" app:destination="@id/webFragment"
-                app:launchSingleTop="false" app:popUpToInclusive="false"/>
     </fragment>
 
     <fragment android:id="@+id/loginFragment" android:name="com.example.androidx_example.fragments.LoginFragment"
               android:label="login" tools:layout="@layout/fragment_login"/>
     <fragment android:id="@+id/publicFragment" android:name="com.example.androidx_example.fragments.PublicFragment"
-              android:label="public" tools:layout="@layout/fragment_public">
-        <action android:id="@+id/action_publicFragment_to_userCenterFragment" app:destination="@id/userCenterFragment"/>
-    </fragment>
+              android:label="public" tools:layout="@layout/fragment_public"/>
     <fragment android:id="@+id/userCenterFragment"
               android:name="com.example.androidx_example.fragments.UserCenterFragment"
               android:label="user_center" tools:layout="@layout/fragment_user_center"/>
     <fragment android:id="@+id/webFragment" android:name="com.example.androidx_example.fragments.WebFragment"
               android:label="web" tools:layout="@layout/fragment_web">
         <argument android:name="webUrl" app:argType="string" android:defaultValue="https://blog.cool1024.com"/>
-        <action android:id="@+id/action_webFragment_to_publicFragment" app:destination="@id/publicFragment"
-                app:popUpTo="@+id/webFragment"/>
     </fragment>
     <fragment android:id="@+id/playerFragment"
               android:name="com.example.androidx_example.fragments.player.PlayerFragment"

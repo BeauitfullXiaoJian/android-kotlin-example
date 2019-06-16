@@ -18,18 +18,10 @@ class MainActivity : BaseActivity() {
 
     private var canBack = false
     private var mExitClickTime: Long = 0
-    private val navCtrl: NavController by lazy {
-        nav_host.findNavController()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        onBackPressedDispatcher.addCallback {
-            isEnabled = false
-            remove()
-            debugInfo("按下返回")
-        }
         initNav()
     }
 
@@ -49,27 +41,21 @@ class MainActivity : BaseActivity() {
     private fun initNav() {
         val navCtrl = nav_host.findNavController().apply {
             addOnDestinationChangedListener { _, destination, _ ->
-
                 canBack = destination.id !in listOf(
                     R.id.homeFragment,
                     R.id.webFragment,
                     R.id.publicFragment,
                     R.id.userCenterFragment
                 )
-
                 main_bottom_navigation?.visibility = if (canBack) View.GONE else View.VISIBLE
                 navigation_side?.setCheckedItem(destination.id)
             }
         }
-        main_bottom_navigation.setOnNavigationItemSelectedListener { item ->
-
-            onNavDestinationSelected(item, Navigation.findNavController(this, R.id.nav_host))
+        main_bottom_navigation.setupWithNavController(navCtrl)
+        navigation_side.apply {
+            setupWithNavController(navCtrl)
+            itemIconTintList = null
         }
-//        main_bottom_navigation.setupWithNavController(navCtrl)
-//        navigation_side.apply {
-//            setupWithNavController(navCtrl)
-//            itemIconTintList = null
-//        }
     }
 
 }
