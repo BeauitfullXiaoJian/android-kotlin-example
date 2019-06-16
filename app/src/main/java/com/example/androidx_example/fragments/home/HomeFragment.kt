@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : BaseFragment() {
 
     private var listAdapter: VideoPagedAdapter? = null
+    private var viewModel: HomeViewModel? = null
+    private var recyclerLayoutManager: GridLayoutManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,18 +29,46 @@ class HomeFragment : BaseFragment() {
         initViewModel()
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        saveRecyclerPosition()
+    }
+
+    /**
+     * 初始化视图模型
+     */
     private fun initViewModel() {
-        val viewModel = createViewModel(HomeViewModel::class.java)
-        viewModel.videoRows.observe(this, Observer { videos ->
-            listAdapter?.submitList(videos)
-            debugLog("刷新列表数据")
-        })
+        viewModel = viewModel ?: createViewModel(HomeViewModel::class.java).also {
+            it.videoRows.observe(this, Observer { videos ->
+                listAdapter?.submitList(videos)
+            })
+            it.recyclerPosition.observe(this, Observer { recyclerPositionData ->
+                recyclerLayoutManager?.scrollToPositionWithOffset(
+                    recyclerPositionData.position,
+                    recyclerPositionData.offset
+                )
+            })
+        }
     }
 
+    /**
+     * 初始化相关视图
+     */
     private fun initView() {
-        listAdapter = VideoPagedAdapter(this) // HomeAdapter(this)
+        listAdapter = listAdapter ?: VideoPagedAdapter(this)
+        recyclerLayoutManager = GridLayoutManager(context, 2)
         home_recycler.adapter = listAdapter
-        home_recycler.layoutManager = GridLayoutManager(context, 2)
+        home_recycler.layoutManager = recyclerLayoutManager
     }
 
+    /**
+     * 保存列表显示的位置数据，以便之后恢复
+     */
+    private fun saveRecyclerPosition() {
+        recyclerLayoutManager?.run {
+            val position = findFirstVisibleItemPosition()
+            val offset = findViewByPosition(position)?.top ?: 0
+            viewModel?.recyclerPosition?.value = RecyclerPositionData(position, offset)
+        }
+    }
 }

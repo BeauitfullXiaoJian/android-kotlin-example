@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.androidx_example.R
+import com.example.androidx_example.until.debugInfo
 import java.util.*
 import kotlin.collections.HashMap
 import io.reactivex.Observable
@@ -12,6 +13,11 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import io.reactivex.schedulers.Schedulers
+import okhttp3.EventListener
+import java.io.IOException
+import java.net.InetAddress
+import java.net.InetSocketAddress
+import java.net.Proxy
 
 /**
  * Request config param name
@@ -96,7 +102,9 @@ class HttpRequest {
         }
 
         private fun getInstance(): OkHttpClient {
+            // CacheControl.Builder().onlyIfCached().build()
             return instance ?: OkHttpClient.Builder()
+                .eventListener(RequestDebugListener())
                 .addInterceptor(RequestInterceptor())
                 .build()
         }
@@ -246,6 +254,58 @@ class HttpRequest {
                     errorData(RESPONSE_DATA_ERROR, responseData)
                 }
             }
+        }
+    }
+
+    class RequestDebugListener : EventListener() {
+
+        override fun dnsStart(call: Call, domainName: String) {
+            super.dnsStart(call, domainName)
+            debugInfo("DNS解析开始")
+        }
+
+        override fun dnsEnd(call: Call, domainName: String, inetAddressList: MutableList<InetAddress>) {
+            super.dnsEnd(call, domainName, inetAddressList)
+            debugInfo("DNS解析结束")
+        }
+
+        override fun connectFailed(
+            call: Call,
+            inetSocketAddress: InetSocketAddress,
+            proxy: Proxy,
+            protocol: Protocol?,
+            ioe: IOException
+        ) {
+            super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe)
+            inetSocketAddress.hostString
+            debugInfo(
+                """
+                =====连接失败=====
+                hostString:${inetSocketAddress.hostString}
+                protocol:${protocol?.name}
+                proxy:${proxy.type().name}
+            """.trimIndent()
+            )
+        }
+
+        override fun callStart(call: Call) {
+            super.callStart(call)
+            debugInfo(
+                """
+                =====开始运行=====
+
+            """.trimIndent()
+            )
+        }
+
+        override fun callFailed(call: Call, ioe: IOException) {
+            super.callFailed(call, ioe)
+            debugInfo(
+                """
+                =====执行失败=====
+
+            """.trimIndent()
+            )
         }
     }
 

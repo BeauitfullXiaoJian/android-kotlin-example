@@ -12,8 +12,9 @@ import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 
-import com.example.androidx_example.R
 import kotlinx.android.synthetic.main.fragment_web.*
+import com.example.androidx_example.R
+
 
 /**
  * 一个浏览器例子，用于载入指定网页
@@ -34,6 +35,12 @@ class WebFragment : Fragment() {
         initWebView()
     }
 
+    override fun onPause() {
+        super.onPause()
+        webViewSaveBundle = Bundle()
+        web_view.saveState(webViewSaveBundle)
+    }
+
     private fun initWebView() {
         web_view.apply {
             settings.allowUniversalAccessFromFileURLs = true
@@ -49,8 +56,12 @@ class WebFragment : Fragment() {
                     load_bar?.visibility = if (newProgress >= 100) View.INVISIBLE else View.VISIBLE
                 }
             }
-            loadUrl(args.webUrl)
+
+            webViewSaveBundle?.apply { web_view.restoreState(webViewSaveBundle) } ?: loadUrl(args.webUrl)
+//            if (webViewSaveBundle != null) web_view.restoreState(webViewSaveBundle)
+//            else loadUrl(args.webUrl)
         }
+
         web_swipe?.apply {
             setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
             setOnRefreshListener {
@@ -61,5 +72,9 @@ class WebFragment : Fragment() {
                 web_view.scrollY > 0
             }
         }
+    }
+
+    companion object {
+        var webViewSaveBundle: Bundle? = null
     }
 }

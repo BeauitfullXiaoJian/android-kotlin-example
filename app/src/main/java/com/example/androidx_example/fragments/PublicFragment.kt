@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.androidx_example.R
+import com.example.androidx_example.until.api.HttpRequest
+import kotlinx.android.synthetic.main.fragment_public.*
 
 
 /**
@@ -22,6 +24,12 @@ class PublicFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_public, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        btn_http.setOnClickListener {
+            HttpRequest.get("good").subscribe()
+        }
     }
 
 
