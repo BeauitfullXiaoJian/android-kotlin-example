@@ -55,7 +55,7 @@ class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video:
         }
 
         parentFragment.createViewModel(HomeViewModel::class.java).apply {
-            getFeedbackLabels().observe(parentFragment, Observer { labels ->
+            feedbackLabels.observe(parentFragment, Observer { labels ->
                 (feedbackRecyclerView.adapter as FeedbackLabelAdapter).updateList(labels)
             })
         }

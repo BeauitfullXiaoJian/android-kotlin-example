@@ -289,23 +289,23 @@ class HttpRequest {
         }
 
         override fun callStart(call: Call) {
-            super.callStart(call)
-            debugInfo(
-                """
-                =====开始运行=====
-
-            """.trimIndent()
-            )
+//            super.callStart(call)
+//            debugInfo(
+//                """
+//                =====开始运行=====
+//
+//            """.trimIndent()
+//            )
         }
 
         override fun callFailed(call: Call, ioe: IOException) {
             super.callFailed(call, ioe)
-            debugInfo(
-                """
-                =====执行失败=====
-
-            """.trimIndent()
-            )
+//            debugInfo(
+//                """
+//                =====执行失败=====
+//
+//            """.trimIndent()
+//            )
         }
     }
 

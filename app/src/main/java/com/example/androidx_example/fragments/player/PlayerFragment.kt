@@ -45,6 +45,12 @@ class PlayerFragment : BaseFragment() {
     private fun initPlayer() {
         player_ctr_view.playerView = player_view
         player_ctr_view.playerImageView = player_thumb_view
+        player_ctr_view.progressBar = play_progress_bar
+        player_ctr_view.seekBar = play_seek_bar
+        player_ctr_view.playTimeText = play_time
+        if (PlayerCtrlView.checkLandScreen(resources)) {
+            PlayerCtrlView.setFullMode(activity!!.window)
+        }
         viewModel.video.observe(this, Observer { video ->
             debugLog(video.videoTitle)
             player_ctr_view.preparePlayer(video)

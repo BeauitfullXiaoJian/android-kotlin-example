@@ -58,8 +58,6 @@ class WebFragment : Fragment() {
             }
 
             webViewSaveBundle?.apply { web_view.restoreState(webViewSaveBundle) } ?: loadUrl(args.webUrl)
-//            if (webViewSaveBundle != null) web_view.restoreState(webViewSaveBundle)
-//            else loadUrl(args.webUrl)
         }
 
         web_swipe?.apply {

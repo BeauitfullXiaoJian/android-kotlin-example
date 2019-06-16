@@ -8,13 +8,15 @@ import android.util.AttributeSet
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
+import android.widget.RelativeLayout
 import com.example.androidx_example.until.debugInfo
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class PlayerView : TextureView {
 
     // 播放器对象
-    private var mPlayer: IjkMediaPlayer? = null
+    var mPlayer: IjkMediaPlayer? = null
+        private set
 
     /**
      * 尺寸计算相关变量
@@ -34,12 +36,16 @@ class PlayerView : TextureView {
      */
     val isPlaying get() = mPlayer?.isPlaying ?: false
     private var stateChangeFun: ((state: PlayState) -> Unit)? = null
+    private var bufferChangeFun: ((current: Long, cached: Int, total: Long) -> Unit)? = null
     private var playUrl = ""
+
     private var currentPlayState = PlayState.DEFAULT
         set(value) {
+            beforePlayState = field
             field = value
-            stateChangeFun?.invoke(value)
+            sendPlayerStateChange(value)
         }
+    private var beforePlayState = PlayState.DEFAULT
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -72,14 +78,14 @@ class PlayerView : TextureView {
         debugInfo("创建播放器")
         if (mPlayer == null) {
             mPlayer = IjkMediaPlayer().apply {
-                // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
+                IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
                 setSpeed(PlaySpeed.DEFAULT_PLAY_SPEED.value)
                 setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1)
                 // 视频准备就绪
                 setOnPreparedListener {
                     debugInfo("视频状态-准备就绪")
-                    // start()
-                    pause()
+                    start()
+                    // pause()
                 }
                 // 视频尺寸变化
                 setOnVideoSizeChangedListener { _, w, h, _, _ ->
@@ -88,9 +94,18 @@ class PlayerView : TextureView {
                     setPlayViewSize()
                 }
                 // 视频跳转
-                setOnSeekCompleteListener { }
+                setOnSeekCompleteListener {
+                    if (beforePlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
+                    else PlayState.PLAYING
+                }
                 // 缓冲更新
-                setOnBufferingUpdateListener { _, _ -> }
+                setOnBufferingUpdateListener { player, cached ->
+                    bufferChangeFun?.invoke(
+                        player.currentPosition,
+                        cached,
+                        player.duration
+                    )
+                }
                 // 播放器消息
                 setOnInfoListener { _, what, _ ->
                     debugInfo("视频状态$what")
@@ -101,6 +116,9 @@ class PlayerView : TextureView {
                         }
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
                             // 缓冲结束
+                            this@PlayerView.currentPlayState =
+                                if (this@PlayerView.beforePlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
+                                else PlayState.PLAYING
                         }
                     }
                     return@setOnInfoListener false
@@ -133,6 +151,9 @@ class PlayerView : TextureView {
     /**
      * 更新播放器状态
      */
+    private fun sendPlayerStateChange(state: PlayState) {
+        stateChangeFun?.invoke(state)
+    }
 
     /**
      * 播放指定视频
@@ -151,7 +172,7 @@ class PlayerView : TextureView {
                     e.printStackTrace()
                 }
             } else {
-                // start()
+                start()
             }
         }
     }
@@ -171,6 +192,13 @@ class PlayerView : TextureView {
      */
     fun setStateUpdateListener(listener: (state: PlayState) -> Unit) {
         stateChangeFun = listener
+    }
+
+    /**
+     * 设置缓冲变更监听方法
+     */
+    fun setBufferUpdateListener(listener: (current: Long, cached: Int, total: Long) -> Unit) {
+        bufferChangeFun = listener
     }
 
     /**
@@ -229,9 +257,10 @@ class PlayerView : TextureView {
         val size = getScaleFitSize(Size(maxWidth, maxHeight), videoSize)
         fitWidth = size.width
         fitHeight = size.height
-//        layoutParams.width = fitWidth
-//        layoutParams.height = fitHeight
-        layoutParams = layoutParams
+        val lp = layoutParams as RelativeLayout.LayoutParams
+        lp.width = fitWidth
+        lp.height = fitHeight
+        layoutParams = lp
         debugInfo("尺寸计算===============")
         debugInfo("计算前的尺寸：$maxWidth,$maxHeight")
         debugInfo("合适的视频尺寸：$fitWidth,$fitHeight")
@@ -296,16 +325,19 @@ class PlayerView : TextureView {
     }
 
     enum class PlaySpeed(val value: Float) {
-        DEFAULT_PLAY_SPEED(1f)
+        DEFAULT_PLAY_SPEED(1f),
+        X_0_5_PLAY_SPEED(0.5f),
+        X_1_5_PLAY_SPEED(1.5f),
+        X_2_PLAY_SPEED(2f)
     }
 
     enum class PlayState {
-        DEFAULT,
-        PREPARE,
-        LOADING_DATA,
-        PLAY_PAUSE,
-        PLAY_STOP,
-        PLAYING
+        DEFAULT, // 默认状态
+        PREPARE, // 创建播放器
+        LOADING_DATA, // 加载视频数据
+        PLAY_PAUSE, // 暂停播放
+        PLAY_STOP, // 停止播放
+        PLAYING // 正在播放
     }
 
     enum class SizeMode {
