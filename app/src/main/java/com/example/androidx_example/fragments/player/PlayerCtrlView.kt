@@ -28,6 +28,7 @@ class PlayerCtrlView : RelativeLayout {
     var progressBar: ProgressBar? = null
     var seekBar: SeekBar? = null
     var playTimeText: TextView? = null
+    var playBtn: ImageButton? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -183,6 +184,20 @@ class PlayerCtrlView : RelativeLayout {
                 }
             })
         }
+        playBtn?.apply {
+            isClickable = true
+            setOnClickListener {
+                playerView?.also { pv ->
+                    if (pv.isPlaying) {
+                        pv.pausePlay()
+                        it.isSelected = false
+                    } else if (pv.currentPlayState == PlayerView.PlayState.PLAY_PAUSE) {
+                        pv.startPlay()
+                        it.isSelected = true
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -248,8 +263,7 @@ class PlayerCtrlView : RelativeLayout {
             if (scaleX < 1 || scaleY < 1) {
 
                 // TODO 这个方法还没有实现，这里需要根据视图当前的大小位置计算出最佳的显示位置
-                val point =
-                    moveViewToPoint(this, getCenterPoint())
+                // val point = moveViewToPoint(this, getCenterPoint())
             }
         }
     }
@@ -261,6 +275,7 @@ class PlayerCtrlView : RelativeLayout {
         isSeeking = false
         progressBar?.visibility = View.GONE
         playerImageView?.visibility = View.GONE
+        playBtn?.isSelected = true
     }
 
     private fun setViewToLoading() {

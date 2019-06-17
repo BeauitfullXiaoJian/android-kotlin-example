@@ -48,6 +48,7 @@ class PlayerFragment : BaseFragment() {
         player_ctr_view.progressBar = play_progress_bar
         player_ctr_view.seekBar = play_seek_bar
         player_ctr_view.playTimeText = play_time
+        player_ctr_view.playBtn = btn_play
         if (PlayerCtrlView.checkLandScreen(resources)) {
             PlayerCtrlView.setFullMode(activity!!.window)
         }

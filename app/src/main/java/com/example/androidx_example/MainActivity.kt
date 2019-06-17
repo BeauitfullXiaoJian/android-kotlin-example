@@ -2,14 +2,8 @@ package com.example.androidx_example
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.addCallback
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import com.example.androidx_example.until.debugInfo
 import com.example.androidx_example.until.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess

@@ -39,8 +39,8 @@ class PlayerView : TextureView {
     private var bufferChangeFun: ((current: Long, cached: Int, total: Long) -> Unit)? = null
     private var playUrl = ""
 
-    private var currentPlayState = PlayState.DEFAULT
-        set(value) {
+    var currentPlayState = PlayState.DEFAULT
+        private set(value) {
             beforePlayState = field
             field = value
             sendPlayerStateChange(value)
@@ -117,7 +117,7 @@ class PlayerView : TextureView {
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
                             // 缓冲结束
                             this@PlayerView.currentPlayState =
-                                if (this@PlayerView.beforePlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
+                                if (this@PlayerView.currentPlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
                                 else PlayState.PLAYING
                         }
                     }
@@ -182,7 +182,10 @@ class PlayerView : TextureView {
      */
     fun pausePlay() {
         mPlayer?.apply {
-            if (isPlaying) pause()
+            if (isPlaying) {
+                pause()
+                currentPlayState = PlayState.PLAY_PAUSE
+            }
         }
     }
 
