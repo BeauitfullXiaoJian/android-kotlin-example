@@ -53,7 +53,7 @@ class PlayerFragment : BaseFragment() {
             PlayerCtrlView.setFullMode(activity!!.window)
         }
         viewModel.video.observe(this, Observer { video ->
-            debugLog(video.videoTitle)
+            debugLog("视频标题${video.videoTitle}")
             player_ctr_view.preparePlayer(video)
             player_ctr_view.startPlay()
         })

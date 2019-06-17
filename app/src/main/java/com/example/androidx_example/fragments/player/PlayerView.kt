@@ -78,7 +78,7 @@ class PlayerView : TextureView {
         debugInfo("创建播放器")
         if (mPlayer == null) {
             mPlayer = IjkMediaPlayer().apply {
-                IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
+                // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
                 setSpeed(PlaySpeed.DEFAULT_PLAY_SPEED.value)
                 setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "reconnect", 1)
                 // 视频准备就绪

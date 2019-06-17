@@ -1,5 +1,7 @@
 package com.example.androidx_example.data
 
+import java.io.Serializable
+
 data class Video(
     val id: Int,
     val videoTitle: String,
@@ -8,7 +10,7 @@ data class Video(
     val videoLabel: String,
     val likeNum: Int = 0,
     val dislikeNum: Int = 0
-)
+) : Serializable
 
 class VideoBuilder {
     companion object {

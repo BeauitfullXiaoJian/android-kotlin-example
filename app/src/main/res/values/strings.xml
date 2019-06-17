@@ -34,6 +34,11 @@
     <string name="body">男孩</string>
     <string name="detail">详情</string>
     <string name="comment">评论</string>
+    <string name="browse">浏览</string>
+    <string name="like">喜欢</string>
+    <string name="dislike">不喜欢</string>
+    <string name="collect">收藏</string>
+    <string name="share">分享</string>
 
     <!-- DevMenu Item -->
     <string name="banner">幻灯片</string>
@@ -77,5 +82,8 @@
 
     <!-- Player Fragment -->
     <string name="player_time">00:00/00:00</string>
-
+    <!-- Player Detail Fragment -->
+    <string name="video_up">up名称</string>
+    <string name="video_upload_time">视频上传时间</string>
+    <string name="video_av_no">视频编号</string>
 </resources>
