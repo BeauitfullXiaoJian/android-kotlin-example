@@ -8,7 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.androidx_example.until.dpToPx
+import com.example.androidx_example.until.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_player_tab_comment.*
+import kotlinx.android.synthetic.main.fragment_public.view.*
 
 class HomeFragment : BaseFragment() {
 
@@ -29,8 +33,8 @@ class HomeFragment : BaseFragment() {
         initViewModel()
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onPause() {
+        super.onPause()
         saveRecyclerPosition()
     }
 
@@ -38,7 +42,7 @@ class HomeFragment : BaseFragment() {
      * 初始化视图模型
      */
     private fun initViewModel() {
-        viewModel = viewModel ?: createViewModel(HomeViewModel::class.java).also {
+        viewModel = shareViewModel(HomeViewModel::class.java).also {
             it.videoRows.observe(this, Observer { videos ->
                 listAdapter?.submitList(videos)
             })
@@ -67,8 +71,9 @@ class HomeFragment : BaseFragment() {
     private fun saveRecyclerPosition() {
         recyclerLayoutManager?.run {
             val position = findFirstVisibleItemPosition()
-            val offset = findViewByPosition(position)?.top ?: 0
-            viewModel?.recyclerPosition?.value = RecyclerPositionData(position, offset)
+            val top = findViewByPosition(position)?.top ?: 0
+            val offset = getPxFromDpIntegerId(resources, R.integer.space_sm_value) * 2
+            viewModel?.recyclerPosition?.value = RecyclerPositionData(position, top - offset)
         }
     }
 }

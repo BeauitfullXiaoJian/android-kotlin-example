@@ -367,7 +367,7 @@ class PlayerCtrlView : RelativeLayout {
         fun moveViewTopWindow(view: View, activity: Activity): WindowManager {
             (view.parent as ViewGroup).removeView(view)
             val window = activity.application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-            val layoutParams = WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_PHONE)
+            val layoutParams = WindowManager.LayoutParams(WindowManager.LayoutParams.FIRST_SYSTEM_WINDOW + 2)
             layoutParams.x = 0
             layoutParams.y = 0
             layoutParams.width = 500

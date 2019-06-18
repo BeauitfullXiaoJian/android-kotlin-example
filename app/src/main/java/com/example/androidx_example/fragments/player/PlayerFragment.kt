@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
@@ -19,9 +20,7 @@ class PlayerFragment : BaseFragment() {
 
     private val args by navArgs<PlayerFragmentArgs>()
     private val viewModel by lazy {
-        createViewModel(PlayerViewModel::class.java).apply {
-            videoId = args.id
-        }
+        shareViewModel(PlayerViewModel::class.java).apply { videoId = args.id }
     }
 
     override fun onCreateView(
@@ -37,7 +36,7 @@ class PlayerFragment : BaseFragment() {
     }
 
     private fun initTabs() {
-        val pagerAdapter = TabPagerAdapter(childFragmentManager)
+        val pagerAdapter = TabPagerAdapter(childFragmentManager, args.id)
         view_pager.adapter = pagerAdapter
         tab_layout.setupWithViewPager(view_pager)
     }
@@ -53,7 +52,6 @@ class PlayerFragment : BaseFragment() {
             PlayerCtrlView.setFullMode(activity!!.window)
         }
         viewModel.video.observe(this, Observer { video ->
-            debugLog("视频标题${video.videoTitle}")
             player_ctr_view.preparePlayer(video)
             player_ctr_view.startPlay()
         })

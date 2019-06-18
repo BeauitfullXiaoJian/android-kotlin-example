@@ -7,8 +7,11 @@ import android.content.res.Resources
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.BaseActivity
@@ -27,9 +30,14 @@ fun postSuccess(
     apiName: String,
     params: HashMap<String, Any>,
     activity: Activity? = null,
-    successDo: (res: HttpRequest.ApiData) -> Unit
+    successDo: (res: HttpRequest.ApiData) -> Unit,
+    completeDo: (() -> Unit)? = null
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
-    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    if (it.isOk()) successDo(it)
+    else {
+        showToast(it.getMessage(), activity)
+        completeDo?.invoke()
+    }
 }
 
 /**
@@ -43,9 +51,14 @@ fun getSuccess(
     apiName: String,
     params: HashMap<String, Any>,
     activity: Activity? = null,
-    successDo: (res: HttpRequest.ApiData) -> Unit
+    successDo: (res: HttpRequest.ApiData) -> Unit,
+    completeDo: (() -> Unit)? = null
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
-    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    if (it.isOk()) successDo(it)
+    else {
+        showToast(it.getMessage(), activity)
+        completeDo?.invoke()
+    }
 }
 
 // 每次允许显示TOAST的最小间隔
@@ -60,9 +73,9 @@ var toastShowTime = 0L
 fun showToast(message: String, activity: Activity?) {
     if (System.currentTimeMillis() - toastShowTime > MIN_TOAST_TIME) {
         activity?.runOnUiThread {
-            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
         }
-        toastShowTime = System.currentTimeMillis();
+        toastShowTime = System.currentTimeMillis()
     }
 }
 
@@ -82,6 +95,27 @@ fun <T : ViewModel> createViewModel(app: Application, modelClass: Class<T>): T {
         .create(modelClass)
 }
 
+fun <T : ViewModel> createViewModel(activity: FragmentActivity, modelClass: Class<T>): T {
+    return createViewModel(activity as AppCompatActivity, modelClass)
+}
+
+fun <T : ViewModel> createViewModel(activity: AppCompatActivity, modelClass: Class<T>): T {
+    val app = activity.application
+    val factory = ViewModelProvider.AndroidViewModelFactory.getInstance(app)
+    return ViewModelProvider(activity.viewModelStore, factory).get(modelClass)
+}
+
+
+fun <T : ViewModel> createViewModel(fragment: Fragment, modelClass: Class<T>): T {
+    val app = fragment.activity!!.application
+    val factory = ViewModelProvider.AndroidViewModelFactory.getInstance(app)
+    return ViewModelProvider(fragment.viewModelStore, factory).get(modelClass)
+}
+
+fun <T : ViewModel> createViewModel(modelClass: Class<T>): T {
+    return ViewModelProvider.NewInstanceFactory().create(modelClass)
+}
+
 /**
  * 将dp转换为pxf
  */
@@ -91,15 +125,15 @@ fun dpToPx(dp: Int): Int {
         .toInt()
 }
 
-//fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
-//    val dp = res.getInteger(id)
-//    return dpToPx(dp)
-//}
+fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
+    val dp = res.getInteger(id)
+    return dpToPx(dp)
+}
 
 /**
  * 请求权限
  */
-var requestCodeCx = 1000;
+var requestCodeCx = 1000
 
 fun requestPermission(activity: BaseActivity, permission: String, successDo: () -> Unit) {
     val hasPermission = ContextCompat.checkSelfPermission(activity, permission)

@@ -8,9 +8,15 @@ import com.example.androidx_example.data.VideoDataSourceFactory
 
 class HomeViewModel : ViewModel() {
 
-    val videoRows by lazy { getVideoRowsLiveData() }
+    val videoRows by lazy {
+        VideoDataSourceFactory().toLiveData(
+            pageSize = 10
+        )
+    }
 
-    val recyclerPosition by lazy { getRecyclerViewPosition() }
+    val recyclerPosition by lazy {
+        MutableLiveData<RecyclerPositionData>().apply { value = RecyclerPositionData() }
+    }
 
     val feedbackLabels by lazy {
         MutableLiveData<List<String>>().also { loadFeedbackLabels(it) }
@@ -25,25 +31,25 @@ class HomeViewModel : ViewModel() {
         )
     }
 
-    companion object {
+//    companion object {
 
-        private lateinit var sVideoRowsInstance: LiveData<PagedList<Video>>
-        private lateinit var sRecyclerViewPosition: MutableLiveData<RecyclerPositionData>
-
-        fun getVideoRowsLiveData(): LiveData<PagedList<Video>> {
-            sVideoRowsInstance = if (::sVideoRowsInstance.isInitialized) sVideoRowsInstance
-            else VideoDataSourceFactory().toLiveData(
-                pageSize = 10
-            )
-            return sVideoRowsInstance
-        }
-
-        fun getRecyclerViewPosition(): MutableLiveData<RecyclerPositionData> {
-            sRecyclerViewPosition = if (::sRecyclerViewPosition.isInitialized) sRecyclerViewPosition
-            else MutableLiveData<RecyclerPositionData>().apply {
-                value = RecyclerPositionData()
-            }
-            return sRecyclerViewPosition
-        }
-    }
+//        private lateinit var sVideoRowsInstance: LiveData<PagedList<Video>>
+//        private lateinit var sRecyclerViewPosition: MutableLiveData<RecyclerPositionData>
+//
+//        fun getVideoRowsLiveData(): LiveData<PagedList<Video>> {
+//            sVideoRowsInstance = if (::sVideoRowsInstance.isInitialized) sVideoRowsInstance
+//            else VideoDataSourceFactory().toLiveData(
+//                pageSize = 10
+//            )
+//            return sVideoRowsInstance
+//        }
+//
+//        fun getRecyclerViewPosition(): MutableLiveData<RecyclerPositionData> {
+//            sRecyclerViewPosition = if (::sRecyclerViewPosition.isInitialized) sRecyclerViewPosition
+//            else MutableLiveData<RecyclerPositionData>().apply {
+//                value = RecyclerPositionData()
+//            }
+//            return sRecyclerViewPosition
+//        }
+//    }
 }
