@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".fragments.player.DetailFragment">
     <data>
         <variable name="video" type="com.example.androidx_example.data.Video"/>
+        <variable name="up" type="com.example.androidx_example.data.UpDetail"/>
     </data>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/flv_detail_swipe"
+            android:id="@+id/detail_swipe"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.player.DetailFragment">
+            android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="3dp"
-                                    android:text="@string/video_up"
+                                    android:text="@{up.nickName}"
                                     android:textColor="@android:color/black"
                                     android:textSize="@dimen/font_xl"/>
 
@@ -64,7 +64,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="3dp"
-                                    android:text="@string/fans"
+                                    android:text="@{up.fansNum + @string/fans}"
                                     android:textColor="@color/colorSecondary"
                                     android:textSize="@dimen/font_lg"/>
 
@@ -137,8 +137,8 @@
                                 android:id="@+id/flv_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/browse"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.viewNum + ``,default = @string/browse}"/>
 
                         <ImageView
                                 android:layout_width="@dimen/icon_sm"
@@ -152,22 +152,22 @@
                                 android:id="@+id/flv_comment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/comment"
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.commentNum + ``,default = @string/comment}"/>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_lg"
+                                android:text="@{video.uploadAt + ``,default = @string/video_upload_time}"
                                 android:textSize="@dimen/font_md"/>
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_lg"
-                                android:text="@string/video_upload_time"
-                                android:textSize="@dimen/font_md"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_lg"
-                                android:text="@string/video_av_no"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{`av` + video.commentNum,default = @string/video_av_no}"/>
 
                     </LinearLayout>
 
@@ -178,7 +178,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_lg"
                         android:layout_marginBottom="@dimen/margin_lg"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
 
                     <!-- 顶 -->
                     <LinearLayout
@@ -203,7 +204,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.likeNum + ``}"/>
                     </LinearLayout>
 
                     <!-- 踩 -->
@@ -227,7 +229,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.dislikeNum + ``}"/>
                     </LinearLayout>
 
                     <!-- 投币 -->
@@ -252,7 +255,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.coinNum + ``}"/>
                     </LinearLayout>
 
                     <!-- 收藏 -->
@@ -277,7 +281,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.favoriteNum + ``}"/>
                     </LinearLayout>
 
                     <!-- 分享 -->
@@ -302,7 +307,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:textSize="@dimen/font_md"/>
+                                android:textSize="@dimen/font_md"
+                                android:text="@{video.shareNum + ``}"/>
                     </LinearLayout>
 
                 </LinearLayout>

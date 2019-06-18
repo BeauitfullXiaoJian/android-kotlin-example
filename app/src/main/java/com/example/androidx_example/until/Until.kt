@@ -33,11 +33,8 @@ fun postSuccess(
     successDo: (res: HttpRequest.ApiData) -> Unit,
     completeDo: (() -> Unit)? = null
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
-    if (it.isOk()) successDo(it)
-    else {
-        showToast(it.getMessage(), activity)
-        completeDo?.invoke()
-    }
+    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    completeDo?.invoke()
 }
 
 /**
@@ -54,11 +51,8 @@ fun getSuccess(
     successDo: (res: HttpRequest.ApiData) -> Unit,
     completeDo: (() -> Unit)? = null
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
-    if (it.isOk()) successDo(it)
-    else {
-        showToast(it.getMessage(), activity)
-        completeDo?.invoke()
-    }
+    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    completeDo?.invoke()
 }
 
 // 每次允许显示TOAST的最小间隔

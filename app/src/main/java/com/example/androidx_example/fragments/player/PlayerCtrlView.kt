@@ -141,16 +141,12 @@ class PlayerCtrlView : RelativeLayout {
      * 播放指定视频对象
      */
     fun preparePlayer(video: Video) {
-        playerImageView?.apply {
-            debugInfo(video.videoThumbUrl)
-            layoutParams.width = this@PlayerCtrlView.width
-            layoutParams.height = this@PlayerCtrlView.height
-            layoutParams = layoutParams
-            GlideApp.with(this@PlayerCtrlView)
-                .load(video.videoThumbUrl)
-                .into(this)
-            visibility = View.VISIBLE
-        }
+//        playerImageView?.apply {
+//            GlideApp.with(this@PlayerCtrlView)
+//                .load(video.videoThumbUrl)
+//                .into(this)
+//            visibility = View.VISIBLE
+//        }
         playerView?.apply {
             setStateUpdateListener {
                 when (it) {

@@ -8,11 +8,13 @@ import androidx.lifecycle.Observer
 import com.example.androidx_example.R
 import com.example.androidx_example.databinding.FragmentPlayerTabDetailBinding
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.androidx_example.until.GlideApp
+import kotlinx.android.synthetic.main.fragment_player_tab_detail.*
 
 class DetailFragment : BaseFragment() {
 
     private val viewModel by lazy {
-        shareViewModel(PlayerViewModel::class.java)
+        shareViewModel(PlayerViewModel::class.java).apply { resetVideoDetailInfo() }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -21,9 +23,19 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewDataBinding = FragmentPlayerTabDetailBinding.bind(view)
-        viewModel.video.observe(this, Observer {
-            viewDataBinding?.video = it
+        viewModel.videoDetail.observe(this, Observer {
+            viewDataBinding?.video = it.video
+            viewDataBinding?.up = it.up
+            GlideApp.with(view)
+                .load(it.up.avatarImageUrl)
+                .circleCrop()
+                .into(flv_up_avatar)
         })
+        viewModel.videoDataIsLoading.observe(this, Observer {
+            detail_swipe.isRefreshing = it
+        })
+        detail_swipe.setColorSchemeResources(R.color.colorPrimary)
+        detail_swipe.setOnRefreshListener { viewModel.reloadVideoDetailInfo() }
     }
 
 //    companion object {

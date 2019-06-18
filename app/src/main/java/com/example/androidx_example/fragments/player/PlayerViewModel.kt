@@ -2,6 +2,8 @@ package com.example.androidx_example.fragments.player
 
 import androidx.lifecycle.*
 import com.example.androidx_example.data.Video
+import com.example.androidx_example.data.VideoDetailInfo
+import com.example.androidx_example.until.debugInfo
 import com.example.androidx_example.until.getSuccess
 
 class PlayerViewModel() : ViewModel() {
@@ -18,17 +20,34 @@ class PlayerViewModel() : ViewModel() {
         MutableLiveData<Video>().also { loadVideo(it) }
     }
 
+    // 视频详细信息
+    var videoDetail: MutableLiveData<VideoDetailInfo> = MutableLiveData()
 
-    fun reloadVideo() {
-        this.loadVideo(video)
+    fun resetVideoDetailInfo() {
+        videoDetail = MutableLiveData()
+        this.loadVideoDetailInfo(videoDetail)
+    }
+
+    fun reloadVideoDetailInfo() {
+        this.loadVideoDetailInfo(videoDetail)
+    }
+
+    private fun loadVideoDetailInfo(field: MutableLiveData<VideoDetailInfo>) {
+        getSuccess(
+            apiName = "video/more",
+            params = hashMapOf("id" to videoId),
+            successDo = { res -> field.postValue(res.getObjectData(VideoDetailInfo::class.java)) },
+            completeDo = {
+                videoDataIsLoading.postValue(false)
+            }
+        )
     }
 
     private fun loadVideo(field: MutableLiveData<Video>) {
         getSuccess(
             apiName = "video",
             params = hashMapOf("id" to videoId),
-            successDo = { res -> field.postValue(res.getObjectData(Video::class.java)) },
-            completeDo = { videoDataIsLoading.postValue(true) }
+            successDo = { res -> field.postValue(res.getObjectData(Video::class.java)) }
         )
     }
 }
