@@ -148,12 +148,17 @@ class PlayerCtrlView : RelativeLayout {
 //            visibility = View.VISIBLE
 //        }
         playerView?.apply {
-            setStateUpdateListener {
-                when (it) {
+            setStateUpdateListener { state, isLoading ->
+                when (state) {
                     PlayerView.PlayState.PLAYING -> setViewToPlaying()
-                    PlayerView.PlayState.LOADING_DATA -> setViewToLoading()
-                    else -> {
-                    }
+                    PlayerView.PlayState.PLAY_PAUSE -> setViewToPause()
+                }
+                if (isLoading) {
+                    setViewToLoading()
+                    debugInfo("加载中")
+                } else {
+                    setViewToComplete()
+                    debugInfo("完成了")
                 }
             }
             setBufferUpdateListener { current, cached, total ->
@@ -175,7 +180,7 @@ class PlayerCtrlView : RelativeLayout {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {
                     if (isSeeking) {
-                        playerView?.mPlayer?.seekTo(seekBar!!.progress.toLong())
+                        playerView?.seekPlay(seekBar!!.progress.toLong())
                     }
                 }
             })
@@ -186,10 +191,8 @@ class PlayerCtrlView : RelativeLayout {
                 playerView?.also { pv ->
                     if (pv.isPlaying) {
                         pv.pausePlay()
-                        it.isSelected = false
                     } else if (pv.currentPlayState == PlayerView.PlayState.PLAY_PAUSE) {
                         pv.startPlay()
-                        it.isSelected = true
                     }
                 }
             }
@@ -255,12 +258,12 @@ class PlayerCtrlView : RelativeLayout {
      * 修复播放视图位置（如果有必要的话）
      */
     private fun fixPlayViewPosition() {
+        // TODO 这个方法还没有实现，这里需要根据视图当前的大小位置计算出最佳的显示位置
         playerView?.apply {
-            if (scaleX < 1 || scaleY < 1) {
-
-                // TODO 这个方法还没有实现，这里需要根据视图当前的大小位置计算出最佳的显示位置
-                // val point = moveViewToPoint(this, getCenterPoint())
-            }
+            moveViewToPoint(this, getCenterPoint())
+//            if (scaleX < 1 || scaleY < 1) {
+//                moveViewToPoint(this, getCenterPoint())
+//            }
         }
     }
 
@@ -274,8 +277,17 @@ class PlayerCtrlView : RelativeLayout {
         playBtn?.isSelected = true
     }
 
+    private fun setViewToPause() {
+        debugInfo("视图暂停")
+        playBtn?.isSelected = false
+    }
+
     private fun setViewToLoading() {
         progressBar?.visibility = View.VISIBLE
+    }
+
+    private fun setViewToComplete() {
+        progressBar?.visibility = View.GONE
     }
 
     /**

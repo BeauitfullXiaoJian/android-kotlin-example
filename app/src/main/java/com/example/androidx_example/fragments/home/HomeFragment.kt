@@ -63,6 +63,10 @@ class HomeFragment : BaseFragment() {
         recyclerLayoutManager = GridLayoutManager(context, 2)
         home_recycler.adapter = listAdapter
         home_recycler.layoutManager = recyclerLayoutManager
+        home_swipe_refresh.apply {
+            setColorSchemeResources(R.color.colorPrimary)
+            setOnClickListener { }
+        }
     }
 
     /**

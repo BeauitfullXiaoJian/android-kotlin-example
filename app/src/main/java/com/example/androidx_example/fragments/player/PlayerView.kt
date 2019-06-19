@@ -30,22 +30,25 @@ class PlayerView : TextureView {
     var maxWidth = 0
     var maxHeight = 0
 
-
     /**
      * 播放器状态相关变量
      */
     val isPlaying get() = mPlayer?.isPlaying ?: false
-    private var stateChangeFun: ((state: PlayState) -> Unit)? = null
+    private var stateChangeFun: ((state: PlayState, isLoading: Boolean) -> Unit)? = null
     private var bufferChangeFun: ((current: Long, cached: Int, total: Long) -> Unit)? = null
     private var playUrl = ""
 
     var currentPlayState = PlayState.DEFAULT
         private set(value) {
-            beforePlayState = field
             field = value
-            sendPlayerStateChange(value)
+            sendPlayerStateChange()
         }
-    private var beforePlayState = PlayState.DEFAULT
+    private var isLoadingState = false
+        set (value) {
+            field = value
+            sendPlayerStateChange()
+        }
+    private var savePlayState = PlayState.DEFAULT
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -85,7 +88,9 @@ class PlayerView : TextureView {
                 setOnPreparedListener {
                     debugInfo("视频状态-准备就绪")
                     start()
-                    // pause()
+                    this@PlayerView.currentPlayState = PlayState.PLAYING
+                    this@PlayerView.savePlayState = this@PlayerView.currentPlayState
+                    this@PlayerView.isLoadingState = false
                 }
                 // 视频尺寸变化
                 setOnVideoSizeChangedListener { _, w, h, _, _ ->
@@ -95,8 +100,8 @@ class PlayerView : TextureView {
                 }
                 // 视频跳转
                 setOnSeekCompleteListener {
-                    if (beforePlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
-                    else PlayState.PLAYING
+                    currentPlayState = savePlayState
+                    isLoadingState = false
                 }
                 // 缓冲更新
                 setOnBufferingUpdateListener { player, cached ->
@@ -112,13 +117,13 @@ class PlayerView : TextureView {
                     when (what) {
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_START -> {
                             // 正在缓冲
-                            this@PlayerView.currentPlayState = PlayState.LOADING_DATA
+                            currentPlayState = PlayState.LOADING_DATA
+                             isLoadingState = true
                         }
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
                             // 缓冲结束
-                            this@PlayerView.currentPlayState =
-                                if (this@PlayerView.currentPlayState == PlayState.PLAY_PAUSE) PlayState.PLAY_PAUSE
-                                else PlayState.PLAYING
+                            currentPlayState = savePlayState
+                            isLoadingState = false
                         }
                     }
                     return@setOnInfoListener false
@@ -151,8 +156,8 @@ class PlayerView : TextureView {
     /**
      * 更新播放器状态
      */
-    private fun sendPlayerStateChange(state: PlayState) {
-        stateChangeFun?.invoke(state)
+    private fun sendPlayerStateChange() {
+        stateChangeFun?.invoke(currentPlayState, isLoadingState)
     }
 
     /**
@@ -166,12 +171,15 @@ class PlayerView : TextureView {
                     dataSource = urlStr
                     prepareAsync()
                     this@PlayerView.currentPlayState = PlayState.PREPARE
+                    this@PlayerView.savePlayState = PlayState.PLAYING
                     this@PlayerView.playUrl = urlStr
                     debugInfo("准备播放器")
                 } catch (e: IllegalStateException) {
                     e.printStackTrace()
                 }
             } else {
+                this@PlayerView.currentPlayState = PlayState.PLAYING
+                this@PlayerView.savePlayState = PlayState.PLAYING
                 start()
             }
         }
@@ -185,7 +193,22 @@ class PlayerView : TextureView {
             if (isPlaying) {
                 pause()
                 currentPlayState = PlayState.PLAY_PAUSE
+                savePlayState = PlayState.PLAY_PAUSE
             }
+        }
+    }
+
+    /**
+     * 跳转播放
+     */
+    fun seekPlay(position: Long) {
+        mPlayer?.also {
+            it.seekTo(position)
+            if (currentPlayState in listOf(PlayState.PLAY_PAUSE, PlayState.PLAYING)) {
+                savePlayState = currentPlayState
+            }
+            currentPlayState = PlayState.LOADING_DATA
+            isLoadingState = true
         }
     }
 
@@ -193,7 +216,7 @@ class PlayerView : TextureView {
     /**
      * 设置状态变更监听方法
      */
-    fun setStateUpdateListener(listener: (state: PlayState) -> Unit) {
+    fun setStateUpdateListener(listener: (state: PlayState, isLoading: Boolean) -> Unit) {
         stateChangeFun = listener
     }
 

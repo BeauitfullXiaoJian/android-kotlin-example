@@ -39,6 +39,8 @@
     <string name="dislike">不喜欢</string>
     <string name="collect">收藏</string>
     <string name="share">分享</string>
+    <string name="error">错误</string>
+    <string name="reload">重新加载</string>
 
     <!-- DevMenu Item -->
     <string name="banner">幻灯片</string>
