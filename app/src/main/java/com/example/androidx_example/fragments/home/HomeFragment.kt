@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
+import com.example.androidx_example.data.VideoDataSource
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -42,6 +43,9 @@ class HomeFragment : BaseFragment() {
         viewModel = activityViewModel(HomeViewModel::class.java).also {
             it.videoRows.observe(this, Observer { videos ->
                 listAdapter?.submitList(videos)
+                videos.dataSource.addInvalidatedCallback {
+                    home_swipe_refresh.isRefreshing = false
+                }
             })
             it.recyclerPosition.observe(this, Observer { recyclerPositionData ->
                 recyclerLayoutManager?.scrollToPositionWithOffset(
@@ -63,7 +67,9 @@ class HomeFragment : BaseFragment() {
         home_swipe_refresh.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setOnRefreshListener {
-                // viewModel?.videoRows?.value.
+                listAdapter?.currentList?.apply {
+                    this.dataSource.invalidate()
+                }
             }
         }
     }

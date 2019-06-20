@@ -1,12 +1,14 @@
 package com.example.androidx_example.data
 
 import androidx.paging.PageKeyedDataSource
+import com.example.androidx_example.until.debugInfo
 import com.example.androidx_example.until.getSuccess
 
 class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
 
     override fun loadInitial(params: LoadInitialParams<Pagination>, callback: LoadInitialCallback<Pagination, Video>) {
         val page = Pagination.create(params.requestedLoadSize)
+        debugInfo("加载数据量" + params.requestedLoadSize)
         getSuccess(
             apiName = "videos",
             params = page.pageParams,
@@ -47,6 +49,12 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
                     callback.onResult(pageData.rows, page)
                 }
             )
+        }
+    }
+
+    companion object {
+        fun loadVideoData() {
+
         }
     }
 }

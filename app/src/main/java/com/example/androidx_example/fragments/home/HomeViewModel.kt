@@ -5,8 +5,11 @@ import androidx.paging.toLiveData
 import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.VideoDataSourceFactory
 import com.example.androidx_example.until.api.HttpRequest
+import com.example.androidx_example.until.debugInfo
 
 class HomeViewModel : ViewModel() {
+
+    val isLoading = MutableLiveData<Boolean>().also { it.value = false }
 
     val videoRows by lazy {
         VideoDataSourceFactory().toLiveData(
