@@ -1,0 +1,46 @@
+package com.example.androidx_example.fragments.player
+
+import android.graphics.drawable.AnimationDrawable
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.example.androidx_example.R
+import com.example.androidx_example.data.Video
+import com.example.androidx_example.until.GlideApp
+import com.example.androidx_example.until.debugInfo
+
+class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    private val videoThumb = view.findViewById<ImageView>(R.id.flv_item_thumb)
+    private val videoTitle = view.findViewById<TextView>(R.id.flv_item_title)
+    private val videoUpName = view.findViewById<TextView>(R.id.flv_item_up)
+    private val videoBrowserNum = view.findViewById<TextView>(R.id.flv_item_view)
+    private val videoCommentNum = view.findViewById<TextView>(R.id.flv_item_comment)
+
+    fun bind(videoData: Video) {
+        val context = itemView.context
+        val animationDrawable = ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable
+        animationDrawable.start()
+        GlideApp.with(context)
+            .load("https:${videoData.videoThumbUrl}")
+            .placeholder(animationDrawable)
+            .into(videoThumb)
+        videoTitle.text = videoData.videoTitle
+        videoUpName.text = ""
+        videoBrowserNum.text = videoData.viewNum.toString()
+        videoCommentNum.text = videoData.commentNum.toString()
+    }
+
+    companion object {
+        fun create(parent: ViewGroup): DetailViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.video_detail_item, parent, false)
+            return DetailViewHolder(view)
+        }
+    }
+}

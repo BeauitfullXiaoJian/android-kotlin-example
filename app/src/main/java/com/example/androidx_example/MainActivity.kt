@@ -2,10 +2,13 @@ package com.example.androidx_example
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.until.showToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_tool_bar.*
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
@@ -17,6 +20,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNav()
+        intActionBar()
     }
 
     override fun onBackPressed() {
@@ -41,8 +45,15 @@ class MainActivity : BaseActivity() {
                     R.id.publicFragment,
                     R.id.userCenterFragment
                 )
-                main_bottom_navigation?.visibility = if (canBack) View.GONE else View.VISIBLE
-                navigation_side?.setCheckedItem(destination.id)
+                if (!canBack) {
+                    navigation_side.setCheckedItem(destination.id)
+                    main_bottom_navigation.visibility = View.VISIBLE
+                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                } else {
+                    main_bottom_navigation.visibility = View.GONE
+                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                }
+                main_title.text = destination.label
             }
         }
         main_bottom_navigation.setupWithNavController(navCtrl)
@@ -50,6 +61,16 @@ class MainActivity : BaseActivity() {
             setupWithNavController(navCtrl)
             itemIconTintList = null
         }
+    }
+
+    private fun intActionBar() {
+        setSupportActionBar(main_toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val toggle = ActionBarDrawerToggle(
+            this, main_drawer, main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        main_drawer.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
 }

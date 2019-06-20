@@ -29,6 +29,7 @@ class PlayerView : TextureView {
     private var fitHeight = 0
     var maxWidth = 0
     var maxHeight = 0
+    var recoverySeekValue = 0
 
     /**
      * 播放器状态相关变量
@@ -78,7 +79,6 @@ class PlayerView : TextureView {
      * 创建播放器
      */
     private fun createPlayer() {
-        debugInfo("创建播放器")
         if (mPlayer == null) {
             mPlayer = IjkMediaPlayer().apply {
                 // IjkMediaPlayer.native_setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG)
@@ -87,6 +87,7 @@ class PlayerView : TextureView {
                 // 视频准备就绪
                 setOnPreparedListener {
                     debugInfo("视频状态-准备就绪")
+                    seekTo(recoverySeekValue.toLong())
                     start()
                     this@PlayerView.currentPlayState = PlayState.PLAYING
                     this@PlayerView.savePlayState = this@PlayerView.currentPlayState
@@ -118,7 +119,7 @@ class PlayerView : TextureView {
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_START -> {
                             // 正在缓冲
                             currentPlayState = PlayState.LOADING_DATA
-                             isLoadingState = true
+                            isLoadingState = true
                         }
                         IjkMediaPlayer.MEDIA_INFO_BUFFERING_END -> {
                             // 缓冲结束
@@ -163,17 +164,18 @@ class PlayerView : TextureView {
     /**
      * 播放指定视频
      */
-    fun startPlay(urlStr: String? = null) {
+    fun startPlay(urlStr: String? = null, seekValue: Int = 0) {
         createPlayer()
         mPlayer?.apply {
             if (urlStr != null) {
                 try {
                     dataSource = urlStr
+                    recoverySeekValue = seekValue
                     prepareAsync()
                     this@PlayerView.currentPlayState = PlayState.PREPARE
                     this@PlayerView.savePlayState = PlayState.PLAYING
                     this@PlayerView.playUrl = urlStr
-                    debugInfo("准备播放器")
+                    debugInfo("准备播放器$seekValue")
                 } catch (e: IllegalStateException) {
                     e.printStackTrace()
                 }

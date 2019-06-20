@@ -31,10 +31,10 @@ fun postSuccess(
     params: HashMap<String, Any>,
     activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit,
-    completeDo: (() -> Unit)? = null
+    completeDo: ((result: Boolean) -> Unit)? = null
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
-    completeDo?.invoke()
+    completeDo?.invoke(it.isOk())
 }
 
 /**
@@ -49,10 +49,10 @@ fun getSuccess(
     params: HashMap<String, Any>,
     activity: Activity? = null,
     successDo: (res: HttpRequest.ApiData) -> Unit,
-    completeDo: (() -> Unit)? = null
+    completeDo: ((result: Boolean) -> Unit)? = null
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
     if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
-    completeDo?.invoke()
+    completeDo?.invoke(it.isOk())
 }
 
 // 每次允许显示TOAST的最小间隔

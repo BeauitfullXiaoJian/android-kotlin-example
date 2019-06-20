@@ -15,6 +15,7 @@ import android.widget.ImageView
 import androidx.navigation.Navigation
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.fragments.player.PlayerFragmentArgs
+import com.example.androidx_example.until.getPxFromDpIntegerId
 
 class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
     RecyclerView.ViewHolder(view) {
@@ -32,15 +33,29 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         }
     }
 
-    fun bind(videoData: Video) {
+    fun bind(videoData: Video, position: Int) {
         val resources = itemView.resources
         val context = itemView.context
         val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
-        val density = resources.displayMetrics.density
-        layoutParams.topMargin = (resources.getInteger(R.integer.space_sm_value) * density).toInt()
-        layoutParams.bottomMargin = layoutParams.topMargin
-        layoutParams.leftMargin = layoutParams.bottomMargin
-        layoutParams.rightMargin = layoutParams.leftMargin
+        val paddingValue = getPxFromDpIntegerId(resources, R.integer.space_sm_value)
+        layoutParams.topMargin = paddingValue
+        layoutParams.bottomMargin = paddingValue
+        layoutParams.leftMargin = paddingValue
+        layoutParams.rightMargin = paddingValue
+
+        // 顶部元素
+        if (position in 0..1) {
+            layoutParams.topMargin *= 2
+        }
+
+        // 左侧元素
+        if (position % 2 > 0) {
+            layoutParams.rightMargin *= 2
+        } else {
+            layoutParams.leftMargin *= 2
+        }
+
+
         itemView.layoutParams = layoutParams
         // 保存视频编号
         id = videoData.id
@@ -49,8 +64,8 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         // 设置标签
         label.text = videoData.videoLabel
         // 设置封面图
-        val animationDrawable = ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable?
-        animationDrawable!!.start()
+        val animationDrawable = ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable
+        animationDrawable.start()
         GlideApp.with(context)
             .load(videoData.videoThumbUrl)
             .placeholder(animationDrawable)

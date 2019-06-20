@@ -3,14 +3,18 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawer"
+        android:id="@+id/main_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start"
         tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <include layout="@layout/main_tool_bar"/>
 
         <fragment
                 android:id="@+id/nav_host"
@@ -19,8 +23,8 @@
                 android:layout_height="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
+                app:layout_constraintTop_toBottomOf="@+id/main_app_bar_layout"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/main_navigation"/>
 
@@ -48,6 +52,7 @@
             app:headerLayout="@layout/app_side_tool_header"
             app:itemBackground="@drawable/app_drawer_item_bg"
             app:itemTextColor="@color/colorText"
+            android:fitsSystemWindows="true"
             app:menu="@menu/main_side_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

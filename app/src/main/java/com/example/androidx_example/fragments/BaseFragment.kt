@@ -16,14 +16,24 @@ open class BaseFragment : Fragment() {
 
     fun <T : ViewModel> createViewModel(modelClass: Class<T>): T {
         return com.example.androidx_example.until.createViewModel(modelClass)
-        // return com.example.androidx_example.until.createViewModel(activity!!.application, modelClass)
     }
 
-    fun <T : ViewModel> shareViewModel(modelClass: Class<T>): T {
+//    fun <T : ViewModel> shareViewModel(modelClass: Class<T>): T {
+//        return com.example.androidx_example.until.createViewModel(
+//            activity = this.activity!!,
+//            modelClass = modelClass
+//        )
+//    }
+
+    fun <T : ViewModel> activityViewModel(modelClass: Class<T>): T {
         return com.example.androidx_example.until.createViewModel(
             activity = this.activity!!,
             modelClass = modelClass
         )
+    }
+
+    fun <T : ViewModel> fragmentViewModel(modelClass: Class<T>, fragment: Fragment = this): T {
+        return com.example.androidx_example.until.createViewModel(fragment, modelClass)
     }
 
     fun showToast(message: String) {

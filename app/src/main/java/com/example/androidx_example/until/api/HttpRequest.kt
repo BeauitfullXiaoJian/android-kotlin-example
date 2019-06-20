@@ -60,7 +60,10 @@ val HTTP_CODE_MESSAGES = mapOf(
 )
 
 val JsonElement.asOnlyString: String
-    get() = if (isJsonObject) toString() else asString
+    get() = when {
+        isJsonArray || isJsonObject -> toString()
+        else -> asString
+    }
 
 class HttpRequest {
 
@@ -197,6 +200,21 @@ class HttpRequest {
                 e.printStackTrace()
                 null
             }
+        }
+
+        fun <T> getObjectList(classOfT: Class<T>): List<T> {
+            var objectRows = listOf<T>()
+            try {
+                if (sourceData.data != null) {
+                    val jsonArray = JsonParser().parse(sourceData.data).asJsonArray
+                    objectRows = jsonArray.map {
+                        Gson().fromJson(it.toString(), classOfT)
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return objectRows
         }
 
         fun <T> getPageData(classOfT: Class<T>): PageData<T> {

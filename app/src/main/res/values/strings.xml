@@ -41,6 +41,8 @@
     <string name="share">分享</string>
     <string name="error">错误</string>
     <string name="reload">重新加载</string>
+    <string name="search">搜索</string>
+
 
     <!-- DevMenu Item -->
     <string name="banner">幻灯片</string>
@@ -68,6 +70,10 @@
     <string name="web">浏览器</string>
     <string name="open">公开</string>
     <string name="center">我</string>
+
+    <!-- Main Activity -->
+    <string name="navigation_drawer_open">OPEN</string>
+    <string name="navigation_drawer_close">CLOSE</string>
 
     <!--  Login Fragment -->
     <string name="icon_22">icon_22</string>

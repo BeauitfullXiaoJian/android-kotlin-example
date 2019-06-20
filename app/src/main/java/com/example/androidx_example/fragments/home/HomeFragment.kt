@@ -8,11 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.dpToPx
 import com.example.androidx_example.until.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_player_tab_comment.*
-import kotlinx.android.synthetic.main.fragment_public.view.*
 
 class HomeFragment : BaseFragment() {
 
@@ -42,7 +39,7 @@ class HomeFragment : BaseFragment() {
      * 初始化视图模型
      */
     private fun initViewModel() {
-        viewModel = shareViewModel(HomeViewModel::class.java).also {
+        viewModel = activityViewModel(HomeViewModel::class.java).also {
             it.videoRows.observe(this, Observer { videos ->
                 listAdapter?.submitList(videos)
             })
@@ -65,7 +62,9 @@ class HomeFragment : BaseFragment() {
         home_recycler.layoutManager = recyclerLayoutManager
         home_swipe_refresh.apply {
             setColorSchemeResources(R.color.colorPrimary)
-            setOnClickListener { }
+            setOnRefreshListener {
+                // viewModel?.videoRows?.value.
+            }
         }
     }
 

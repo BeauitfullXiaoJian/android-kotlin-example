@@ -13,7 +13,6 @@ import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.*
 import com.example.androidx_example.data.Video
-import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.debugInfo
 
 class PlayerCtrlView : RelativeLayout {
@@ -23,6 +22,7 @@ class PlayerCtrlView : RelativeLayout {
     private var displayMode = DisplayMode.DEFAULT
     private var windowManager: WindowManager? = null
     private var isSeeking = false
+    private var playUrl = ""
     var playerView: PlayerView? = null
     var playerImageView: ImageView? = null
     var progressBar: ProgressBar? = null
@@ -131,22 +131,30 @@ class PlayerCtrlView : RelativeLayout {
     }
 
     /**
+     * 准备并播放视频
+     */
+    fun prepareAndStart(video: Video, recoverySeekValue: Int) {
+        if (playerView?.currentPlayState != PlayerView.PlayState.DEFAULT) {
+            return
+        }
+        preparePlayer(video)
+        startPlay(recoverySeekValue)
+    }
+
+    /**
      * 启动播放器
      */
-    fun startPlay() {
-        playerView?.startPlay("https://www.cool1024.com:8000/flv?video=1.flv")
+    fun startPlay(recoverySeekValue: Int) {
+        playerView?.startPlay(playUrl, recoverySeekValue)
+        // playerView?.startPlay("https://183-134-19-1.ksyungslb.com/upos-sz-mirrorks32u.acgvideo.com/upgcxcode/18/55/3665518/3665518-1-32.flv")
+        // playerView?.startPlay("https://www.cool1024.com:8000/flv?video=1.flv", recoverySeekValue)
     }
 
     /**
      * 播放指定视频对象
      */
     fun preparePlayer(video: Video) {
-//        playerImageView?.apply {
-//            GlideApp.with(this@PlayerCtrlView)
-//                .load(video.videoThumbUrl)
-//                .into(this)
-//            visibility = View.VISIBLE
-//        }
+        playUrl = video.videoSourceUrl
         playerView?.apply {
             setStateUpdateListener { state, isLoading ->
                 when (state) {
@@ -169,6 +177,7 @@ class PlayerCtrlView : RelativeLayout {
             }
         }
         seekBar?.apply {
+            progress = 0
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     updatePlayTimeText(progress.toLong(), seekBar!!.max.toLong())

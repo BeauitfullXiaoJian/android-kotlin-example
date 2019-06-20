@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.appbar.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/main_app_bar_layout">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbar_height"
+            android:paddingEnd="@dimen/padding_lg"
+            android:theme="@style/ActionBarStyle">
+
+        <TextView
+                android:id="@+id/main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:text="@string/app_name"
+                android:textSize="@dimen/title_lg"/>
+
+        <ImageView android:layout_width="@dimen/icon_toolbar"
+                   android:layout_height="@dimen/icon_toolbar"
+                   android:background="@drawable/click_ripple_full"
+                   android:src="@drawable/ic_search_white"
+                   android:contentDescription="@string/search"
+                   android:focusable="true"
+                   android:clickable="true"
+                   android:layout_gravity="end"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</com.google.android.material.appbar.AppBarLayout>

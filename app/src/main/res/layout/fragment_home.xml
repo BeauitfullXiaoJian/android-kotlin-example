@@ -16,7 +16,7 @@
                 tools:context=".fragments.home.HomeFragment"
                 android:background="@color/colorWhite"
                 android:id="@+id/home_recycler"
-                android:padding="@dimen/padding_sm">
+                android:scrollbars="vertical">
 
         </androidx.recyclerview.widget.RecyclerView>
 

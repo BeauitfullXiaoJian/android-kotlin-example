@@ -53,6 +53,7 @@
     <dimen name="icon_md">20dp</dimen>
     <dimen name="icon_lg">30dp</dimen>
     <dimen name="icon_xl">40dp</dimen>
+    <dimen name="icon_toolbar">25dp</dimen>
     <dimen name="actionbar_height">50dp</dimen>
     <dimen name="bottom_nav_height">@dimen/actionbar_height</dimen>
     <dimen name="line_height">1dp</dimen>

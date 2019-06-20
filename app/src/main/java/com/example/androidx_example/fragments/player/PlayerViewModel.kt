@@ -16,20 +16,26 @@ class PlayerViewModel() : ViewModel() {
         MutableLiveData<Boolean>().also { it.value = false }
     }
     // 视频信息数据
-    val video: MutableLiveData<Video>by lazy {
+    val video: MutableLiveData<Video> by lazy {
         MutableLiveData<Video>().also { loadVideo(it) }
     }
 
     // 视频详细信息
-    var videoDetail: MutableLiveData<VideoDetailInfo> = MutableLiveData()
-
-    fun resetVideoDetailInfo() {
-        videoDetail = MutableLiveData()
-        this.loadVideoDetailInfo(videoDetail)
+    val videoDetail: MutableLiveData<VideoDetailInfo> by lazy {
+        MutableLiveData<VideoDetailInfo>().also { loadVideoDetailInfo(it) }
     }
 
-    fun reloadVideoDetailInfo() {
-        this.loadVideoDetailInfo(videoDetail)
+    // 相关推荐视频
+    val videoRecommend: MutableLiveData<Array<Video>>by lazy {
+        MutableLiveData<Array<Video>>().also { loadRecommendVideo(it) }
+    }
+
+    /**
+     * 重新加载视频信息
+     */
+    fun reloadDetailFragmentData() {
+        loadVideoDetailInfo(videoDetail)
+        loadRecommendVideo(videoRecommend)
     }
 
     private fun loadVideoDetailInfo(field: MutableLiveData<VideoDetailInfo>) {
@@ -37,9 +43,7 @@ class PlayerViewModel() : ViewModel() {
             apiName = "video/more",
             params = hashMapOf("id" to videoId),
             successDo = { res -> field.postValue(res.getObjectData(VideoDetailInfo::class.java)) },
-            completeDo = {
-                videoDataIsLoading.postValue(false)
-            }
+            completeDo = { videoDataIsLoading.postValue(false) }
         )
     }
 
@@ -49,5 +53,12 @@ class PlayerViewModel() : ViewModel() {
             params = hashMapOf("id" to videoId),
             successDo = { res -> field.postValue(res.getObjectData(Video::class.java)) }
         )
+    }
+
+    private fun loadRecommendVideo(field: MutableLiveData<Array<Video>>) {
+        getSuccess(apiName = "video/recommend",
+            params = hashMapOf("id" to videoId),
+            successDo = { res -> field.postValue(res.getObjectList(Video::class.java).toTypedArray()) },
+            completeDo = { videoDataIsLoading.postValue(false) })
     }
 }

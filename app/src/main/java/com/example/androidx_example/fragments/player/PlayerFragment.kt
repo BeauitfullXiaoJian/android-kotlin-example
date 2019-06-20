@@ -1,12 +1,10 @@
 package com.example.androidx_example.fragments.player
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
@@ -19,8 +17,9 @@ import kotlinx.android.synthetic.main.fragment_player.*
 class PlayerFragment : BaseFragment() {
 
     private val args by navArgs<PlayerFragmentArgs>()
+    private var recoverySeekValue = 0
     private val viewModel by lazy {
-        shareViewModel(PlayerViewModel::class.java).apply { videoId = args.id }
+        fragmentViewModel(PlayerViewModel::class.java).apply { videoId = args.id }
     }
 
     override fun onCreateView(
@@ -31,8 +30,13 @@ class PlayerFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recoverySeekValue = savedInstanceState?.getInt("progress", 0) ?: 0
         initTabs()
         initPlayer()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("progress", play_seek_bar.progress)
     }
 
     private fun initTabs() {
@@ -52,8 +56,7 @@ class PlayerFragment : BaseFragment() {
             PlayerCtrlView.setFullMode(activity!!.window)
         }
         viewModel.video.observe(this, Observer { video ->
-            player_ctr_view.preparePlayer(video)
-            player_ctr_view.startPlay()
+            player_ctr_view.prepareAndStart(video, recoverySeekValue)
         })
     }
 }

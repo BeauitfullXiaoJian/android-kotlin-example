@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.databinding.FragmentPlayerTabDetailBinding
 import com.example.androidx_example.fragments.BaseFragment
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_player_tab_detail.*
 class DetailFragment : BaseFragment() {
 
     private val viewModel by lazy {
-        shareViewModel(PlayerViewModel::class.java).apply { resetVideoDetailInfo() }
+        fragmentViewModel(PlayerViewModel::class.java, parentFragment!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -28,14 +30,19 @@ class DetailFragment : BaseFragment() {
             viewDataBinding?.up = it.up
             GlideApp.with(view)
                 .load(it.up.avatarImageUrl)
+                .placeholder(R.drawable.ic_avatar)
                 .circleCrop()
                 .into(flv_up_avatar)
+        })
+        viewModel.videoRecommend.observe(this, Observer {
+            detail_recycler_view.adapter = DetailAdapter(it)
         })
         viewModel.videoDataIsLoading.observe(this, Observer {
             detail_swipe.isRefreshing = it
         })
         detail_swipe.setColorSchemeResources(R.color.colorPrimary)
-        detail_swipe.setOnRefreshListener { viewModel.reloadVideoDetailInfo() }
+        detail_swipe.setOnRefreshListener { viewModel.reloadDetailFragmentData() }
+        detail_recycler_view.layoutManager = LinearLayoutManager(context)
     }
 
 //    companion object {

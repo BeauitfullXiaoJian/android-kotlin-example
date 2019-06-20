@@ -15,7 +15,7 @@ class VideoPagedAdapter(private val parentFragment: BaseFragment) :
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val video = getItem(position)
-        holder.bind(video!!)
+        holder.bind(video!!, position)
     }
 
     companion object {

@@ -1,16 +1,16 @@
 package com.example.androidx_example.fragments.home
 
 import androidx.lifecycle.*
-import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.example.androidx_example.data.Video
+import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.VideoDataSourceFactory
+import com.example.androidx_example.until.api.HttpRequest
 
 class HomeViewModel : ViewModel() {
 
     val videoRows by lazy {
         VideoDataSourceFactory().toLiveData(
-            pageSize = 10
+            pageSize = Pagination.DEFAULT_PAGE_SIZE
         )
     }
 
