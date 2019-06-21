@@ -64,6 +64,8 @@
                     android:splitTrack="false"
                     android:paddingStart="@dimen/padding_md"
                     android:paddingEnd="@dimen/padding_md"
+                    android:thumb="@drawable/ic_seek_bar"
+                    android:thumbOffset="0dp"
                     android:progressDrawable="@drawable/bg_seek_bar"/>
 
             <TextView

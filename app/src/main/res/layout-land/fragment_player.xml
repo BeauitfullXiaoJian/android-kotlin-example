@@ -57,8 +57,16 @@
             <SeekBar
                     android:id="@+id/play_seek_bar"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxHeight="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:splitTrack="false"
+                    android:paddingStart="@dimen/padding_md"
+                    android:paddingEnd="@dimen/padding_md"
+                    android:thumb="@drawable/ic_seek_bar"
+                    android:thumbOffset="0dp"
+                    android:progressDrawable="@drawable/bg_seek_bar"/>
 
             <TextView
                     android:id="@+id/play_time"

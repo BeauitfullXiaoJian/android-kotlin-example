@@ -64,7 +64,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="3dp"
-                                    android:text="@{up.fansNum + @string/fans}"
+                                    android:text="@{String.valueOf(up.fansNum != null ? up.fansNum : 0) + @string/fans}"
                                     android:textColor="@color/colorSecondary"
                                     android:textSize="@dimen/font_lg"/>
 
@@ -153,7 +153,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/font_md"
-                                android:text="@{video.commentNum + ``,default = @string/comment}"/>
+                                android:text="@{String.valueOf(video.commentNum),default = @string/comment}"/>
 
                         <TextView
                                 android:layout_width="wrap_content"

@@ -40,11 +40,18 @@ class PlayerFragment : BaseFragment() {
         outState.putInt("progress", play_seek_bar.progress)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+    }
+
     override fun onBackPressed(): Boolean {
         return if (PlayerCtrlView.checkLandScreen(resources)) {
             activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             false
-        } else true
+        } else {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+            true
+        }
     }
 
     private fun initTabs() {
@@ -62,9 +69,6 @@ class PlayerFragment : BaseFragment() {
         player_ctr_view.playBtn = btn_play
         btn_fullscreen?.setOnClickListener {
             activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-        if (PlayerCtrlView.checkLandScreen(resources)) {
-            PlayerCtrlView.setFullMode(activity!!.window)
         }
         viewModel.video.observe(this, Observer { video ->
             player_ctr_view.prepareAndStart(video, recoverySeekValue)
