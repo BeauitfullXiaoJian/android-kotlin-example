@@ -45,8 +45,8 @@
                     android:id="@+id/btn_play"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:paddingStart="@dimen/margin_md"
-                    android:paddingEnd="@dimen/margin_md"
+                    android:paddingStart="@dimen/padding_md"
+                    android:paddingEnd="@dimen/padding_sm"
                     android:background="@drawable/click_ripple_full"
                     android:clickable="true"
                     android:contentDescription="@string/play"
@@ -57,17 +57,36 @@
             <SeekBar
                     android:id="@+id/play_seek_bar"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxHeight="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:splitTrack="false"
+                    android:paddingStart="@dimen/padding_md"
+                    android:paddingEnd="@dimen/padding_md"
+                    android:progressDrawable="@drawable/bg_seek_bar"/>
 
             <TextView
                     android:id="@+id/play_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/margin_lg"
                     android:gravity="center"
                     android:text="@string/player_time"
+                    android:textSize="@dimen/font_sm"
                     android:textColor="@android:color/white"/>
+
+            <ImageButton
+                    android:id="@+id/btn_fullscreen"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/margin_md"
+                    android:paddingEnd="@dimen/margin_md"
+                    android:background="@drawable/click_ripple_full"
+                    android:clickable="true"
+                    android:contentDescription="@string/fullscreen"
+                    android:scaleType="centerInside"
+                    android:focusable="true"
+                    android:src="@drawable/ic_fullscreen_white"/>
 
         </LinearLayout>
 

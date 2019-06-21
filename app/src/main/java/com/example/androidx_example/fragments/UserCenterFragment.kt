@@ -13,7 +13,7 @@ import com.example.androidx_example.R
  * 用户中心
  *
  */
-class UserCenterFragment : Fragment() {
+class UserCenterFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,5 +22,5 @@ class UserCenterFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_center, container, false)
     }
-    
+
 }

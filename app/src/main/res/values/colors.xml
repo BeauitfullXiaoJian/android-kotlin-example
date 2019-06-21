@@ -13,6 +13,7 @@
     <color name="colorSecondary">#A5A5A5</color>
     <color name="colorMuted">#d1d1d1</color>
     <color name="colorLine">#0d000000</color>
+    <color name="colorSeekBar">#7AFFFFFF</color>
     <color name="colorLight">#f4f4f4</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWhite">#ffffff</color>

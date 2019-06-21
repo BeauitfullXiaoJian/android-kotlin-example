@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_public.*
  * 公开广场
  *
  */
-class PublicFragment : Fragment() {
+class PublicFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

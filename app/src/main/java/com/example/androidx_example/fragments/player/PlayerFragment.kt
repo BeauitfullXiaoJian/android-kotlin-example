@@ -1,5 +1,6 @@
 package com.example.androidx_example.fragments.player
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,13 @@ class PlayerFragment : BaseFragment() {
         outState.putInt("progress", play_seek_bar.progress)
     }
 
+    override fun onBackPressed(): Boolean {
+        return if (PlayerCtrlView.checkLandScreen(resources)) {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            false
+        } else true
+    }
+
     private fun initTabs() {
         val pagerAdapter = TabPagerAdapter(childFragmentManager, args.id)
         view_pager.adapter = pagerAdapter
@@ -52,6 +60,9 @@ class PlayerFragment : BaseFragment() {
         player_ctr_view.seekBar = play_seek_bar
         player_ctr_view.playTimeText = play_time
         player_ctr_view.playBtn = btn_play
+        btn_fullscreen?.setOnClickListener {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
         if (PlayerCtrlView.checkLandScreen(resources)) {
             PlayerCtrlView.setFullMode(activity!!.window)
         }

@@ -20,7 +20,7 @@ import com.example.androidx_example.R
  * 一个浏览器例子，用于载入指定网页
  *
  */
-class WebFragment : Fragment() {
+class WebFragment : BaseFragment() {
 
     private val args: WebFragmentArgs by navArgs()
 

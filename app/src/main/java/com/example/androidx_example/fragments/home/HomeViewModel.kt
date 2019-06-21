@@ -9,8 +9,6 @@ import com.example.androidx_example.until.debugInfo
 
 class HomeViewModel : ViewModel() {
 
-    val isLoading = MutableLiveData<Boolean>().also { it.value = false }
-
     val videoRows by lazy {
         VideoDataSourceFactory().toLiveData(
             pageSize = Pagination.DEFAULT_PAGE_SIZE

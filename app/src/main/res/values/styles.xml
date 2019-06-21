@@ -29,11 +29,4 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="PrimaryHoverText">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorHighlight">@color/colorDanger</item>
-        <item name="textAllCaps">true</item>
-    </style>
-
 </resources>
