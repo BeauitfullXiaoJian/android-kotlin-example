@@ -89,110 +89,104 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/font_xl"/>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/padding_md"
-                        android:orientation="horizontal">
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingBottom="@dimen/padding_md"-->
+                <!--android:orientation="horizontal">-->
 
-                    <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
 
-                        <LinearLayout android:layout_width="65dp"
-                                      android:layout_height="40dp"
-                                      android:orientation="horizontal"
-                                      android:gravity="center_vertical">
+                <!--<LinearLayout android:layout_width="65dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical">-->
 
-                            <ImageView android:layout_width="@dimen/icon_md"
-                                       android:layout_height="@dimen/icon_md"
-                                       android:src="@drawable/ic_like"
-                                       android:contentDescription="@string/like"
-                                       android:clickable="true"
-                                       android:focusable="true"
-                                       android:background="@drawable/click_ripple_full_in_white"/>
+                <!--<ImageView android:layout_width="@dimen/icon_md"-->
+                <!--android:layout_height="@dimen/icon_md"-->
+                <!--android:src="@drawable/ic_like"-->
+                <!--android:contentDescription="@string/like"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"-->
+                <!--android:background="@drawable/click_ripple_full_in_white"/>-->
 
-                            <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorText"
-                                    android:textSize="@dimen/font_md"
-                                    android:layout_marginStart="@dimen/margin_sm"
-                                    app:numToText="@{comment.likeNum}"/>
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/colorText"-->
+                <!--android:textSize="@dimen/font_md"-->
+                <!--android:layout_marginStart="@dimen/margin_sm"-->
+                <!--app:numToText="@{comment.likeNum}"/>-->
 
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="65dp"
-                                      android:layout_height="40dp"
-                                      android:orientation="horizontal"
-                                      android:gravity="center_vertical">
+                <!--</LinearLayout>-->
+                <!--<LinearLayout android:layout_width="65dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical">-->
 
-                            <ImageView android:layout_width="@dimen/icon_md"
-                                       android:layout_height="@dimen/icon_md"
-                                       android:src="@drawable/ic_dislike"
-                                       android:contentDescription="@string/dislike"
-                                       android:clickable="true"
-                                       android:focusable="true"
-                                       android:background="@drawable/click_ripple_full_in_white"/>
-                        </LinearLayout>
+                <!--<ImageView android:layout_width="@dimen/icon_md"-->
+                <!--android:layout_height="@dimen/icon_md"-->
+                <!--android:src="@drawable/ic_dislike"-->
+                <!--android:contentDescription="@string/dislike"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"-->
+                <!--android:background="@drawable/click_ripple_full_in_white"/>-->
+                <!--</LinearLayout>-->
 
-                        <LinearLayout android:layout_width="65dp"
-                                      android:layout_height="40dp"
-                                      android:orientation="horizontal"
-                                      android:gravity="center_vertical">
-                            <ImageView android:layout_width="@dimen/icon_md"
-                                       android:layout_height="@dimen/icon_md"
-                                       android:src="@drawable/ic_share"
-                                       android:contentDescription="@string/share"
-                                       android:clickable="true"
-                                       android:focusable="true"
-                                       android:background="@drawable/click_ripple_full_in_white"/>
-                        </LinearLayout>
+                <!--<LinearLayout android:layout_width="65dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical">-->
+                <!--<ImageView android:layout_width="@dimen/icon_md"-->
+                <!--android:layout_height="@dimen/icon_md"-->
+                <!--android:src="@drawable/ic_share"-->
+                <!--android:contentDescription="@string/share"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"-->
+                <!--android:background="@drawable/click_ripple_full_in_white"/>-->
+                <!--</LinearLayout>-->
 
-                    </LinearLayout>
+                <!--</LinearLayout>-->
 
-                    <ImageView
-                            android:layout_width="@dimen/icon_md"
-                            android:layout_height="@dimen/icon_md"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/more"
-                            android:src="@drawable/ic_more_default"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="@drawable/click_ripple_full_in_white"/>
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/icon_md"-->
+                <!--android:layout_height="@dimen/icon_md"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:contentDescription="@string/more"-->
+                <!--android:src="@drawable/ic_more_default"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"-->
+                <!--android:background="@drawable/click_ripple_full_in_white"/>-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
                 <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@color/colorLight"
-                        android:visibility="@{comment.repliesNum > 0 ? View.VISIBLE : View.GONE}">
+                        android:visibility="@{comment.repliesNum > 0 ? View.VISIBLE : View.GONE}"
+                        android:elevation="0dp">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="@dimen/padding_lg">
+                            android:padding="@dimen/padding_lg"
+                            app:commentReplies="@{comment.repliesRows}">
 
-                        <TextView
-                                android:id="@+id/reply_user_nick"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/margin_sm"
-                                android:maxLines="2"
-                                android:text="@{}"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="@dimen/font_xl"/>
+                        <!-- 此处插入评论回复 -->
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:text="@{`共条`+ comment.repliesNum +`回复`}"
-                                android:textSize="@dimen/font_md"
+                                android:text="@{`共条`+ comment.repliesNum +`回复>`}"
+                                android:textSize="@dimen/font_lg"
                                 android:textColor="@color/colorPrimary"/>
 
                     </LinearLayout>

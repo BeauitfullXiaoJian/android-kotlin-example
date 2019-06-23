@@ -42,8 +42,6 @@ class CommentFragment : BaseFragment() {
         comment_swipe.setColorSchemeResources(R.color.colorPrimary)
         comment_swipe.setOnRefreshListener { }
         viewModel.videoComment.observe(this, Observer {
-            val commentTotalStr = "${resources.getString(R.string.comment)}(${page.total})"
-            comment_total.text = commentTotalStr
             adapter.commentList = it
             adapter.notifyDataSetChanged()
             debugLog("评论加载数${it.size}")

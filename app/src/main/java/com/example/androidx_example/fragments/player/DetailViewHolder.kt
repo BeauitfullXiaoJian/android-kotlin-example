@@ -5,16 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.data.VideoDetailInfo
 import com.example.androidx_example.until.GlideApp
+import com.example.androidx_example.until.debugInfo
 import com.example.androidx_example.until.tenThousandNumFormat
 
 class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+    private val videoItem = view.findViewById<LinearLayout>(R.id.video_item)
     private val videoThumb = view.findViewById<ImageView>(R.id.flv_item_thumb)
     private val videoTitle = view.findViewById<TextView>(R.id.flv_item_title)
     private val videoUpName = view.findViewById<TextView>(R.id.flv_item_up)
@@ -34,6 +38,10 @@ class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         videoBrowserNum.text = tenThousandNumFormat(videoData.video.viewNum)
         videoCommentNum.text = tenThousandNumFormat(videoData.video.commentNum)
         videoUpName.text = videoData.up.nickName
+        videoItem.setOnClickListener {
+            val direction = PlayerFragmentDirections.actionPlayerFragmentSelf(videoData.video.id)
+            it.findNavController().navigate(direction)
+        }
     }
 
     companion object {
