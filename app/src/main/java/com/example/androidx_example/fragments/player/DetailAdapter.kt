@@ -2,9 +2,9 @@ package com.example.androidx_example.fragments.player
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidx_example.data.Video
+import com.example.androidx_example.data.VideoDetailInfo
 
-class DetailAdapter(private val videoList: Array<Video>) : RecyclerView.Adapter<DetailViewHolder>() {
+class DetailAdapter(private val videoList: Array<VideoDetailInfo>) : RecyclerView.Adapter<DetailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
         return DetailViewHolder.create(parent)

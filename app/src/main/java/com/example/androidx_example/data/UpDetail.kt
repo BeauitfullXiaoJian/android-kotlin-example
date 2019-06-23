@@ -4,5 +4,5 @@ data class UpDetail(
     val id: Int,
     val nickName: String,
     val avatarImageUrl: String,
-    val fansNum: String
+    val fansNum: Int
 )

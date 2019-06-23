@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.BaseActivity
+import com.example.androidx_example.fragments.player.DetailBindingAdapter
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
 import kotlin.collections.HashMap
@@ -124,11 +125,13 @@ fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
     return dpToPx(dp)
 }
 
+
+// 权限请求列表计数器
+var requestCodeCx = 1000
+
 /**
  * 请求权限
  */
-var requestCodeCx = 1000
-
 fun requestPermission(activity: BaseActivity, permission: String, successDo: () -> Unit) {
     val hasPermission = ContextCompat.checkSelfPermission(activity, permission)
     if (hasPermission == PackageManager.PERMISSION_DENIED) {
@@ -142,3 +145,14 @@ fun requestPermission(activity: BaseActivity, permission: String, successDo: () 
         successDo()
     }
 }
+
+const val TEN_THOUSAND = 10000
+
+/**
+ * 把数字10000以上的变为"1万"形式的字符串，如果10000一下则直接转换为字符串
+ */
+fun tenThousandNumFormat(num: Int): String {
+    return if (num > TEN_THOUSAND) "${String.format("%.1f", 1.0 * num / TEN_THOUSAND)}万"
+    else num.toString()
+}
+

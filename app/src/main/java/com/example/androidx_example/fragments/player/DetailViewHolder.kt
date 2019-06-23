@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
-import com.example.androidx_example.data.Video
+import com.example.androidx_example.data.VideoDetailInfo
 import com.example.androidx_example.until.GlideApp
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tenThousandNumFormat
 
 class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -22,18 +21,19 @@ class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val videoBrowserNum = view.findViewById<TextView>(R.id.flv_item_view)
     private val videoCommentNum = view.findViewById<TextView>(R.id.flv_item_comment)
 
-    fun bind(videoData: Video) {
+    fun bind(videoData: VideoDetailInfo) {
         val context = itemView.context
         val animationDrawable = ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable
         animationDrawable.start()
         GlideApp.with(context)
-            .load("https:${videoData.videoThumbUrl}")
+            .load("https:${videoData.video.videoThumbUrl}")
             .placeholder(animationDrawable)
             .into(videoThumb)
-        videoTitle.text = videoData.videoTitle
+        videoTitle.text = videoData.video.videoTitle
         videoUpName.text = ""
-        videoBrowserNum.text = videoData.viewNum.toString()
-        videoCommentNum.text = videoData.commentNum.toString()
+        videoBrowserNum.text = tenThousandNumFormat(videoData.video.viewNum)
+        videoCommentNum.text = tenThousandNumFormat(videoData.video.commentNum)
+        videoUpName.text = videoData.up.nickName
     }
 
     companion object {

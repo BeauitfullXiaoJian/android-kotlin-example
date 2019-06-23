@@ -163,10 +163,8 @@ class PlayerCtrlView : RelativeLayout {
                 }
                 if (isLoading) {
                     setViewToLoading()
-                    debugInfo("加载中")
                 } else {
                     setViewToComplete()
-                    debugInfo("完成了")
                 }
             }
             setBufferUpdateListener { current, cached, total ->

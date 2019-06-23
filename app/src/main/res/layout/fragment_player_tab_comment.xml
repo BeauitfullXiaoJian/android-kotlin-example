@@ -1,323 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/flv_detail_swipe"
+        android:id="@+id/comment_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.player.CommentFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                tools:context=".fragments.FlvFragments.FlvDetailFragment">
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/padding_lg"
+                    android:paddingTop="@dimen/padding_lg"
+                    android:paddingEnd="@dimen/padding_lg">
 
-                <LinearLayout
-                        android:layout_width="match_parent"
+                <TextView
+                        android:id="@+id/comment_total"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_lg">
-
-                    <ImageView
-                            android:id="@+id/flv_up_avatar"
-                            android:layout_width="@dimen/avatar_size_md"
-                            android:layout_height="@dimen/avatar_size_md"
-                            android:contentDescription="@string/avatar"
-                            android:src="@drawable/ic_avatar"
-                            tools:srcCompat="@tools:sample/avatars"/>
-
-                    <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/margin_lg"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                        <TextView
-                                android:id="@+id/flv_up"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="3dp"
-                                android:text="@string/video_up"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/font_xl"/>
-
-                        <TextView
-                                android:id="@+id/flv_up_fans"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="3dp"
-                                android:text="@string/feedback"
-                                android:textColor="@color/colorSecondary"
-                                android:textSize="@dimen/font_lg"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/click_ripple_active"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingStart="@dimen/padding_lg"
-                            android:paddingTop="@dimen/padding_sm"
-                            android:paddingEnd="@dimen/padding_lg"
-                            android:paddingBottom="@dimen/padding_sm">
-
-                        <ImageView
-                                android:layout_width="@dimen/icon_sm"
-                                android:layout_height="@dimen/icon_sm"
-                                android:contentDescription="@string/focus"
-                                android:src="@drawable/ic_focus_white"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/focus"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="@dimen/font_md"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_lg"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:id="@+id/flv_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_lg"
-                            android:ellipsize="end"
-                            android:maxLines="2"
-                            android:text="@string/video_title"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/font_xl"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_lg"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                    <ImageView
-                            android:layout_width="@dimen/icon_sm"
-                            android:layout_height="@dimen/icon_sm"
-                            android:layout_marginEnd="@dimen/margin_lg"
-                            android:contentDescription="@string/browse"
-                            android:src="@drawable/ic_play_count_default"/>
-
-                    <TextView
-                            android:id="@+id/flv_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/browse"
-                            android:textSize="@dimen/font_md"/>
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="@dimen/icon_sm"-->
-                    <!--android:layout_height="@dimen/icon_sm"-->
-                    <!--android:layout_marginStart="@dimen/margin_lg"-->
-                    <!--android:layout_marginEnd="@dimen/margin_lg"-->
-                    <!--android:contentDescription="@string/comment"-->
-                    <!--android:src="@drawable/ic_comment_muted"/>-->
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/flv_comment"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/flv_comment"-->
-                    <!--android:textSize="@dimen/font_md"/>-->
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_lg"
-                            android:text="@string/video_upload_time"
-                            android:textSize="@dimen/font_md"/>
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_lg"
-                            android:text="@string/video_av_no"
-                            android:textSize="@dimen/font_md"/>
-                </LinearLayout>
+                        android:layout_weight="1"
+                        android:text="@string/comment"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/font_xl"/>
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/margin_lg"-->
-            <!--android:layout_marginBottom="@dimen/margin_lg"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/btn_like"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:contentDescription="@string/like"-->
-            <!--app:srcCompat="@drawable/ic_like_muted"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/like_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="@dimen/font_md"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/btn_dislike"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:contentDescription="@string/dislike"-->
-            <!--app:srcCompat="@drawable/ic_dislike_muted"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/dislike_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="@dimen/font_md"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:contentDescription="@string/coin"-->
-            <!--app:srcCompat="@drawable/ic_coin_muted"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/coin_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="@dimen/font_md"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:contentDescription="@string/collect"-->
-            <!--app:srcCompat="@drawable/ic_collect_muted"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/collect_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="@dimen/font_md"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:contentDescription="@string/share"-->
-            <!--app:srcCompat="@drawable/ic_share_muted"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/share_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="@dimen/font_md"/>-->
-            <!--</LinearLayout>-->
-
-            <!--</LinearLayout>-->
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorLine"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorLine"/>
-
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
