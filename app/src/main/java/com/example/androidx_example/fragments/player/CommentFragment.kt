@@ -40,11 +40,13 @@ class CommentFragment : BaseFragment() {
             }
         })
         comment_swipe.setColorSchemeResources(R.color.colorPrimary)
-        comment_swipe.setOnRefreshListener { }
+        comment_swipe.setOnRefreshListener {
+            page.resetPagination()
+            viewModel.loadVideoComment(page)
+        }
         viewModel.videoComment.observe(this, Observer {
             adapter.commentList = it
             adapter.notifyDataSetChanged()
-            debugLog("评论加载数${it.size}")
         })
         viewModel.videoCommentIsLoading.observe(this, Observer {
             comment_swipe.isRefreshing = it

@@ -10,7 +10,7 @@ class Pagination {
         private set
     // 分页对象是否已经处于活跃状态
     private var isActive = false
-    // 当前是否正在加载数据,这个字段不会被对象维护，自行处理
+    // 当前是否正在加载数据
     var isLoading = false
     // 每页数据量
     var limit = DEFAULT_PAGE_SIZE
@@ -55,6 +55,7 @@ class Pagination {
     }
 
     fun resetPagination() {
+        isLoading = false
         currentPageNum = START_PAGE
         total = 0
         isActive = false

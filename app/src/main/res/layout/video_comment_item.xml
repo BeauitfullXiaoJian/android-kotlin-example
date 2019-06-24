@@ -4,7 +4,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="comment" type="com.example.androidx_example.data.VideoComment"/>
-        <variable name="position" type="Integer"/>
+        <variable name="position" type="int"/>
     </data>
 
     <LinearLayout

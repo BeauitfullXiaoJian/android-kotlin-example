@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragments.CameraFragment"
+             android:background="@color/colorBlack">
+
+    <com.example.androidx_example.components.AutoFitCameraTextureView
+            android:id="@+id/camera_preview_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:orientation="vertical">
+
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/img_permission_error"
+                   android:contentDescription="@string/error"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center"
+                  android:maxLines="2"
+                  android:textColor="@color/colorDanger"
+                  android:layout_marginTop="@dimen/margin_md"
+                  android:layout_marginBottom="@dimen/margin_md"
+                  android:textSize="@dimen/font_sm"
+                  android:text="无法获取设备的摄像头，请到设权限设置中开启拍照和录像权限"/>
+
+        <Button android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:theme="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@drawable/bg_solid_click"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/font_md"
+                android:elevation="0dp"
+                android:text="前去设置"/>
+
+    </LinearLayout>
+
+</FrameLayout>

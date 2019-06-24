@@ -2,18 +2,19 @@ package com.example.androidx_example
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.showToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_tool_bar.*
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
 
     private var canBack = false
+    private var showMainToolBar = true
     private var mExitClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,14 +48,25 @@ class MainActivity : BaseActivity() {
                     R.id.publicFragment,
                     R.id.userCenterFragment
                 )
+                showMainToolBar = destination.id !in listOf(
+                    R.id.webFragment,
+                    R.id.publicFragment,
+                    R.id.userCenterFragment,
+                    R.id.playerFragment
+                )
                 if (!canBack) {
                     navigation_side.setCheckedItem(destination.id)
                     main_bottom_navigation.visibility = View.VISIBLE
-                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 } else {
                     main_bottom_navigation.visibility = View.GONE
-                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                    main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 }
+                // 设置toolbar显示/隐藏
+                if (showMainToolBar) {
+                    app_toolbar.visibility = View.VISIBLE
+                    setUpActionBar(app_toolbar, nav_host.findNavController())
+                } else app_toolbar.visibility = View.GONE
             }
         }
         main_bottom_navigation.setupWithNavController(navCtrl)
@@ -64,12 +76,13 @@ class MainActivity : BaseActivity() {
         }
     }
 
-//    private fun intActionBar() {
-//        setSupportActionBar(main_toolbar)
+//    private fun initActionBar() {
+//        setSupportActionBar(app_toolbar)
 //        supportActionBar?.setDisplayShowTitleEnabled(false)
 //        val toggle = ActionBarDrawerToggle(
-//            this, main_drawer, main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+//            this, main_drawer, app_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
 //        )
+//        app_toolbar.setupWithNavController(nav_host.findNavController())
 //        main_drawer.addDrawerListener(toggle)
 //        toggle.syncState()
 //    }

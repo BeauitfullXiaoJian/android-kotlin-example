@@ -4,16 +4,20 @@ import android.content.Context
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextPaint
+import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import com.example.androidx_example.R
 import com.example.androidx_example.data.VideoComment
 import com.example.androidx_example.until.GlideApp
+import com.example.androidx_example.until.debugInfo
 import com.example.androidx_example.until.tenThousandNumFormat
 
 object DetailBindingAdapter {
@@ -51,19 +55,27 @@ object DetailBindingAdapter {
 
     @BindingAdapter("commentReplies")
     @JvmStatic
-    fun loadReplies(linearLayout: LinearLayout, comments: List<VideoComment>) {
-        for (i in 0 until comments.size step 4) {
-            val comment = comments[i]
+    fun loadReplies(linearLayout: LinearLayout, replies: List<VideoComment>) {
+        for (i in 0 until  linearLayout.childCount - 1) {
+            linearLayout.removeView(linearLayout.getChildAt(i))
+        }
+        for (i in 0 until replies.size) {
+            val comment = replies[i]
             val textView = TextView(linearLayout.context)
-            textView.text = createCommentText(comment.user.nickName, comment.content, linearLayout.context)
+            textView.isClickable = true
+            textView.text = createCommentText(comment, linearLayout.context)
+            textView.movementMethod = LinkMovementMethod.getInstance()
             linearLayout.addView(textView, linearLayout.childCount - 1)
         }
     }
 
     @JvmStatic
-    fun createCommentText(name: String, content: String, context: Context): SpannableString {
+    fun createCommentText(comment: VideoComment, context: Context): SpannableString {
         val clickableSpan = object : ClickableSpan() {
+
             override fun onClick(widget: View) {
+                val action = PlayerFragmentDirections.actionPlayerFragmentToUserDetailFragment(comment.user)
+                widget.findNavController().navigate(action)
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -72,8 +84,8 @@ object DetailBindingAdapter {
                 ds.isUnderlineText = false
             }
         }
-        val spbString = SpannableString("$name:$content")
-        spbString.setSpan(clickableSpan, 0, name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val spbString = SpannableString("${comment.user.nickName} : ${comment.content}")
+        spbString.setSpan(clickableSpan, 0, comment.user.nickName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         return spbString
     }
 }
