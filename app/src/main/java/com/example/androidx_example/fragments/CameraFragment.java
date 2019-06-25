@@ -5,15 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.ImageFormat;
-import android.graphics.SurfaceTexture;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCaptureSession;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.CaptureRequest;
+import android.graphics.*;
+import android.hardware.camera2.*;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,29 +20,41 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.androidx_example.R;
 import com.example.androidx_example.components.AutoFitCameraTextureView;
+import com.example.androidx_example.until.AnimateUntil;
+import com.example.androidx_example.until.AnimateUntilKt;
+import kotlin.Unit;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
 
 
 public class CameraFragment extends BaseFragment {
 
-    public static final String TAG = "LiveFragmentLog";
+    private static final String TAG = "LiveFragmentLog";
     private static final int REQUEST_CAMERA_PERMISSION = 1;
 
     private Activity mParentActivity;
     private CameraManager mCameraManager;
     private CameraDevice mCameraDevice;
     private Size mCameraSize;
+    private Size mJpegSize;
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CameraCaptureSession mCameraCaptureSession;
     private AutoFitCameraTextureView mLivePreviewView;
+    private ImageView mPhotoImageView;
+    private View mPhotoImageContainerView;
+    private ImageReader mImageReader;
 
     // 视频流显示视图监听对象
     private final TextureView.SurfaceTextureListener mTL = new TextureView.SurfaceTextureListener() {
@@ -118,17 +126,11 @@ public class CameraFragment extends BaseFragment {
     // 摄像头数据捕获回调对象
     private final CameraCaptureSession.CaptureCallback mCC = new CameraCaptureSession.CaptureCallback() {
 
-    };
+        @Override
+        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment CameraFragment.
-     */
-    public static CameraFragment newInstance() {
-        return new CameraFragment();
-    }
+        }
+    };
 
     @Nullable
     @Override
@@ -141,6 +143,9 @@ public class CameraFragment extends BaseFragment {
         mParentActivity = getActivity();
         mLivePreviewView = view.findViewById(R.id.camera_preview_view);
         mLivePreviewView.setSurfaceTextureListener(mTL);
+        view.findViewById(R.id.btn_capture).setOnClickListener(v -> takePhoto());
+        mPhotoImageView = view.findViewById(R.id.photo_view);
+        mPhotoImageContainerView = view.findViewById(R.id.photo_view_container);
     }
 
     @Override
@@ -163,9 +168,6 @@ public class CameraFragment extends BaseFragment {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             prepareCamera();
         }
-//         else {
-//             requestCameraPermission();
-//         }
     }
 
     /**
@@ -188,9 +190,14 @@ public class CameraFragment extends BaseFragment {
                     showToast("当前没有可用摄像头");
                     return;
                 }
-                // 设置显示视图尺寸4160x3120
-                Log.d(TAG, "设置相机尺寸为" + mCameraSize.toString());
-                mLivePreviewView.setCameraSize(new Size(3120, 4160));
+                // 创建一个用于读取拍照数据的ImageReader
+                mImageReader = ImageReader.newInstance(
+                        mJpegSize.getWidth(),
+                        mJpegSize.getHeight(),
+                        ImageFormat.JPEG,
+                        1);
+                // 设置显示视图尺寸 如 4160x3120
+                mLivePreviewView.setCameraSize(new Size(mCameraSize.getHeight(), mCameraSize.getWidth()));
                 // 打开摄像头
                 mCameraManager.openCamera(cameraId, mTC, null);
             } catch (CameraAccessException e) {
@@ -212,11 +219,10 @@ public class CameraFragment extends BaseFragment {
             SurfaceTexture texture = mLivePreviewView.getSurfaceTexture();
             texture.setDefaultBufferSize(mCameraSize.getWidth(), mCameraSize.getHeight());
             Surface surface = new Surface(texture);
-            Surface[] surfaces = {surface};
             // 创建一个预览请求
             createCameraPreviewRequest(surface);
             // 创建一个预览会话
-            mCameraDevice.createCaptureSession(Arrays.asList(surfaces), mSC, null);
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), mSC, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
             Log.d(TAG, "开启摄像头预览失败");
@@ -242,6 +248,73 @@ public class CameraFragment extends BaseFragment {
                 CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
         mPreviewRequestBuilder.addTarget(surface);
     }
+
+    /**
+     * 拍照
+     */
+    private void takePhoto() {
+        try {
+            final CaptureRequest.Builder captureBuilder =
+                    mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            captureBuilder.addTarget(mImageReader.getSurface());
+            mCameraCaptureSession.capture(captureBuilder.build(), mCC, null);
+            mImageReader.setOnImageAvailableListener(reader -> {
+                File saveFile = new File(mParentActivity.getExternalFilesDir(null), "picture.jpg");
+                Image image = reader.acquireNextImage();
+                mLivePreviewView.post(() -> {
+                    ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                    byte[] bytes = new byte[buffer.remaining()];
+                    buffer.get(bytes);
+                    FileOutputStream output = null;
+                    try {
+                        output = new FileOutputStream(saveFile);
+                        output.write(bytes);
+                        showPhotoView(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                        showToast("图片保存成功");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        image.close();
+                        if (null != output) {
+                            try {
+                                output.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    private void recoveryPreview() {
+//        try {
+//            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+//                    CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+//            mCameraCaptureSession.capture(mPreviewRequestBuilder.build(), mCC, null);
+//        } catch (CameraAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    private void captureStillPicture() {
+//        try {
+//            CaptureRequest.Builder captureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+//            captureBuilder.addTarget(mImageReader.getSurface());
+//            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+//                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+//            mCameraCaptureSession.stopRepeating();
+//            mCameraCaptureSession.abortCaptures();
+//            // mCameraCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+//        } catch (CameraAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 关闭相机
@@ -294,12 +367,17 @@ public class CameraFragment extends BaseFragment {
             }
             // 摄像头尺寸为可拍摄的最大值
             mCameraSize = Collections.max(
-                    Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
+                    Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
                     (Size lhs, Size rhs) ->
                             Long.signum((long) lhs.getWidth() * lhs.getHeight() -
                                     (long) rhs.getWidth() * rhs.getHeight())
 
             );
+            mJpegSize = Collections.max(
+                    Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
+                    (Size lhs, Size rhs) ->
+                            Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                                    (long) rhs.getWidth() * rhs.getHeight()));
             activeCameraId = cameraId;
             break;
         }
@@ -315,5 +393,23 @@ public class CameraFragment extends BaseFragment {
         intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
         intent.setData(Uri.fromParts("package", mParentActivity.getPackageName(), null));
         startActivity(intent);
+    }
+
+    private void showPhotoView(Bitmap bitmap) {
+        ViewGroup.LayoutParams lp = mPhotoImageContainerView.getLayoutParams();
+        lp.width = 0;
+        lp.height = 0;
+        mPhotoImageContainerView.setLayoutParams(lp);
+        mPhotoImageContainerView.setTranslationX(0);
+        mPhotoImageContainerView.setTranslationY(0);
+        mPhotoImageContainerView.setScaleX(1);
+        mPhotoImageContainerView.setScaleY(1);
+        mPhotoImageView.setImageBitmap(bitmap);
+        AnimateUntil.Companion.setSizeAndToTopStart(
+                mPhotoImageContainerView,
+                new Size(600, 400),
+                new Point(20, 20),
+                1000,
+                () -> Unit.INSTANCE);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
              android:orientation="vertical"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -13,36 +13,75 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center"
-                  android:orientation="vertical">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_white"
+            android:scaleType="fitCenter"
+            android:tint="@color/colorWhite"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/margin_lg"
+            android:focusable="true"
+            android:clickable="true"
+            app:fabSize="auto"/>
 
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/img_permission_error"
-                   android:contentDescription="@string/error"/>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:visibility="gone"
+                 android:background="@color/colorWhite">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_gravity="center"
-                  android:maxLines="2"
-                  android:textColor="@color/colorDanger"
-                  android:layout_marginTop="@dimen/margin_md"
-                  android:layout_marginBottom="@dimen/margin_md"
-                  android:textSize="@dimen/font_sm"
-                  android:text="无法获取设备的摄像头，请到设权限设置中开启拍照和录像权限"/>
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:orientation="vertical">
 
-        <Button android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:theme="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@drawable/bg_solid_click"
-                android:textColor="@color/colorWhite"
-                android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/font_md"
-                android:elevation="0dp"
-                android:text="前去设置"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/img_permission_error"
+                       android:contentDescription="@string/error"/>
 
-    </LinearLayout>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_gravity="center"
+                      android:maxLines="2"
+                      android:textColor="@color/colorDanger"
+                      android:layout_marginTop="@dimen/margin_md"
+                      android:layout_marginBottom="@dimen/margin_md"
+                      android:textSize="@dimen/font_md"
+                      android:gravity="center"
+                      android:text="无法获取设备的摄像头，请到设权限设置中开启拍照和录像权限"/>
+
+            <Button android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:theme="@style/Widget.AppCompat.Button.Borderless"
+                    android:background="@drawable/click_ripple_active"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/font_md"
+                    android:elevation="0dp"
+                    android:text="前去设置"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/photo_view_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/padding_tiny"
+            android:background="@drawable/bg_white_radius"
+            android:layout_gravity="center"
+            android:visibility="visible">
+        <ImageView
+                android:id="@+id/photo_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_camera"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/image"/>
+
+    </FrameLayout>
 
 </FrameLayout>

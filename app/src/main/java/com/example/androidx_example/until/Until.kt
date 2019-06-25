@@ -76,10 +76,10 @@ fun showToast(message: String, activity: Activity?) {
 
 /**
  * 打印调试信息
- * @param message String 消息内容
+ * @param messages String 消息内容,可以多个
  */
-fun debugInfo(message: String) {
-    Log.d("DebugInfo", message)
+fun debugInfo(vararg messages: String) {
+    Log.d("DebugInfo", messages.joinToString(","))
 }
 
 /**
