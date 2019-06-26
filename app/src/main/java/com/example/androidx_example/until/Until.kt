@@ -18,6 +18,8 @@ import com.example.androidx_example.BaseActivity
 import com.example.androidx_example.fragments.player.DetailBindingAdapter
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.HashMap
 
 /**
@@ -123,6 +125,14 @@ fun dpToPx(dp: Int): Int {
 fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
     val dp = res.getInteger(id)
     return dpToPx(dp)
+}
+
+/**
+ * 按时间生成一个文件名
+ */
+fun getFileNameStrByTime(suffix: String): String {
+    val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+    return simpleDateFormat.format(Date()) + ".$suffix"
 }
 
 

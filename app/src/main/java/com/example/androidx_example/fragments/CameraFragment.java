@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -28,7 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.example.androidx_example.R;
 import com.example.androidx_example.components.AutoFitCameraTextureView;
 import com.example.androidx_example.until.AnimateUntil;
-import com.example.androidx_example.until.AnimateUntilKt;
+import com.example.androidx_example.until.UntilKt;
 import kotlin.Unit;
 
 import java.io.File;
@@ -43,6 +44,14 @@ public class CameraFragment extends BaseFragment {
 
     private static final String TAG = "LiveFragmentLog";
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 90);
+        ORIENTATIONS.append(Surface.ROTATION_90, 0);
+        ORIENTATIONS.append(Surface.ROTATION_180, 270);
+        ORIENTATIONS.append(Surface.ROTATION_270, 180);
+    }
 
     private Activity mParentActivity;
     private CameraManager mCameraManager;
@@ -207,6 +216,7 @@ public class CameraFragment extends BaseFragment {
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 Log.d(TAG, "设备不支持Camera2API");
+                showToast("设备不支持Camera2API");
             }
         }
     }
@@ -261,7 +271,7 @@ public class CameraFragment extends BaseFragment {
             captureBuilder.addTarget(mImageReader.getSurface());
             mCameraCaptureSession.capture(captureBuilder.build(), mCC, null);
             mImageReader.setOnImageAvailableListener(reader -> {
-                File saveFile = new File(mParentActivity.getExternalFilesDir(null), "picture.jpg");
+                File saveFile = new File(mParentActivity.getExternalFilesDir(null), UntilKt.getFileNameStrByTime("jpg"));
                 Image image = reader.acquireNextImage();
                 mLivePreviewView.post(() -> {
                     ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -365,21 +375,22 @@ public class CameraFragment extends BaseFragment {
             if (map == null) {
                 continue;
             }
-            // 摄像头尺寸为可拍摄的最大值
-            mCameraSize = Collections.max(
-                    Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
-                    (Size lhs, Size rhs) ->
-                            Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                                    (long) rhs.getWidth() * rhs.getHeight())
+            Size[] rawOutputSizes = map.getOutputSizes(ImageFormat.RAW_SENSOR);
+            Size[] jpegOutputSizes = map.getOutputSizes(ImageFormat.JPEG);
 
-            );
-            mJpegSize = Collections.max(
-                    Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                    (Size lhs, Size rhs) ->
-                            Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                                    (long) rhs.getWidth() * rhs.getHeight()));
+            if (rawOutputSizes != null) {
+                mCameraSize = getMaxSize(rawOutputSizes);
+            }
+
+            if (jpegOutputSizes != null) {
+                mJpegSize = getMaxSize(jpegOutputSizes);
+            }
+
             activeCameraId = cameraId;
             break;
+        }
+        if (mCameraSize == null) {
+            mCameraSize = mJpegSize;
         }
         return activeCameraId;
     }
@@ -407,9 +418,25 @@ public class CameraFragment extends BaseFragment {
         mPhotoImageView.setImageBitmap(bitmap);
         AnimateUntil.Companion.setSizeAndToTopStart(
                 mPhotoImageContainerView,
-                new Size(600, 400),
+                new Size(UntilKt.dpToPx(200), UntilKt.dpToPx(120)),
                 new Point(20, 20),
-                1000,
+                500,
                 () -> Unit.INSTANCE);
     }
+
+    private Size getMaxSize(Size[] sizes) {
+        return Collections.max(
+                Arrays.asList(sizes),
+                (Size lhs, Size rhs) -> Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                        (long) rhs.getWidth() * rhs.getHeight())
+        );
+    }
+
+//    private int getOrientation(int rotation) {
+//        // Sensor orientation is 90 for most devices, or 270 for some devices (eg. Nexus 5X)
+//        // We have to take that into account and rotate JPEG properly.
+//        // For devices with orientation of 90, we simply return our mapping from ORIENTATIONS.
+//        // For devices with orientation of 270, we need to rotate the JPEG 180 degrees.
+//        return (ORIENTATIONS.get(rotation) + mSensorOrientation + 270) % 360;
+//    }
 }

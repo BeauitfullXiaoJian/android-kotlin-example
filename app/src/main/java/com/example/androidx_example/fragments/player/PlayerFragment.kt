@@ -32,7 +32,7 @@ class PlayerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recoverySeekValue = savedInstanceState?.getInt("progress", 0) ?: 0
-        setNavToolBar(app_toolbar)
+        app_toolbar?.also { setNavToolBar(it) }
         initTabs()
         initPlayer()
     }
