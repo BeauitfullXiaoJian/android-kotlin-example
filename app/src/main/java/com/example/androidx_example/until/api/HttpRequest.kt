@@ -13,8 +13,10 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.Subject
 import okhttp3.EventListener
 import java.io.IOException
+import java.io.InputStream
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -50,6 +52,7 @@ const val CODE_500 = 500
 const val CODE_SUCCESS = CODE_200
 // const val CODE_ERROR = CODE_500
 const val HTTP_CODE_UNKNOWN_MESSAGE = "其它错误"
+const val DOWNLOAD_ERROR = -1
 
 val HTTP_CODE_MESSAGES = mapOf(
     CODE_200 to "请求成功",
@@ -104,6 +107,22 @@ class HttpRequest {
             return sendRequest(request)
         }
 
+        fun download(downloadName: String): Observable<InputStream> {
+            return Observable.create<InputStream> { obsEmit ->
+                val request = createDownloadRequest(downloadName)
+                getInstance().newCall(request).enqueue(object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        obsEmit.onNext(response.body()!!.byteStream())
+                        obsEmit.onComplete()
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        obsEmit.onError(Throwable("REQUEST ERROR"))
+                    }
+                })
+            }
+        }
+
         private fun getInstance(): OkHttpClient {
             // CacheControl.Builder().onlyIfCached().build()
             return instance ?: OkHttpClient.Builder()
@@ -128,6 +147,14 @@ class HttpRequest {
                 val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr)
                 requestBuilder.post(body)
             }
+            return requestBuilder.build()
+        }
+
+        private fun createDownloadRequest(requestUrl: String): Request {
+            var requestBuilder = Request.Builder()
+            requestBuilder = requestBuilder.url(
+                getRequestUrl(requestUrl)
+            )
             return requestBuilder.build()
         }
 
