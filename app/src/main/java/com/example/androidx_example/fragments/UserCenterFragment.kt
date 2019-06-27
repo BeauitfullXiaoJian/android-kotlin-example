@@ -30,6 +30,10 @@ class UserCenterFragment : BaseFragment() {
             val action = UserCenterFragmentDirections.actionUserCenterFragmentToCameraFragment()
             findNavController().navigate(action)
         }
+        btn_banner.setOnClickListener {
+            val action = UserCenterFragmentDirections.actionUserCenterFragmentToLargeImageFragment()
+            findNavController().navigate(action)
+        }
     }
 
 }

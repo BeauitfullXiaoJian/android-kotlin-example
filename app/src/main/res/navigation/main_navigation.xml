@@ -20,6 +20,8 @@
               android:name="com.example.androidx_example.fragments.UserCenterFragment"
               android:label="个人中心" tools:layout="@layout/fragment_user_center">
         <action android:id="@+id/action_userCenterFragment_to_cameraFragment" app:destination="@id/cameraFragment"/>
+        <action android:id="@+id/action_userCenterFragment_to_largeImageFragment"
+                app:destination="@id/largeImageFragment"/>
     </fragment>
     <fragment android:id="@+id/webFragment" android:name="com.example.androidx_example.fragments.WebFragment"
               android:label="我的网站" tools:layout="@layout/fragment_web">
@@ -44,5 +46,8 @@
     </fragment>
     <fragment android:id="@+id/cameraFragment" android:name="com.example.androidx_example.fragments.CameraFragment"
               android:label="相机预览"/>
+    <fragment android:id="@+id/largeImageFragment"
+              android:name="com.example.androidx_example.fragments.LargeImageFragment"
+              android:label="fragment_large_image" tools:layout="@layout/fragment_large_image"/>
 
 </navigation>

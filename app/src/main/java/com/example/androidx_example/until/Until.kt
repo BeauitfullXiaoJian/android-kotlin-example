@@ -159,7 +159,7 @@ fun requestPermission(activity: BaseActivity, permission: String, successDo: () 
 const val TEN_THOUSAND = 10000
 
 /**
- * 把数字10000以上的变为"1万"形式的字符串，如果10000一下则直接转换为字符串
+ * 把数字10000以上的变为"1万"形式的字符串，如果10000以下则直接转换为字符串
  */
 fun tenThousandNumFormat(num: Int): String {
     return if (num > TEN_THOUSAND) "${String.format("%.1f", 1.0 * num / TEN_THOUSAND)}万"
