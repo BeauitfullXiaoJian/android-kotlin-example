@@ -163,7 +163,7 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
             }
             return NotificationCompat.Builder(appContext, chanelId)
                 .setContentTitle("图片下载")
-                .setContentText("正在下载...")
+                .setContentText("正在下载.")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
         }
