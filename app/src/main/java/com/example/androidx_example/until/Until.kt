@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.BaseActivity
-import com.example.androidx_example.fragments.player.DetailBindingAdapter
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
 import java.text.SimpleDateFormat
@@ -164,4 +163,13 @@ const val TEN_THOUSAND = 10000
 fun tenThousandNumFormat(num: Int): String {
     return if (num > TEN_THOUSAND) "${String.format("%.1f", 1.0 * num / TEN_THOUSAND)}万"
     else num.toString()
+}
+
+/**
+ * 获取一个NotifyId
+ */
+var notifyIdCx = 1000
+
+fun getNewNotifyId(): Int {
+    return notifyIdCx++
 }

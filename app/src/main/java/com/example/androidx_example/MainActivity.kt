@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.androidx_example.until.TimeLock
 import com.example.androidx_example.until.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_tool_bar.*
@@ -15,7 +16,7 @@ class MainActivity : BaseActivity() {
 
     private var canBack = false
     private var showMainToolBar = true
-    private var mExitClickTime: Long = 0
+    private val mTimeLock = TimeLock(2000)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +30,10 @@ class MainActivity : BaseActivity() {
             if (canBack) {
                 super.onBackPressed()
             } else {
-                if (System.currentTimeMillis() - mExitClickTime > 2000) {
-                    showToast("再按一次退出程序", this)
-                    mExitClickTime = System.currentTimeMillis()
-                } else {
+                if (mTimeLock.isInLockTime) {
                     exitProcess(0)
+                } else {
+                    showToast("再按一次退出程序", this)
                 }
             }
         }

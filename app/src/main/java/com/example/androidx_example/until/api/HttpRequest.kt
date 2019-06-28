@@ -107,20 +107,10 @@ class HttpRequest {
             return sendRequest(request)
         }
 
-        fun download(downloadName: String): Observable<InputStream> {
-            return Observable.create<InputStream> { obsEmit ->
-                val request = createDownloadRequest(downloadName)
-                getInstance().newCall(request).enqueue(object : Callback {
-                    override fun onResponse(call: Call, response: Response) {
-                        obsEmit.onNext(response.body()!!.byteStream())
-                        obsEmit.onComplete()
-                    }
-
-                    override fun onFailure(call: Call, e: IOException) {
-                        obsEmit.onError(Throwable("REQUEST ERROR"))
-                    }
-                })
-            }
+        fun download(downloadName: String): Response {
+            val request = createDownloadRequest(downloadName)
+            return getInstance().newCall(request)
+                .execute()
         }
 
         private fun getInstance(): OkHttpClient {
@@ -152,9 +142,7 @@ class HttpRequest {
 
         private fun createDownloadRequest(requestUrl: String): Request {
             var requestBuilder = Request.Builder()
-            requestBuilder = requestBuilder.url(
-                getRequestUrl(requestUrl)
-            )
+            requestBuilder = requestBuilder.url(requestUrl)
             return requestBuilder.build()
         }
 
@@ -305,12 +293,10 @@ class HttpRequest {
     class RequestDebugListener : EventListener() {
 
         override fun dnsStart(call: Call, domainName: String) {
-            super.dnsStart(call, domainName)
             debugInfo("DNS解析开始")
         }
 
         override fun dnsEnd(call: Call, domainName: String, inetAddressList: MutableList<InetAddress>) {
-            super.dnsEnd(call, domainName, inetAddressList)
             debugInfo("DNS解析结束")
         }
 
