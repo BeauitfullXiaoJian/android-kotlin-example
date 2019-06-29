@@ -88,10 +88,8 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
                     BackoffPolicy.LINEAR,
                     OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
                     TimeUnit.MICROSECONDS
-                )
-                .setInputData(inputData)
+                ).setInputData(inputData)
                 .build()
-            WorkManager.getInstance(app).enqueue(workRequest)
             return WorkManager.getInstance(app).getWorkInfoByIdLiveData(workRequest.id)
         }
 

@@ -10,4 +10,12 @@ class App : Application(), Configuration.Provider {
             .setMinimumLoggingLevel(Log.VERBOSE)
             .build()
     }
+
+    init {
+        instance = this
+    }
+
+    companion object {
+        lateinit var instance: Application
+    }
 }

@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
+import android.util.TimeUtils
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.androidx_example.App
 import com.example.androidx_example.BaseActivity
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
@@ -53,8 +55,38 @@ fun getSuccess(
     successDo: (res: HttpRequest.ApiData) -> Unit,
     completeDo: ((result: Boolean) -> Unit)? = null
 ): Disposable = HttpRequest.get(apiName, params).subscribe {
-    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    if (it.isOk()) successDo(it)
+    else showToast(it.getMessage(), activity)
     completeDo?.invoke(it.isOk())
+}
+
+fun getWithSaveSuccess(
+    apiName: String,
+    params: HashMap<String, Any>,
+    activity: Activity? = null,
+    successDo: (res: HttpRequest.ApiData) -> Unit,
+    completeDo: ((result: Boolean) -> Unit)? = null
+) {
+    val saveDataStr = AppSQLiteHelp.getSaveApiData(apiName, params.hashCode())
+    if (saveDataStr.isEmpty()) {
+        getSuccess(apiName, params, activity,
+            {
+                successDo(it)
+                AppSQLiteHelp.saveApiData(
+                    apiName = apiName,
+                    hasCode = params.hashCode(),
+                    dataStr = it.getStringData(),
+                    effectiveTimeMillis = (1000 * 60 * 60).toLong()
+                )
+            },
+            {
+                completeDo?.invoke(it)
+            }
+        )
+    } else {
+        successDo(HttpRequest.ApiData.successData("SUCCESS", saveDataStr, "EMPTY"))
+        completeDo?.invoke(true)
+    }
 }
 
 // 每次允许显示TOAST的最小间隔
