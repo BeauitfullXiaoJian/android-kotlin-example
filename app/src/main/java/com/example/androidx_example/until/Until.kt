@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
-import android.util.TimeUtils
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.androidx_example.App
 import com.example.androidx_example.BaseActivity
+import com.example.androidx_example.entity.ApiSaveData
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
 import java.text.SimpleDateFormat
@@ -67,23 +66,36 @@ fun getWithSaveSuccess(
     successDo: (res: HttpRequest.ApiData) -> Unit,
     completeDo: ((result: Boolean) -> Unit)? = null
 ) {
-    val saveDataStr = AppSQLiteHelp.getSaveApiData(apiName, params.hashCode())
-    if (saveDataStr.isEmpty()) {
+    RoomUntil.initDB()
+    val saveDataStr = RoomUntil.db.apiSaveDataDao().findSaveData(apiName, params.hashCode())
+    // val saveDataStr = AppSQLiteHelp.getSaveApiData(apiName, params.hashCode())
+    if (saveDataStr == null) {
         getSuccess(apiName, params, activity,
             {
                 successDo(it)
-                AppSQLiteHelp.saveApiData(
-                    apiName = apiName,
-                    hasCode = params.hashCode(),
-                    dataStr = it.getStringData(),
-                    effectiveTimeMillis = (1000 * 60 * 60).toLong()
+                val currentTime = System.currentTimeMillis()
+                RoomUntil.db.apiSaveDataDao().insert(
+                    ApiSaveData(
+                        apiName = apiName,
+                        paramHash = params.hashCode(),
+                        apiData = it.getStringData(),
+                        saveTime = currentTime,
+                        lostTime = currentTime + (1000 * 60 * 60)
+                    )
                 )
+//                AppSQLiteHelp.saveApiData(
+//                    apiName = apiName,
+//                    hasCode = params.hashCode(),
+//                    dataStr = it.getStringData(),
+//                    effectiveTimeMillis = (1000 * 60 * 60).toLong()
+//                )
             },
             {
                 completeDo?.invoke(it)
             }
         )
     } else {
+        debugInfo("命中缓存")
         successDo(HttpRequest.ApiData.successData("SUCCESS", saveDataStr, "EMPTY"))
         completeDo?.invoke(true)
     }

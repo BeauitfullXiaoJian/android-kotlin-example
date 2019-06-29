@@ -17,6 +17,9 @@ import java.io.InputStream
 import java.net.URI
 import java.net.URL
 
+/**
+ * 大图加载视图，这个视图还未编写！！！！！
+ */
 class LargeImageView : View {
 
     private lateinit var mMoveGestureDetector: GestureDetector

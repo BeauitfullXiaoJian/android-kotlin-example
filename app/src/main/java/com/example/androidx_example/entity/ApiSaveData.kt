@@ -7,20 +7,22 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "api_data")
 data class ApiSaveData(
 
-    @PrimaryKey()
-    @ColumnInfo(name = "id")
-    private var id: Int,
+    // @ColumnInfo(name = "id")
+    @PrimaryKey
+    var id: Int? = null,
 
     @ColumnInfo(name = "api_name")
-    private var apiName: String,
+    val apiName: String?,
 
     @ColumnInfo(name = "api_param_hash")
-    private var hashCode: Int,
+    val paramHash: Int?,
+
+    @ColumnInfo(name = "api_data")
+    val apiData: String?,
 
     @ColumnInfo(name = "save_time")
-    private var saveTime: Int,
+    val saveTime: Long?,
 
     @ColumnInfo(name = "lost_time")
-    private var lostTime: Int
-
+    val lostTime: Long?
 )
