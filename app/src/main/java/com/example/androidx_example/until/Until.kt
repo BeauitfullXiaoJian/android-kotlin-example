@@ -2,22 +2,31 @@ package com.example.androidx_example.until
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.androidx_example.App
 import com.example.androidx_example.BaseActivity
 import com.example.androidx_example.entity.ApiSaveData
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -216,4 +225,22 @@ var notifyIdCx = 1000
 
 fun getNewNotifyId(): Int {
     return notifyIdCx++
+}
+
+fun shareImage(context: Context, bitmap: Bitmap) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "image/*"
+        putExtra(Intent.EXTRA_STREAM, getTempBitmapUri(context, bitmap))
+    }
+    context.startActivity(Intent.createChooser(intent, "图片分享到"));
+}
+
+fun getTempBitmapUri(context: Context, bitmap: Bitmap): Uri {
+    val imageDir = File(context.filesDir, "images").also { it.mkdir() }
+    val file = File(imageDir, getFileNameStrByTime("jpg"))
+    val outStream = file.outputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+    outStream.close()
+    bitmap.recycle()
+    return FileProvider.getUriForFile(context, "com.example.cool1024.file", file)
 }

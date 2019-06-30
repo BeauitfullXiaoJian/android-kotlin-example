@@ -1,14 +1,20 @@
 package com.example.androidx_example.fragments.player
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.databinding.FragmentPlayerTabDetailBinding
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.androidx_example.until.getTempBitmapUri
+import com.example.androidx_example.until.shareImage
 import kotlinx.android.synthetic.main.fragment_player_tab_detail.*
 
 class DetailFragment : BaseFragment() {
@@ -22,6 +28,11 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initViewBinding(view)
+        initView()
+    }
+
+    private fun initViewBinding(view: View) {
         val viewDataBinding = FragmentPlayerTabDetailBinding.bind(view)
         viewModel.videoDetail.observe(this, Observer {
             viewDataBinding?.video = it.video
@@ -33,8 +44,18 @@ class DetailFragment : BaseFragment() {
         viewModel.videoDataIsLoading.observe(this, Observer {
             detail_swipe.isRefreshing = it
         })
+    }
+
+    private fun initView() {
+        // 设置下拉刷新
         detail_swipe.setColorSchemeResources(R.color.colorPrimary)
         detail_swipe.setOnRefreshListener { viewModel.reloadDetailFragmentData() }
+        // 设置Recycler LayoutManger
         detail_recycler_view.layoutManager = LinearLayoutManager(context)
+        // 设置分享
+        btn_share.setOnClickListener {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.splash);
+            shareImage(context!!, bitmap)
+        }
     }
 }

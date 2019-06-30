@@ -19,8 +19,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 * ViewModel
 * WorkManager
 * Notifications
+* Room
 
 ## 后续任务列表
-* Room
 * Share
 * Slices

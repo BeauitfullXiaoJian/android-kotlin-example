@@ -84,13 +84,11 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
                 .build()
             val workRequest = OneTimeWorkRequestBuilder<ImageDownloadWorker>()
                 .setConstraints(constraints)
-                .setBackoffCriteria(
-                    BackoffPolicy.LINEAR,
-                    OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                    TimeUnit.MICROSECONDS
-                ).setInputData(inputData)
+                .setInputData(inputData)
                 .build()
-            return WorkManager.getInstance(app).getWorkInfoByIdLiveData(workRequest.id)
+            val workManager = WorkManager.getInstance(app)
+            workManager.enqueue(workRequest)
+            return workManager.getWorkInfoByIdLiveData(workRequest.id)
         }
 
         /**

@@ -40,6 +40,14 @@
         <activity android:name=".MainActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
         <!--android:configChanges="orientation|keyboardHidden|screenSize"/>-->
+        <provider
+                android:authorities="com.example.cool1024.file"
+                android:name="androidx.core.content.FileProvider"
+                android:grantUriPermissions="true"
+                android:exported="false">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                       android:resource="@xml/paths"/>
+        </provider>
     </application>
 
 </manifest>
