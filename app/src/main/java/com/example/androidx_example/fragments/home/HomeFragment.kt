@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.home_tool_bar.*
 
 class HomeFragment : BaseFragment() {
 
@@ -61,14 +61,19 @@ class HomeFragment : BaseFragment() {
      */
     private fun initView() {
         listAdapter = listAdapter ?: VideoPagedAdapter(this)
+
         recyclerLayoutManager = GridLayoutManager(context, 2)
-        home_recycler.adapter = listAdapter
-        home_recycler.layoutManager = recyclerLayoutManager
+        home_recycler.apply {
+            isActivated = true
+            adapter = listAdapter
+            layoutManager = recyclerLayoutManager
+        }
+
         home_swipe_refresh.apply {
             setColorSchemeResources(R.color.colorPrimary)
             setOnRefreshListener {
                 listAdapter?.currentList?.apply {
-                    this.dataSource.invalidate()
+                    dataSource.invalidate()
                 }
             }
         }

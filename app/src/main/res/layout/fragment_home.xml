@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:context=".fragments.home.HomeFragment"
-                    android:background="@color/colorWhite"
+                    android:background="@drawable/bg_not_found_center_selector"
                     android:id="@+id/home_recycler"
                     android:scrollbars="vertical">
 

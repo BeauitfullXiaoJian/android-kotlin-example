@@ -13,15 +13,16 @@
     </fragment>
 
     <fragment android:id="@+id/loginFragment" android:name="com.example.androidx_example.fragments.LoginFragment"
-              android:label="login" tools:layout="@layout/fragment_login"/>
-    <fragment android:id="@+id/publicFragment" android:name="com.example.androidx_example.fragments.PublicFragment"
+              android:label="登录" tools:layout="@layout/fragment_login"/>
+    <fragment android:id="@+id/publicFragment" android:name="com.example.androidx_example.fragments.album.PublicFragment"
               android:label="public" tools:layout="@layout/fragment_public"/>
     <fragment android:id="@+id/userCenterFragment"
               android:name="com.example.androidx_example.fragments.UserCenterFragment"
               android:label="个人中心" tools:layout="@layout/fragment_user_center">
         <action android:id="@+id/action_userCenterFragment_to_cameraFragment" app:destination="@id/cameraFragment"/>
-        <action android:id="@+id/action_userCenterFragment_to_largeImageFragment"
-                app:destination="@id/largeImageFragment"/>
+        <action android:id="@+id/action_userCenterFragment_to_devViewFragment"
+                app:destination="@id/devViewFragment"/>
+        <action android:id="@+id/action_userCenterFragment_to_settingsActivity" app:destination="@id/settingsActivity"/>
     </fragment>
     <fragment android:id="@+id/webFragment" android:name="com.example.androidx_example.fragments.WebFragment"
               android:label="我的网站" tools:layout="@layout/fragment_web">
@@ -46,8 +47,12 @@
     </fragment>
     <fragment android:id="@+id/cameraFragment" android:name="com.example.androidx_example.fragments.CameraFragment"
               android:label="相机预览"/>
-    <fragment android:id="@+id/largeImageFragment"
-              android:name="com.example.androidx_example.fragments.LargeImageFragment"
-              android:label="fragment_large_image" tools:layout="@layout/fragment_large_image"/>
+    <fragment android:id="@+id/devViewFragment"
+              android:name="com.example.androidx_example.fragments.DevViewFragment"
+              android:label="视图测试">
+        <argument android:name="demoType" app:argType="com.example.androidx_example.fragments.DevViewFragment$DevDemoType"/>
+    </fragment>
+    <activity android:id="@+id/settingsActivity" android:name="com.example.androidx_example.SettingsActivity"
+              android:label="用户设置"/>
 
 </navigation>

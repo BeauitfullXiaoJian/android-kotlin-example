@@ -19,7 +19,9 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
                 callback.onResult(pageData.rows, page, page)
             },
             completeDo = { isOk ->
-                if (!isOk) page.resetPagination()
+                if (!isOk) {
+                    page.resetPagination()
+                }
             }
         )
     }
@@ -37,7 +39,9 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
                     callback.onResult(pageData.rows, page)
                 },
                 completeDo = { isOk ->
-                    if (!isOk) page.nextPage()
+                    if (!isOk) {
+                        page.nextPage()
+                    }
                 }
             )
         }
@@ -45,6 +49,7 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
 
     override fun loadAfter(params: LoadParams<Pagination>, callback: LoadCallback<Pagination, Video>) {
         val page = params.key
+        debugInfo("加载更多")
         if (page.hasNext) {
             page.nextPage()
             getWithSaveSuccess(
@@ -56,7 +61,9 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
                     callback.onResult(pageData.rows, page)
                 },
                 completeDo = { isOk ->
-                    if (!isOk) page.prevPage()
+                    if (!isOk) {
+                        page.prevPage()
+                    }
                 }
             )
         }

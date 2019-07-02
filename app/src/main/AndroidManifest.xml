@@ -3,18 +3,14 @@
           package="com.example.androidx_example">
     <!-- 应用需要使用网络 -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 读取&写入本地存储卡 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 读取&写入本地存储卡 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- 媒体播放器需要屏幕常亮 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <!-- 小窗口权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 媒体播放器需要屏幕常亮 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!-- 小窗口权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>
-
-    <!-- 使用摄像头 -->
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/> <!-- 使用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -39,14 +35,16 @@
         </activity>
         <activity android:name=".MainActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"/>-->
+        <!-- android:configChanges="orientation|keyboardHidden|screenSize"/> -->
+        <activity android:name=".SettingsActivity"/>
         <provider
-                android:authorities="com.example.cool1024.file"
                 android:name="androidx.core.content.FileProvider"
-                android:grantUriPermissions="true"
-                android:exported="false">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                       android:resource="@xml/paths"/>
+                android:authorities="com.example.cool1024.file"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/paths"/>
         </provider>
     </application>
 

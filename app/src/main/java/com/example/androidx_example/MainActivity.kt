@@ -1,16 +1,12 @@
 package com.example.androidx_example
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.TimeLock
-import com.example.androidx_example.until.shareImage
 import com.example.androidx_example.until.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_tool_bar.*
@@ -58,19 +54,23 @@ class MainActivity : BaseActivity() {
                     R.id.userCenterFragment,
                     R.id.playerFragment
                 )
+
+                // 设置toolbar显示/隐藏
+                if (showMainToolBar) {
+                    app_toolbar.visibility = View.VISIBLE
+                    setUpActionBar(app_toolbar, this)
+                } else app_toolbar.visibility = View.GONE
+
+                // 设置底部导航显示/隐藏
                 if (!canBack) {
                     navigation_side.setCheckedItem(destination.id)
                     main_bottom_navigation.visibility = View.VISIBLE
                     main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+
                 } else {
                     main_bottom_navigation.visibility = View.GONE
                     main_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 }
-                // 设置toolbar显示/隐藏
-                if (showMainToolBar) {
-                    app_toolbar.visibility = View.VISIBLE
-                    setUpActionBar(app_toolbar, nav_host.findNavController())
-                } else app_toolbar.visibility = View.GONE
             }
         }
         main_bottom_navigation.setupWithNavController(navCtrl)
@@ -78,16 +78,6 @@ class MainActivity : BaseActivity() {
             setupWithNavController(navCtrl)
             itemIconTintList = null
         }
+        app_toolbar.setupWithNavController(navCtrl)
     }
-
-//    private fun initActionBar() {
-//        setSupportActionBar(app_toolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
-//        val toggle = ActionBarDrawerToggle(
-//            this, main_drawer, app_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-//        )
-//        app_toolbar.setupWithNavController(nav_host.findNavController())
-//        main_drawer.addDrawerListener(toggle)
-//        toggle.syncState()
-//    }
 }

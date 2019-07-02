@@ -1,0 +1,38 @@
+<androidx.preference.PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:title="@string/setting_play">
+
+        <ListPreference
+                app:key="setting_play_decode_method"
+                app:title="@string/setting_play_decode_method"
+                app:entries="@array/decode_entries"
+                app:entryValues="@array/decode_values"
+                app:defaultValue="hardware"
+                app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:title="@string/setting_message_title">
+
+        <SwitchPreferenceCompat
+                app:key="message_allow"
+                app:title="@string/setting_message_allow"/>
+
+        <SwitchPreferenceCompat
+                app:key="message_allow_call"
+                app:dependency="message_allow"
+                app:title="@string/setting_message_allow_call"
+                app:summary="@string/setting_message_allow_call_subject"/>
+
+        <SwitchPreferenceCompat
+                app:key="setting_message_allow_notify"
+                app:dependency="message_allow"
+                app:title="@string/setting_message_allow_notify"
+                app:summary="@string/setting_message_allow_notify_subject"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

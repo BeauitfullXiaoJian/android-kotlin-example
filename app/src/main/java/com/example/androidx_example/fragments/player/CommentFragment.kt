@@ -24,29 +24,34 @@ class CommentFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = CommentAdapter(context!!)
-        comment_recycler_view.layoutManager = LinearLayoutManager(context)
-        comment_recycler_view.adapter = adapter
-        comment_recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val layoutManager = (recyclerView.layoutManager as LinearLayoutManager)
-                val count = layoutManager.itemCount
-                val nowShowIndex = layoutManager.findLastVisibleItemPosition()
-                val offsetNum = 1
-                if (count <= (nowShowIndex + offsetNum) && page.canLoadNext) {
-                    page.nextPage()
-                    viewModel.loadVideoComment(page)
+        val commentAdapter = CommentAdapter(context!!)
+        comment_recycler_view.apply {
+            isActivated = false
+            layoutManager = LinearLayoutManager(context)
+            adapter = commentAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val layoutManager = (recyclerView.layoutManager as LinearLayoutManager)
+                    val count = layoutManager.itemCount
+                    val nowShowIndex = layoutManager.findLastVisibleItemPosition()
+                    val offsetNum = 1
+                    if (count <= (nowShowIndex + offsetNum) && page.canLoadNext) {
+                        page.nextPage()
+                        viewModel.loadVideoComment(page)
+                    }
                 }
-            }
-        })
+            })
+        }
+
         comment_swipe.setColorSchemeResources(R.color.colorPrimary)
         comment_swipe.setOnRefreshListener {
             page.resetPagination()
             viewModel.loadVideoComment(page)
         }
         viewModel.videoComment.observe(this, Observer {
-            adapter.commentList = it
-            adapter.notifyDataSetChanged()
+            comment_recycler_view.isActivated = it.isNotEmpty()
+            commentAdapter.commentList = it
+            commentAdapter.notifyDataSetChanged()
         })
         viewModel.videoCommentIsLoading.observe(this, Observer {
             comment_swipe.isRefreshing = it

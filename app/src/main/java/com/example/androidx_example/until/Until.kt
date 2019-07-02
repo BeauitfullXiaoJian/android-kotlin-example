@@ -27,6 +27,7 @@ import com.example.androidx_example.entity.ApiSaveData
 import com.example.androidx_example.until.api.HttpRequest
 import io.reactivex.disposables.Disposable
 import java.io.File
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -233,6 +234,14 @@ fun shareImage(context: Context, bitmap: Bitmap) {
         putExtra(Intent.EXTRA_STREAM, getTempBitmapUri(context, bitmap))
     }
     context.startActivity(Intent.createChooser(intent, "图片分享到"));
+}
+
+fun getTempSaveFileOutputStream(context: Context, suffix: String): OutputStream {
+    val saveFile = File(
+        context.getExternalFilesDir(null),
+        getFileNameStrByTime(suffix)
+    )
+    return saveFile.outputStream()
 }
 
 fun getTempBitmapUri(context: Context, bitmap: Bitmap): Uri {

@@ -12,6 +12,7 @@
             android:layout_height="@dimen/actionbar_height"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/padding_lg"
-            android:theme="@style/ActionBarStyle"/>
+            android:theme="@style/ActionBarStyle"
+            android:background="@drawable/bg_toolbar"/>
 
 </com.google.android.material.appbar.AppBarLayout>

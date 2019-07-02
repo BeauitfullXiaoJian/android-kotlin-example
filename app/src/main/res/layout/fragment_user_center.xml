@@ -133,7 +133,7 @@
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/center_toolbar"
+                    android:id="@+id/user_center_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionbar_height"
                     android:theme="@style/ActionBarStyle"
