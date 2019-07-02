@@ -172,6 +172,14 @@ public class CameraFragment extends BaseFragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mCameraCaptureSession != null) mCameraCaptureSession.close();
+        if (mImageReader != null) mImageReader.close();
+        closeCamera();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -200,11 +208,15 @@ public class CameraFragment extends BaseFragment {
                     return;
                 }
                 // 创建一个用于读取拍照数据的ImageReader
+                if (mImageReader != null) {
+                    mImageReader.close();
+                }
                 mImageReader = ImageReader.newInstance(
                         mJpegSize.getWidth(),
                         mJpegSize.getHeight(),
                         ImageFormat.JPEG,
                         1);
+
                 // 设置显示视图尺寸 如 4160x3120
                 mLivePreviewView.setCameraSize(new Size(mCameraSize.getHeight(), mCameraSize.getWidth()));
                 // 打开摄像头
@@ -301,30 +313,6 @@ public class CameraFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
-
-//    private void recoveryPreview() {
-//        try {
-//            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-//                    CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-//            mCameraCaptureSession.capture(mPreviewRequestBuilder.build(), mCC, null);
-//        } catch (CameraAccessException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    private void captureStillPicture() {
-//        try {
-//            CaptureRequest.Builder captureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-//            captureBuilder.addTarget(mImageReader.getSurface());
-//            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-//                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-//            mCameraCaptureSession.stopRepeating();
-//            mCameraCaptureSession.abortCaptures();
-//            // mCameraCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
-//        } catch (CameraAccessException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 关闭相机
@@ -431,12 +419,4 @@ public class CameraFragment extends BaseFragment {
                         (long) rhs.getWidth() * rhs.getHeight())
         );
     }
-
-//    private int getOrientation(int rotation) {
-//        // Sensor orientation is 90 for most devices, or 270 for some devices (eg. Nexus 5X)
-//        // We have to take that into account and rotate JPEG properly.
-//        // For devices with orientation of 90, we simply return our mapping from ORIENTATIONS.
-//        // For devices with orientation of 270, we need to rotate the JPEG 180 degrees.
-//        return (ORIENTATIONS.get(rotation) + mSensorOrientation + 270) % 360;
-//    }
 }
