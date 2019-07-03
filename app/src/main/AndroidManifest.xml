@@ -37,6 +37,7 @@
                   android:theme="@style/AppTheme.NoActionBar"/>
         <!-- android:configChanges="orientation|keyboardHidden|screenSize"/> -->
         <activity android:name=".SettingsActivity"/>
+        <service android:name=".services.MusicService" android:exported="false"/>
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.example.cool1024.file"

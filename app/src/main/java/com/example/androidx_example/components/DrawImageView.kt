@@ -6,7 +6,8 @@ import android.util.AttributeSet
 import android.util.Size
 import android.view.*
 import android.widget.ImageView
-import com.example.androidx_example.fragments.player.PlayerView
+import androidx.dynamicanimation.animation.FlingAnimation
+import androidx.dynamicanimation.animation.FloatValueHolder
 import com.example.androidx_example.until.debugInfo
 
 /**
@@ -19,14 +20,14 @@ class DrawImageView : ImageView {
 
 
     var activeColor: Int = 0
-    var activeDrawLineData: DrawLineData? = null
     var drawBitmap: Bitmap? = null
         set(value) {
             drawBitmap?.recycle()
             field = value
             invalidate()
         }
-    var drawLineRows = arrayListOf<DrawLineData>()
+    private var activeDrawLineData: DrawLineData? = null
+    private var drawLineRows = arrayListOf<DrawLineData>()
     private val drawMatrix = Matrix()
     private var fitSize = Size(0, 0)
     private var fitPoint = PointF()
@@ -73,6 +74,7 @@ class DrawImageView : ImageView {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        super.onTouchEvent(event)
 
         // 获取坐标
         val x = event.x
@@ -125,20 +127,28 @@ class DrawImageView : ImageView {
 
 
             override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-//                debugInfo("你到底动不动啊", velocityX.toString())
-//                val saveValue = getMatrixPoint(matrix)
-//                val targetX = saveValue.x + (if (velocityX > 0) 1 else -1) * 100
-//                val fling = FlingAnimation(FloatValueHolder())
-//                fling.addUpdateListener { _, value, _ ->
-//                    drawMatrix.postTranslate(value, 0f)
-//                    invalidate()
-//                }
-//                fling.setStartVelocity(velocityX)
-//                    .setStartValue(saveValue.x)
-//                    .setFriction(1.5f)
-//                    .setMinValue(Math.min(saveValue.x, targetX))
-//                    .setMaxValue(Math.max(saveValue.x, targetX))
-//                    .start()
+                debugInfo("我的坐标", velocityX.toString())
+                val flingX = FlingAnimation(FloatValueHolder())
+                val flingY = FlingAnimation(FloatValueHolder())
+                var beforeValueX = 0f
+                var beforeValueY = 0f
+                // val vX = Math.max(velocityX, if (velocityX > 0) 1000f else -1000f)
+                // val vY = Math.max(velocityY, if (velocityY > 0) 1000f else -1000f)
+                flingX.addUpdateListener { _, value, _ ->
+                    drawMatrix.postTranslate(value - beforeValueX, 0f)
+                    beforeValueX = value
+                    invalidate()
+                }
+                flingY.addUpdateListener { _, value, _ ->
+                    drawMatrix.postTranslate(0f, value - beforeValueY)
+                    beforeValueY = value
+                }
+                flingX.setStartVelocity(velocityX)
+                    .setFriction(1.8f)
+                    .start()
+                flingY.setStartVelocity(velocityY)
+                    .setFriction(1.8f)
+                    .start()
                 return true
             }
         })
