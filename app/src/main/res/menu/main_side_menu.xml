@@ -4,7 +4,7 @@
       android:checkableBehavior="single"
       tools:showIn="navigation">
     <group android:id="@+id/dev_group">
-        <item android:id="@+id/loginFragment"
+        <item android:id="@+id/chatFragment"
               android:checkable="true"
               android:icon="@drawable/ic_banner"
               android:title="@string/login"/>

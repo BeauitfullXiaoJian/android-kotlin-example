@@ -107,6 +107,7 @@ class UserCenterFragment : BaseFragment() {
         mMusicConnection?.also {
             it.binder?.removePlayerView()
             context?.unbindService(it)
+            mMusicConnection = null
         }
     }
 

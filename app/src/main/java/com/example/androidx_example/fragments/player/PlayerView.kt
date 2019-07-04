@@ -9,8 +9,14 @@ import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import android.widget.RelativeLayout
+import androidx.annotation.MainThread
 import com.example.androidx_example.until.debugInfo
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.util.concurrent.TimeUnit
 
 class PlayerView : TextureView {
 
@@ -36,8 +42,13 @@ class PlayerView : TextureView {
      */
     val isPlaying get() = mPlayer?.isPlaying ?: false
     private var stateChangeFun: ((state: PlayState, isLoading: Boolean) -> Unit)? = null
-    private var bufferChangeFun: ((current: Long, cached: Int, total: Long) -> Unit)? = null
+    private var bufferChangeFun: ((cached: Long, total: Long) -> Unit)? = null
+    private var positionChangeFunc: ((position: Long, total: Long) -> Unit)? = null
     private var playUrl = ""
+
+    // 定时器，观察对象，订阅对象
+    private val intervalObs by lazy { Observable.interval(1, TimeUnit.SECONDS) }
+    private var intervalDisposable: Disposable? = null
 
     var currentPlayState = PlayState.DEFAULT
         private set(value) {
@@ -64,6 +75,7 @@ class PlayerView : TextureView {
             override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {}
             override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {}
             override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+                debugInfo("修改了")
                 releasePlayer()
                 return true
             }
@@ -107,8 +119,7 @@ class PlayerView : TextureView {
                 // 缓冲更新
                 setOnBufferingUpdateListener { player, cached ->
                     bufferChangeFun?.invoke(
-                        player.currentPosition,
-                        cached,
+                        player.currentPosition + cached,
                         player.duration
                     )
                 }
@@ -130,6 +141,13 @@ class PlayerView : TextureView {
                     return@setOnInfoListener false
                 }
             }
+            intervalDisposable = intervalObs
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if (isPlaying) {
+                        positionChangeFunc?.invoke(mPlayer!!.currentPosition, mPlayer!!.duration)
+                    }
+                }
         }
     }
 
@@ -151,6 +169,7 @@ class PlayerView : TextureView {
             release()
         }
         mPlayer = null
+        intervalDisposable?.dispose()
         debugInfo("销毁播放器")
     }
 
@@ -180,10 +199,21 @@ class PlayerView : TextureView {
                     e.printStackTrace()
                 }
             } else {
+                start()
                 this@PlayerView.currentPlayState = PlayState.PLAYING
                 this@PlayerView.savePlayState = PlayState.PLAYING
-                start()
             }
+        }
+    }
+
+    /**
+     * 恢复播放
+     */
+    fun resumePlay(){
+        mPlayer?.apply {
+            start()
+            currentPlayState = PlayState.PLAYING
+            savePlayState = PlayState.PLAYING
         }
     }
 
@@ -192,11 +222,9 @@ class PlayerView : TextureView {
      */
     fun pausePlay() {
         mPlayer?.apply {
-            if (isPlaying) {
-                pause()
-                currentPlayState = PlayState.PLAY_PAUSE
-                savePlayState = PlayState.PLAY_PAUSE
-            }
+            pause()
+            currentPlayState = PlayState.PLAY_PAUSE
+            savePlayState = PlayState.PLAY_PAUSE
         }
     }
 
@@ -225,8 +253,15 @@ class PlayerView : TextureView {
     /**
      * 设置缓冲变更监听方法
      */
-    fun setBufferUpdateListener(listener: (current: Long, cached: Int, total: Long) -> Unit) {
+    fun setBufferUpdateListener(listener: (cached: Long, total: Long) -> Unit) {
         bufferChangeFun = listener
+    }
+
+    /**
+     * 设置播放进度变更监听方法
+     */
+    fun setPlayPositionUpdateListener(listener: (position: Long, duration: Long) -> Unit) {
+        positionChangeFunc = listener
     }
 
     /**

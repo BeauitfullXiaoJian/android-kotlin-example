@@ -19,6 +19,7 @@ class PlayerFragment : BaseFragment() {
 
     private val args by navArgs<PlayerFragmentArgs>()
     private var recoverySeekValue = 0
+    private var resumePlayState = PlayerView.PlayState.PLAYING
     private val viewModel by lazy {
         fragmentViewModel(PlayerViewModel::class.java).apply { videoId = args.id }
     }
@@ -41,8 +42,17 @@ class PlayerFragment : BaseFragment() {
         outState.putInt("progress", play_seek_bar.progress)
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onPause() {
+        super.onPause()
+        resumePlayState = player_ctr_view.playerView?.currentPlayState ?: PlayerView.PlayState.PLAY_PAUSE
+        player_ctr_view?.pausePlay()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (resumePlayState == PlayerView.PlayState.PLAYING) {
+            player_ctr_view.resumePlay()
+        }
     }
 
     override fun onBackPressed(): Boolean {
@@ -68,6 +78,8 @@ class PlayerFragment : BaseFragment() {
         player_ctr_view.seekBar = play_seek_bar
         player_ctr_view.playTimeText = play_time
         player_ctr_view.playBtn = btn_play
+        player_ctr_view.ctrlView = play_control
+        player_ctr_view.appBarLayoutView = app_bar_layout
         btn_fullscreen?.setOnClickListener {
             activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }

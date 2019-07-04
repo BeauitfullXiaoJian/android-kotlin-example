@@ -13,25 +13,27 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.Subject
 import okhttp3.EventListener
+import okio.ByteString
 import java.io.IOException
-import java.io.InputStream
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Proxy
+import java.util.concurrent.TimeUnit
 
 /**
  * Request config param name
  */
 const val REQUEST_HOST = "REQUEST_HOST"
+const val WEB_SOCKET_HOST = "WEB_SOCKET_HOST"
 const val REQUEST_TIMEOUT = "REQUEST_TIMEOUT"
 
 /**
  * Request config default value
  */
 const val REQUEST_DEFAULT_HOST = ""
-const val REQUEST_DEFAULT_TIME_OUT = "5000"
+const val WEB_SOCKET_DEFAULT_HOST = ""
+const val REQUEST_DEFAULT_TIME_OUT = "10"
 
 /**
  * Error  message string
@@ -50,9 +52,8 @@ const val CODE_403 = 403
 const val CODE_422 = 422
 const val CODE_500 = 500
 const val CODE_SUCCESS = CODE_200
-// const val CODE_ERROR = CODE_500
+const val CODE_ERROR = CODE_500
 const val HTTP_CODE_UNKNOWN_MESSAGE = "其它错误"
-const val DOWNLOAD_ERROR = -1
 
 val HTTP_CODE_MESSAGES = mapOf(
     CODE_200 to "请求成功",
@@ -84,6 +85,10 @@ class HttpRequest {
                         REQUEST_HOST,
                         REQUEST_DEFAULT_HOST
                     ),
+                    webSocketHost = properties.getProperty(
+                        WEB_SOCKET_HOST,
+                        WEB_SOCKET_DEFAULT_HOST
+                    ),
                     requestTimeout = properties.getProperty(
                         REQUEST_TIMEOUT,
                         REQUEST_DEFAULT_TIME_OUT
@@ -113,9 +118,48 @@ class HttpRequest {
                 .execute()
         }
 
+        fun webSocket(
+            authToken: String,
+            protocol: String,
+            messageCallbackFun: (type: WebSocketContentType, content: String) -> Unit
+        ): WebSocket {
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(config!!.requestTimeout.toLong(), TimeUnit.SECONDS)
+                // .pingInterval(2, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build()
+            val request = Request.Builder()
+                .addHeader("Sec-WebSocket-Protocol", protocol)
+                .url("${config!!.webSocketHost}\\token=$authToken")
+                .build()
+            return okHttpClient.newWebSocket(request, object : WebSocketListener() {
+                override fun onOpen(webSocket: WebSocket, response: Response) =
+                    messageCallbackFun(WebSocketContentType.OPEN_MESSAGE, response.message())
+
+                override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) =
+                    messageCallbackFun(WebSocketContentType.ERROR_MESSAGE, t.toString())
+
+                override fun onClosed(webSocket: WebSocket, code: Int, reason: String) =
+                    messageCallbackFun(WebSocketContentType.CLOSE_MESSAGE, reason)
+
+                override fun onMessage(webSocket: WebSocket, text: String) =
+                    messageCallbackFun(WebSocketContentType.MESSAGE, text)
+
+                override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+                    super.onMessage(webSocket, bytes)
+                }
+
+                override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+                    super.onClosing(webSocket, code, reason)
+                }
+            })
+            okHttpClient.dispatcher().executorService().shutdown()
+        }
+
         private fun getInstance(): OkHttpClient {
             // CacheControl.Builder().onlyIfCached().build()
             return instance ?: OkHttpClient.Builder()
+                .connectTimeout(config!!.requestTimeout.toLong(), TimeUnit.SECONDS)
                 .eventListener(RequestDebugListener())
                 .addInterceptor(RequestInterceptor())
                 .build()
@@ -178,8 +222,16 @@ class HttpRequest {
         }
     }
 
+    enum class WebSocketContentType {
+        MESSAGE,
+        OPEN_MESSAGE,
+        CLOSE_MESSAGE,
+        ERROR_MESSAGE
+    }
+
     data class HttpConfig(
         val requestHost: String,
+        var webSocketHost: String,
         val requestTimeout: Int
     )
 

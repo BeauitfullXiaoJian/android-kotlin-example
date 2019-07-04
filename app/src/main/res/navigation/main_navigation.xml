@@ -54,5 +54,7 @@
     </fragment>
     <activity android:id="@+id/settingsActivity" android:name="com.example.androidx_example.SettingsActivity"
               android:label="用户设置"/>
+    <fragment android:id="@+id/chatFragment" android:name="com.example.androidx_example.fragments.chat.ChatFragment"
+              android:label="聊天" tools:layout="@layout/fragment_chat"/>
 
 </navigation>

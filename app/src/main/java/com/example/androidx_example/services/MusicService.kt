@@ -246,10 +246,10 @@ class MusicService : LifecycleService() {
                         if (state == PlayState.PLAYING) playIcon.isActivated = true
                         if (state == PlayState.PAUSE) playIcon.isActivated = false
                     })
-                    service.mLoadedLiveData.observe(service, Observer { loaded ->
-                        // progressView.currentValue = loaded
-                        // progressView.maxValue = 100
-                    })
+                    // service.mLoadedLiveData.observe(service, Observer { loaded ->
+                    // progressView.currentValue = loaded
+                    // progressView.maxValue = 100
+                    // })
                     service.mPositionLiveData.observe(service, Observer { position ->
                         progressView.currentValue = position
                         progressView.maxValue = service.mMediaPlayer.duration

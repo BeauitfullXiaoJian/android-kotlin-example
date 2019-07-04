@@ -14,6 +14,12 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.*
 import com.example.androidx_example.data.Video
 import com.example.androidx_example.until.debugInfo
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 class PlayerCtrlView : RelativeLayout {
 
@@ -23,6 +29,11 @@ class PlayerCtrlView : RelativeLayout {
     private var windowManager: WindowManager? = null
     private var isSeeking = false
     private var playUrl = ""
+    private val ctrlHideObserver = Observable.timer(3, TimeUnit.SECONDS)
+    private var ctrlHideDispose: Disposable? = null
+
+    var appBarLayoutView: CollapsingToolbarLayout? = null
+    var ctrlView: View? = null
     var playerView: PlayerView? = null
     var playerImageView: ImageView? = null
     var progressBar: ProgressBar? = null
@@ -60,16 +71,30 @@ class PlayerCtrlView : RelativeLayout {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+
         val actionPointMinNum = when (displayMode) {
             DisplayMode.DEFAULT -> 3
             DisplayMode.TINY_WINDOW, DisplayMode.IN_ACTIVITY -> 1
         }
+
+        // 每次按下都重新订阅隐藏对象
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            subHideObs()
+        }
+
+        // 横屏才允许拖动
+        if (actionPointMinNum == 3 && !checkLandScreen(resources)) {
+            return super.onTouchEvent(event)
+        }
+
+        // 每次拖动结束后恢复位置
+        if (event.action == MotionEvent.ACTION_UP) {
+            fixPlayViewPosition()
+        }
+
         if (event.pointerCount >= actionPointMinNum) {
             scaleGestureDetector?.onTouchEvent(event)
             moveGestureDetector?.onTouchEvent(event)
-        }
-        if (event.action == MotionEvent.ACTION_UP) {
-            fixPlayViewPosition()
         }
         return super.onTouchEvent(event)
     }
@@ -128,6 +153,8 @@ class PlayerCtrlView : RelativeLayout {
                 return true
             }
         })
+        // 订阅设置播放控件隐藏
+        subHideObs()
     }
 
     /**
@@ -151,6 +178,13 @@ class PlayerCtrlView : RelativeLayout {
     }
 
     /**
+     * 恢复播放器
+     */
+    fun resumePlay() {
+        playerView?.resumePlay()
+    }
+
+    /**
      * 播放指定视频对象
      */
     fun preparePlayer(video: Video) {
@@ -167,11 +201,14 @@ class PlayerCtrlView : RelativeLayout {
                     setViewToComplete()
                 }
             }
-            setBufferUpdateListener { current, cached, total ->
+            setBufferUpdateListener { cached, total ->
                 if (!isSeeking) {
-                    updatePlaySeekBar(current, cached, total)
-                    updatePlayTimeText(current, total)
+                    updateCacheSeekBar(cached, total)
                 }
+            }
+            setPlayPositionUpdateListener { position, duration ->
+                updatePlaySeekBar(position, duration)
+                updatePlayTimeText(position, duration)
             }
         }
         seekBar?.apply {
@@ -204,6 +241,13 @@ class PlayerCtrlView : RelativeLayout {
                 }
             }
         }
+    }
+
+    /**
+     * 暂停播放器
+     */
+    fun pausePlay() {
+        playerView?.pausePlay()
     }
 
     /**
@@ -282,11 +326,23 @@ class PlayerCtrlView : RelativeLayout {
         progressBar?.visibility = View.GONE
         playerImageView?.visibility = View.GONE
         playBtn?.isSelected = true
+        appBarLayoutView?.also {
+            val lp = it.layoutParams as AppBarLayout.LayoutParams
+            lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+            it.layoutParams = lp
+        }
     }
 
     private fun setViewToPause() {
         debugInfo("视图暂停")
         playBtn?.isSelected = false
+        appBarLayoutView?.also {
+            val lp = it.layoutParams as AppBarLayout.LayoutParams
+            lp.scrollFlags = 0
+            it.layoutParams = lp
+        }
     }
 
     private fun setViewToLoading() {
@@ -310,10 +366,27 @@ class PlayerCtrlView : RelativeLayout {
     /**
      * 更新播放器播放进度显示
      */
-    private fun updatePlaySeekBar(current: Long, cached: Int, total: Long) {
+    private fun updatePlaySeekBar(current: Long, total: Long) {
         seekBar?.max = total.toInt()
         seekBar?.progress = current.toInt()
-        seekBar?.secondaryProgress = (current + cached).toInt()
+    }
+
+    /**
+     * 更新缓存进度显示
+     */
+    private fun updateCacheSeekBar(cached: Long, total: Long) {
+        seekBar?.max = total.toInt()
+        seekBar?.secondaryProgress = cached.toInt()
+    }
+
+    private fun subHideObs() {
+        debugInfo("重设。。。。")
+        ctrlView?.visibility = View.VISIBLE
+        ctrlHideDispose?.dispose()
+        ctrlHideDispose = ctrlHideObserver.observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                ctrlView?.visibility = View.INVISIBLE
+            }
     }
 
     enum class DisplayMode {
