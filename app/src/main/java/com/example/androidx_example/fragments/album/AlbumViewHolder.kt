@@ -14,8 +14,8 @@ class AlbumViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     companion object {
         fun create(parentView: ViewGroup): AlbumViewHolder {
-            LayoutInflater.from(parentView.context).inflate(R.layout.photo_item, parentView, true)
-            return AlbumViewHolder(parentView)
+            val view = LayoutInflater.from(parentView.context).inflate(R.layout.photo_item, parentView, false)
+            return AlbumViewHolder(view)
         }
     }
 }

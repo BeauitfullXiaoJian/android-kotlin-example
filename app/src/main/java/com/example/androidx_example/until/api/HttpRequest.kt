@@ -125,7 +125,7 @@ class HttpRequest {
         ): WebSocket {
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(config!!.requestTimeout.toLong(), TimeUnit.SECONDS)
-                // .pingInterval(2, TimeUnit.SECONDS)
+                .pingInterval(config!!.requestTimeout.toLong(), TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build()
             val request = Request.Builder()
@@ -153,7 +153,6 @@ class HttpRequest {
                     super.onClosing(webSocket, code, reason)
                 }
             })
-            okHttpClient.dispatcher().executorService().shutdown()
         }
 
         private fun getInstance(): OkHttpClient {

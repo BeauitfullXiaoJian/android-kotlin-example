@@ -9,14 +9,14 @@ import android.graphics.PointF
 import android.util.Size
 import androidx.core.animation.doOnEnd
 
-// 动画默认执行时间300ms
-const val ANIMATION_TIME: Long = 300
-
 /**
  * 给视图加上动画的工具类
  */
 class AnimateUntil {
     companion object {
+
+        // 动画默认执行时间300ms
+        private const val ANIMATION_TIME: Long = 300
 
         /**
          * 获取矩阵中的位置坐标（x，y)

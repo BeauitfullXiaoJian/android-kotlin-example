@@ -69,8 +69,8 @@ open class BaseFragment : Fragment() {
         com.example.androidx_example.until.showToast(message, activity as Activity)
     }
 
-    fun debugLog(message: String) {
-        Log.d(this.javaClass.name, message)
+    fun debugLog(vararg messages: String) {
+        Log.d(this.javaClass.name, messages.joinToString(","))
     }
 
     open fun onBackPressed() = true

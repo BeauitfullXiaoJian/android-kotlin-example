@@ -7,6 +7,7 @@
         tools:context=".fragments.chat.ChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -14,8 +15,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"/>
 
-    <include layout="@layout/chat_item_self"/>
-    <include layout="@layout/chat_item_friend"/>
+    <!--<include layout="@layout/chat_item_self"/>-->
+    <!--<include layout="@layout/chat_item_friend"/>-->
 
     <LinearLayout
             android:id="@+id/linearLayout"
