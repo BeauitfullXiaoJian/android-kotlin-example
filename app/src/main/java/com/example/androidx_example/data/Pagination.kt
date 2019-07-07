@@ -1,15 +1,19 @@
-package com.example.androidx_example.until.api
+package com.example.androidx_example.data
 
 class Pagination {
 
     // 当前页码，0为启始页
-    private var currentPageNum = 0
+    var currentPageNum = START_PAGE
+        private set
     // 数据总量（服务端提供）
-    private var total = 0
+    var total = 0
+        private set
     // 分页对象是否已经处于活跃状态
     private var isActive = false
+    // 当前是否正在加载数据
+    var isLoading = false
     // 每页数据量
-    var limit = 10
+    var limit = DEFAULT_PAGE_SIZE
     // 最大页码
     val maxPage get() = Math.ceil(total / limit.toDouble())
     // 偏移量
@@ -19,7 +23,11 @@ class Pagination {
     // 是否有下一页
     val hasNext get() = currentPageNum < maxPage
     // 是否有上一页
-    val hasPrev get() = currentPageNum > 0
+    val hasPrev get() = currentPageNum > START_PAGE
+    // 是否可以加载上一页
+    val canLoadPrev get() = hasPrev && !isLoading
+    // 是否可以加载下一页
+    val canLoadNext get() = hasNext && !isLoading
     // 分页参数
     val pageParams
         get() = hashMapOf<String, Any>(
@@ -47,12 +55,15 @@ class Pagination {
     }
 
     fun resetPagination() {
-        currentPageNum = 0
+        isLoading = false
+        currentPageNum = START_PAGE
         total = 0
         isActive = false
     }
 
     companion object {
+        const val DEFAULT_PAGE_SIZE = 10
+        const val START_PAGE = 0
         fun create(limit: Int): Pagination {
             val page = Pagination()
             page.limit = limit

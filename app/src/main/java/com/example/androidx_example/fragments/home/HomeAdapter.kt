@@ -20,6 +20,6 @@ class HomeAdapter(private val parentFragment: BaseFragment) : ListAdapter<Video,
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val video = getItem(position)
-        holder.bind(video)
+        holder.bind(video, position)
     }
 }

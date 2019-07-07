@@ -18,7 +18,6 @@ import com.example.androidx_example.data.Video
 import com.example.androidx_example.databinding.VideoPopupWindowBinding
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.AnimateUntil
-import com.example.androidx_example.until.debugInfo
 
 class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video: Video) :
     PopupWindow(parentFragment.context) {
@@ -55,7 +54,7 @@ class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video:
         }
 
         parentFragment.createViewModel(HomeViewModel::class.java).apply {
-            getFeedbackLabels().observe(parentFragment, Observer { labels ->
+            feedbackLabels.observe(parentFragment, Observer { labels ->
                 (feedbackRecyclerView.adapter as FeedbackLabelAdapter).updateList(labels)
             })
         }
@@ -67,7 +66,7 @@ class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video:
         }
     }
 
-    class FeedbackLabelAdapter() : RecyclerView.Adapter<FeedbackLabelAdapter.ViewHolder>() {
+    class FeedbackLabelAdapter : RecyclerView.Adapter<FeedbackLabelAdapter.ViewHolder>() {
 
         private var labels = listOf<String>()
 

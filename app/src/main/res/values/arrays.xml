@@ -1,0 +1,12 @@
+<resources>
+    <!-- PlayDecode Preference -->
+    <string-array name="decode_entries">
+        <item>硬解播放</item>
+        <item>软解，偏重兼容</item>
+    </string-array>
+
+    <string-array name="decode_values">
+        <item>hardware</item>
+        <item>software</item>
+    </string-array>
+</resources>

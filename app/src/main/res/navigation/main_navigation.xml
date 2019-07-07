@@ -2,31 +2,59 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_navigation"
-            app:startDestination="@+id/homeFragment" android:label="home">
+            android:label="home" app:startDestination="@+id/homeFragment">
 
     <fragment android:id="@+id/homeFragment" android:name="com.example.androidx_example.fragments.home.HomeFragment"
-              android:label="home" tools:layout="@layout/fragment_home">
-        <action android:id="@+id/action_home_to_login" app:destination="@id/loginFragment"
-                app:enterAnim="@anim/nav_default_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"/>
-        <action android:id="@+id/action_home_to_player" app:destination="@id/playerFragment"/>
+              android:label="首页" tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_home_to_player" app:destination="@id/playerFragment"
+                app:enterAnim="@anim/popup_in"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
 
     <fragment android:id="@+id/loginFragment" android:name="com.example.androidx_example.fragments.LoginFragment"
-              android:label="login" tools:layout="@layout/fragment_login"/>
-    <fragment android:id="@+id/publicFragment" android:name="com.example.androidx_example.fragments.PublicFragment"
+              android:label="登录" tools:layout="@layout/fragment_login"/>
+    <fragment android:id="@+id/publicFragment" android:name="com.example.androidx_example.fragments.album.PublicFragment"
               android:label="public" tools:layout="@layout/fragment_public"/>
     <fragment android:id="@+id/userCenterFragment"
               android:name="com.example.androidx_example.fragments.UserCenterFragment"
-              android:label="user_center" tools:layout="@layout/fragment_user_center"/>
+              android:label="个人中心" tools:layout="@layout/fragment_user_center">
+        <action android:id="@+id/action_userCenterFragment_to_cameraFragment" app:destination="@id/cameraFragment"/>
+        <action android:id="@+id/action_userCenterFragment_to_devViewFragment"
+                app:destination="@id/devViewFragment"/>
+        <action android:id="@+id/action_userCenterFragment_to_settingsActivity" app:destination="@id/settingsActivity"/>
+    </fragment>
     <fragment android:id="@+id/webFragment" android:name="com.example.androidx_example.fragments.WebFragment"
-              android:label="web" tools:layout="@layout/fragment_web">
+              android:label="我的网站" tools:layout="@layout/fragment_web">
         <argument android:name="webUrl" app:argType="string" android:defaultValue="https://blog.cool1024.com"/>
     </fragment>
     <fragment android:id="@+id/playerFragment"
               android:name="com.example.androidx_example.fragments.player.PlayerFragment"
-              android:label="fragment_player" tools:layout="@layout/fragment_player">
+              android:label="视频播放" tools:layout="@layout/fragment_player">
         <argument android:name="id" app:argType="integer"/>
+        <action android:id="@+id/action_playerFragment_self" app:destination="@+id/playerFragment"
+                app:enterAnim="@anim/popup_in"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action android:id="@+id/action_playerFragment_to_userDetailFragment" app:destination="@id/userDetailFragment"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
+    <fragment android:id="@+id/userDetailFragment"
+              android:name="com.example.androidx_example.fragments.UserDetailFragment"
+              android:label="用户详情" tools:layout="@layout/fragment_user_detail">
+        <argument android:name="userData" app:argType="com.example.androidx_example.data.UpDetail"/>
+    </fragment>
+    <fragment android:id="@+id/cameraFragment" android:name="com.example.androidx_example.fragments.CameraFragment"
+              android:label="相机预览"/>
+    <fragment android:id="@+id/devViewFragment"
+              android:name="com.example.androidx_example.fragments.DevViewFragment"
+              android:label="视图测试">
+        <argument android:name="demoType" app:argType="com.example.androidx_example.fragments.DevViewFragment$DevDemoType"/>
+    </fragment>
+    <activity android:id="@+id/settingsActivity" android:name="com.example.androidx_example.SettingsActivity"
+              android:label="用户设置"/>
+    <fragment android:id="@+id/chatFragment" android:name="com.example.androidx_example.fragments.chat.ChatFragment"
+              android:label="聊天" tools:layout="@layout/fragment_chat"/>
 
 </navigation>

@@ -39,8 +39,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_lg"
             android:paddingEnd="@dimen/padding_lg">
         <EditText
@@ -100,6 +99,31 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/login_btn_height"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:paddingBottom="@dimen/padding_xl"
+                  android:orientation="horizontal"
+                  android:gravity="center|bottom">
+
+        <ImageView android:layout_width="@dimen/icon_xl"
+                   android:layout_height="@dimen/icon_xl"
+                   android:src="@drawable/ic_login_guide_danmu"
+                   android:layout_marginEnd="@dimen/margin_lg"/>
+        <ImageView android:layout_width="@dimen/icon_xl"
+                   android:layout_height="@dimen/icon_xl"
+                   android:src="@drawable/ic_login_guide_dingzhi"
+                   android:layout_marginEnd="@dimen/margin_lg"/>
+        <ImageView android:layout_width="@dimen/icon_xl"
+                   android:layout_height="@dimen/icon_xl"
+                   android:src="@drawable/ic_login_guide_huancun"
+                   android:layout_marginEnd="@dimen/margin_lg"/>
+        <ImageView android:layout_width="@dimen/icon_xl"
+                   android:layout_height="@dimen/icon_xl"
+                   android:src="@drawable/ic_login_guide_zhuifan"/>
+
     </LinearLayout>
 
 </LinearLayout>

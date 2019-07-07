@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:orientation="horizontal"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical">
+
+    <ImageView android:layout_width="60dp"
+               android:layout_height="60dp"
+               android:scaleType="centerCrop"
+               android:padding="@dimen/padding_sm"
+               android:src="@drawable/ic_avatar_0"/>
+
+    <TextView android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:singleLine="true"
+              android:textColor="@color/colorText"
+              android:ellipsize="marquee"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:text="歌曲名称"/>
+
+    <FrameLayout android:layout_width="60dp"
+                 android:layout_height="60dp">
+        <com.example.androidx_example.components.CircleProgressView
+                android:id="@+id/progress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/click_ripple_full_in_white"
+                android:focusable="true"
+                android:clickable="true"
+                android:layout_gravity="center"/>
+        <ImageView android:id="@+id/icon"
+                   android:layout_width="@dimen/icon_sm"
+                   android:layout_height="@dimen/icon_sm"
+                   android:layout_gravity="center"
+                   android:scaleType="centerCrop"
+                   android:contentDescription="@string/play"
+                   android:src="@drawable/ic_music_play"/>
+    </FrameLayout>
+
+</LinearLayout>

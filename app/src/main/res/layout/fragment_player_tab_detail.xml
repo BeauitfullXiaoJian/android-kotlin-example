@@ -1,9 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:text="@string/detail"
-              android:gravity="center"/>
-</FrameLayout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".fragments.player.DetailFragment">
+    <data>
+        <variable name="video" type="com.example.androidx_example.data.Video"/>
+        <variable name="up" type="com.example.androidx_example.data.UpDetail"/>
+    </data>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/detail_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    tools:context=".fragments.FlvFragments.FlvDetailFragment">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:orientation="vertical">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_lg">
+
+                        <ImageView
+                                android:id="@+id/flv_up_avatar"
+                                android:layout_width="@dimen/avatar_size_md"
+                                android:layout_height="@dimen/avatar_size_md"
+                                android:contentDescription="@string/avatar"
+                                tools:srcCompat="@tools:sample/avatars"
+                                app:glideUrl="@{up.avatarImageUrl}"/>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/margin_lg"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:id="@+id/flv_up"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="3dp"
+                                    android:text="@{up.nickName}"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/font_xl"/>
+
+                            <TextView
+                                    android:id="@+id/flv_up_fans"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="@dimen/font_lg"
+                                    app:numToText="@{up.fansNum}"
+                                    app:numLabel="@{@string/fans}"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/click_ripple_active"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingStart="@dimen/padding_lg"
+                                android:paddingTop="@dimen/padding_sm"
+                                android:paddingEnd="@dimen/padding_lg"
+                                android:paddingBottom="@dimen/padding_sm">
+
+                            <ImageView
+                                    android:layout_width="@dimen/icon_sm"
+                                    android:layout_height="@dimen/icon_sm"
+                                    android:contentDescription="@string/focus"
+                                    android:src="@drawable/ic_focus_white"/>
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/focus"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/font_md"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_lg"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/flv_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/margin_lg"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="@{video.videoTitle}"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/font_xl"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_lg"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                        <ImageView
+                                android:layout_width="@dimen/icon_sm"
+                                android:layout_height="@dimen/icon_sm"
+                                android:layout_marginEnd="@dimen/margin_sm"
+                                android:contentDescription="@string/browse"
+                                android:src="@drawable/ic_play_count_default"/>
+
+                        <TextView
+                                android:id="@+id/flv_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.viewNum}"
+                                app:numLabel="@{@string/browse}"/>
+
+                        <ImageView
+                                android:layout_width="@dimen/icon_sm"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/margin_lg"
+                                android:layout_marginEnd="@dimen/margin_sm"
+                                android:contentDescription="@string/comment"
+                                android:src="@drawable/ic_comment_default"/>
+
+                        <TextView
+                                android:id="@+id/flv_comment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.commentNum}"
+                                app:numLabel="@{@string/comment}"/>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_lg"
+                                android:text="@{video.uploadAt,default = @string/video_upload_time}"
+                                android:textSize="@dimen/font_md"/>
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_lg"
+                                android:textSize="@dimen/font_md"
+                                android:text="@{`av` + video.id}"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_lg"
+                        android:layout_marginBottom="@dimen/margin_lg"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                    <!-- 顶 -->
+                    <LinearLayout
+                            android:id="@+id/btn_like"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:contentDescription="@string/like"
+                                android:src="@drawable/ic_like"/>
+
+                        <TextView
+                                android:id="@+id/like_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.likeNum}"/>
+                    </LinearLayout>
+
+                    <!-- 踩 -->
+                    <LinearLayout
+                            android:id="@+id/btn_dislike"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:contentDescription="@string/dislike"
+                                android:src="@drawable/ic_dislike"/>
+                        <TextView
+                                android:id="@+id/dislike_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.dislikeNum}"/>
+                    </LinearLayout>
+
+                    <!-- 投币 -->
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:contentDescription="@string/coin"
+                                android:src="@drawable/ic_coin"/>
+
+                        <TextView
+                                android:id="@+id/coin_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.coinNum}"/>
+                    </LinearLayout>
+
+                    <!-- 收藏 -->
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:contentDescription="@string/collect"
+                                android:src="@drawable/ic_collect"/>
+
+                        <TextView
+                                android:id="@+id/collect_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.favoriteNum}"/>
+                    </LinearLayout>
+
+                    <!-- 分享 -->
+                    <LinearLayout
+                            android:id="@+id/btn_share"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:contentDescription="@string/share"
+                                android:src="@drawable/ic_share"/>
+
+                        <TextView
+                                android:id="@+id/share_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/font_md"
+                                app:numToText="@{video.shareNum}"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:background="@color/colorLine"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/detail_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

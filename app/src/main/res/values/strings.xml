@@ -15,6 +15,12 @@
     <string name="focus">关注</string>
     <string name="fans">粉丝</string>
     <string name="article">文章</string>
+    <string name="play">播放</string>
+    <string name="fullscreen">全屏</string>
+    <string name="setting">设置</string>
+    <string name="save">保存</string>
+    <string name="redo">撤销</string>
+    <string name="login">登录</string>
     <string name="empty_num">0</string>
     <string name="empty_decimal">0.0</string>
     <string name="lv_1">Lv1</string>
@@ -33,15 +39,22 @@
     <string name="body">男孩</string>
     <string name="detail">详情</string>
     <string name="comment">评论</string>
+    <string name="browse">浏览</string>
+    <string name="like">喜欢</string>
+    <string name="dislike">不喜欢</string>
+    <string name="collect">收藏</string>
+    <string name="share">分享</string>
+    <string name="error">错误</string>
+    <string name="reload">重新加载</string>
+    <string name="search">搜索</string>
+    <string name="more">更多</string>
 
-    <!--  Login Fragment -->
-    <string name="icon_22">icon_22</string>
-    <string name="icon_33">icon_22</string>
-    <string name="login_title">B站登入</string>
-    <string name="input_account_help">请输入您的手机号</string>
-    <string name="input_password_help">请输入密码</string>
-    <string name="button_register_title">注册账号</string>
-    <string name="button_login_title">登入</string>
+    <!-- 颜色说明 -->
+    <string name="colorPrimary">主要颜色</string>
+    <string name="colorAccent">强调颜色</string>
+    <string name="colorDanger">危险颜色</string>
+    <string name="colorBlack">黑色</string>
+
 
     <!-- DevMenu Item -->
     <string name="banner">幻灯片</string>
@@ -64,18 +77,47 @@
     <string name="video_label">视频标签</string>
     <string name="video_opt">视频操作</string>
 
-    <!-- VideoPopupWindow -->
-    <string name="video_feedback_label">反馈标签</string>
-    <string name="video_feedback_tip">（您的反馈可以让我们变得更好）</string>
-
     <!-- Main BottomNavigationView Menu -->
     <string name="home">首页</string>
     <string name="web">浏览器</string>
     <string name="open">公开</string>
     <string name="center">我</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_base">BaseActivity</string>
+    <!-- Main Activity -->
+    <string name="navigation_drawer_open">OPEN</string>
+    <string name="navigation_drawer_close">CLOSE</string>
+
+    <!--  Login Fragment -->
+    <string name="icon_22">icon_22</string>
+    <string name="icon_33">icon_22</string>
+    <string name="login_title">B站登入</string>
+    <string name="input_account_help">请输入您的手机号</string>
+    <string name="input_password_help">请输入密码</string>
+    <string name="button_register_title">注册账号</string>
+    <string name="button_login_title">登入</string>
+
+    <!-- VideoPopupWindow -->
+    <string name="video_feedback_label">反馈标签</string>
+    <string name="video_feedback_tip">（您的反馈可以让我们变得更好）</string>
+
+    <!-- Player Fragment -->
+    <string name="player_time">00:00/00:00</string>
+    <!-- Player Detail Fragment -->
+    <string name="video_up">up名称</string>
+    <string name="video_upload_time">视频上传时间</string>
+    <string name="video_av_no">视频编号</string>
+
+    <!-- Chat Fragment -->
+    <string name="say_something">说点什么吧</string>
+
+    <!-- Setting Preferences -->
+    <string name="setting_play">播放设置</string>
+    <string name="setting_play_decode_method">解码方式</string>
+    <string name="setting_message_title">消息推送</string>
+    <string name="setting_message_allow">启用消息</string>
+    <string name="setting_message_allow_call">接受语言和视频通话邀请通知</string>
+    <string name="setting_message_allow_call_subject">关闭后将不会接收到对方的语音/视频通话请求</string>
+    <string name="setting_message_allow_notify">显示通知消息详情</string>
+    <string name="setting_message_allow_notify_subject">关闭后，当收到微信消息是，通知提示将不显示发信人和内容摘要</string>
 
 </resources>

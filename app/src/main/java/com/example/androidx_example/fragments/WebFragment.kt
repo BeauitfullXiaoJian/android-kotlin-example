@@ -1,8 +1,6 @@
 package com.example.androidx_example.fragments
 
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +10,15 @@ import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 
-import com.example.androidx_example.R
 import kotlinx.android.synthetic.main.fragment_web.*
+import com.example.androidx_example.R
+
 
 /**
  * 一个浏览器例子，用于载入指定网页
  *
  */
-class WebFragment : Fragment() {
+class WebFragment : BaseFragment() {
 
     private val args: WebFragmentArgs by navArgs()
 
@@ -32,6 +31,12 @@ class WebFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initWebView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        webViewSaveBundle = Bundle()
+        web_view.saveState(webViewSaveBundle)
     }
 
     private fun initWebView() {
@@ -49,8 +54,10 @@ class WebFragment : Fragment() {
                     load_bar?.visibility = if (newProgress >= 100) View.INVISIBLE else View.VISIBLE
                 }
             }
-            loadUrl(args.webUrl)
+
+            webViewSaveBundle?.apply { web_view.restoreState(webViewSaveBundle) } ?: loadUrl(args.webUrl)
         }
+
         web_swipe?.apply {
             setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
             setOnRefreshListener {
@@ -61,5 +68,9 @@ class WebFragment : Fragment() {
                 web_view.scrollY > 0
             }
         }
+    }
+
+    companion object {
+        var webViewSaveBundle: Bundle? = null
     }
 }
