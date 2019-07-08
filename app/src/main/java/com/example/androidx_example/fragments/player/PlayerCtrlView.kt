@@ -328,9 +328,7 @@ class PlayerCtrlView : RelativeLayout {
         playBtn?.isSelected = true
         appBarLayoutView?.also {
             val lp = it.layoutParams as AppBarLayout.LayoutParams
-            lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+            lp.scrollFlags = 0
             it.layoutParams = lp
         }
     }
@@ -340,7 +338,9 @@ class PlayerCtrlView : RelativeLayout {
         playBtn?.isSelected = false
         appBarLayoutView?.also {
             val lp = it.layoutParams as AppBarLayout.LayoutParams
-            lp.scrollFlags = 0
+            lp.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
             it.layoutParams = lp
         }
     }

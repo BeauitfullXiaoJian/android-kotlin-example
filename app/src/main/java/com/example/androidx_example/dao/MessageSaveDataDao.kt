@@ -6,9 +6,12 @@ import com.example.androidx_example.entity.MessageSaveData
 
 @Dao
 interface MessageSaveDataDao : BaseDao<MessageSaveData> {
-    @Query("select api_data from  api_data where id > :startDataId limit :limit")
+    @Query("select * from  msg_data where id > :startDataId limit :limit")
     fun getPageMessage(
         startDataId: Int,
         limit: Int
     ): Array<MessageSaveData>
+
+    @Query("select * from msg_data where work_request_id = :requestId limit 1")
+    fun findMsgByRequestId(requestId: String): MessageSaveData?
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -11,6 +12,8 @@ import com.example.androidx_example.R
 import com.example.androidx_example.data.ChatMessage
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.ChatMessageBus
+import com.example.androidx_example.works.MessageSendWorker
+import com.google.gson.Gson
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat.*
 
@@ -28,6 +31,16 @@ class ChatFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initRecyclerView()
+        initMsgAction()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mMessageDisposable?.dispose()
+    }
+
+    private fun initRecyclerView() {
         mMessageDisposable = ChatMessageBus.obsOnMainThread {
             val size = mChatRows.size
             mChatRows.add(it)
@@ -41,8 +54,25 @@ class ChatFragment : BaseFragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        mMessageDisposable?.dispose()
+    private fun initMsgAction() {
+        msg_edit.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                if (v.text.isNotEmpty()) {
+                    val msg = ChatMessage.MessageData(
+                        fromUid = "cool1024",
+                        toUid = "cool1024",
+                        type = "TEXT",
+                        content = v.text.toString()
+                    )
+                    v.text = ""
+                    v.clearFocus()
+                    MessageSendWorker.send(context!!, "cool1024", Gson().toJson(msg))
+                } else {
+                    showToast("不能发空消息哦～")
+                }
+            }
+            true
+        }
+        btn_send.setOnClickListener { msg_edit.onEditorAction(EditorInfo.IME_ACTION_SEND) }
     }
 }
