@@ -1,5 +1,6 @@
 package com.example.androidx_example.fragments.chat
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 
 class ChatFragment : BaseFragment() {
 
-    private var mMessageDisposable: Disposable? = null
     private var mChatAdapter: ChatAdapter? = null
     private var mChatRows: ArrayList<ChatMessage> = ArrayList()
 
@@ -35,19 +35,15 @@ class ChatFragment : BaseFragment() {
         initMsgAction()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        mMessageDisposable?.dispose()
-    }
-
     private fun initRecyclerView() {
-        mMessageDisposable = ChatMessageBus.obsOnMainThread {
+        val messageDisposable = ChatMessageBus.obsOnMainThread {
             val size = mChatRows.size
             mChatRows.add(it)
             mChatAdapter?.notifyItemRangeChanged(size, 1)
             chat_recycler_view.scrollToPosition(size)
         }
-        mChatAdapter = mChatAdapter ?: ChatAdapter(mChatRows)
+        addDisposableToCompositeDisposable(messageDisposable)
+        mChatAdapter = mChatAdapter ?: ChatAdapter(mChatRows, "cool1024")
         chat_recycler_view.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = mChatAdapter

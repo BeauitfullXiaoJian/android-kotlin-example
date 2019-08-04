@@ -18,6 +18,8 @@ data class ChatMessage(
     )
 
     companion object {
+        const val MESSAGE_FROM_SELF = 0
+        const val MESSAGE_FROM_FRIEND = 0
         fun createFromString(msgStr: String): ChatMessage? {
             return try {
                 val data = Gson().fromJson(msgStr, MessageData::class.java)

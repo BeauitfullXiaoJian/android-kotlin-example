@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.example.androidx_example.until.debugInfo
+import kotlin.math.max
 
 /**
  * 环形进度条
@@ -19,7 +20,7 @@ class CircleProgressView : View {
         }
     var borderWidth = OVERFLOW_FIX_VALUE
         set(value) {
-            field = Math.max(value, OVERFLOW_FIX_VALUE)
+            field = max(value, OVERFLOW_FIX_VALUE)
             progressBackgroundPaint = newPaint(progressBackgroundPaint.color, value)
             progressColorPaint = newPaint(progressColorPaint.color, value)
         }
@@ -50,13 +51,11 @@ class CircleProgressView : View {
         init(attrs, defStyle)
     }
 
-    private fun init(attrs: AttributeSet?, defStyle: Int) {
-
-    }
+    private fun init(attrs: AttributeSet?, defStyle: Int) {}
 
     override fun onDraw(canvas: Canvas) {
         val d = width.toFloat() - borderWidth * 2
-        val r = d / 2
+        // val r = d / 2
         // canvas.drawCircle(r, r, r, progressPaint)
 
         // 背景圆环

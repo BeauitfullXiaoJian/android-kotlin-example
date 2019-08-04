@@ -34,8 +34,8 @@
         <TextView android:id="@+id/chat_content"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:minHeight="60dp"
-                  android:minWidth="65dp"
+                  android:minHeight="50dp"
+                  android:minWidth="20dp"
                   android:layout_marginTop="@dimen/margin_md"
                   android:paddingStart="@dimen/padding_md"
                   android:paddingEnd="@dimen/padding_md"
@@ -44,15 +44,17 @@
                   android:background="@drawable/bg_chat_02"
                   android:textColor="@color/colorText"
                   android:textSize="@dimen/title_sm"
+                  android:text="123"
                   android:gravity="center_vertical"/>
 
     </LinearLayout>
 
     <ImageView android:layout_width="@dimen/avatar_size_md"
+               android:id="@+id/chat_avatar"
                android:layout_height="@dimen/avatar_size_md"
                android:layout_marginTop="@dimen/margin_md"
                android:layout_marginStart="@dimen/margin_md"
-               android:background="@color/colorLightPrimary"
+               android:background="@drawable/ic_avatar"
                android:contentDescription="@string/avatar"/>
 
 </LinearLayout>

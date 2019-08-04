@@ -28,7 +28,7 @@
             android:orientation="horizontal"
             android:padding="@dimen/padding_md"
             android:gravity="center_vertical"
-            android:background="@color/colorWhite">
+            android:background="@drawable/shadow_top">
 
         <EditText android:id="@+id/msg_edit"
                   android:layout_width="0dp"
@@ -41,6 +41,7 @@
                   android:imeOptions="actionSend"
                   android:inputType="text"
                   android:maxLines="1"
+                  android:padding="@dimen/padding_sm"
                   android:background="@drawable/bg_white_radius"/>
 
         <Button android:id="@+id/btn_send"
