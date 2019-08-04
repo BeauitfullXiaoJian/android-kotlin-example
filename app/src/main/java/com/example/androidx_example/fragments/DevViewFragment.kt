@@ -38,6 +38,10 @@ class DevViewFragment : BaseFragment() {
         loadDemoView()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
     /**
      * 初始化相关视图控件
      */
@@ -92,7 +96,7 @@ class DevViewFragment : BaseFragment() {
                     dv.activeColor = mapOf(
                         "colorAccent" to ContextCompat.getColor(context!!, R.color.colorAccent),
                         "colorDanger" to ContextCompat.getColor(context!!, R.color.colorDanger),
-                        "colorBlack" to ContextCompat.getColor(context!!, R.color.colorBlack)
+                        "colorText" to ContextCompat.getColor(context!!, R.color.colorText)
                     )[target.tag.toString()] ?: 0
                     cleanAllSelected()
                     target.isSelected = true

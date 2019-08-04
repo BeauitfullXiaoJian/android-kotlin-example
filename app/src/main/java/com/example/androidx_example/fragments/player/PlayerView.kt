@@ -365,7 +365,7 @@ class PlayerView : TextureView {
          * 计算一个适合面板的缩放尺寸
          */
         fun getScaleFitSize(containerSize: Size, originSize: Size): Size {
-            // 我们把视频尺寸缩放为容器宽度,高度按视频比例缩放
+            // 我们把视频尺寸缩放为适合容器的尺寸,高度按视频比例缩放
             val cwOW = 1f * containerSize.width / originSize.width
             val expW = containerSize.width
             val expH = (originSize.height * cwOW).toInt()
@@ -378,7 +378,7 @@ class PlayerView : TextureView {
          * 按固定比例计算缩放尺寸
          */
         fun getScaleFitAspectRatio(containerSize: Size, aspectRatio: Float): Size {
-            // 我们把视频尺寸缩放为容器宽度,高度按比指定例缩放
+            // 我们把视频尺寸缩放为容器的尺寸,高度按指定比例缩放
             val expW = containerSize.width
             val expH = (expW / aspectRatio).toInt()
             return if (expH < containerSize.height)

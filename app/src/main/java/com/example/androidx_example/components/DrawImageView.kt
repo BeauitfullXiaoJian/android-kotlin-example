@@ -11,7 +11,9 @@ import androidx.dynamicanimation.animation.FloatValueHolder
 import com.example.androidx_example.until.debugInfo
 
 /**
- * 涂鸦
+ * 涂鸦组件
+ *
+ * 需要提供恢复与保存状态的方法,目前组件无法恢复到指定状态（如：旋转屏幕后组件会被重置）
  */
 class DrawImageView : ImageView {
 
@@ -46,7 +48,7 @@ class DrawImageView : ImageView {
     }
 
     private fun init() {
-        setBackgroundColor(Color.GRAY)
+        setBackgroundColor(Color.BLACK)
         initMoveGesture()
     }
 
@@ -61,15 +63,11 @@ class DrawImageView : ImageView {
         drawBitmap?.also {
             canvas.drawBitmap(it, null, fitRect, null)
         }
-        for (line in drawLineRows) {
-            drawLine(canvas, line)
-        }
-        activeDrawLineData?.also {
-            drawLine(canvas, it)
-        }
+        drawLines(canvas)
     }
 
     override fun performClick(): Boolean {
+        debugInfo("performClick")
         return super.performClick()
     }
 
@@ -80,10 +78,14 @@ class DrawImageView : ImageView {
         val x = event.x
         val y = event.y
 
+        // 获取触摸点个数
+        val touchFingerNum = event.pointerCount
+
         // 如果有两个或以上手指，那么不绘制
-        if (event.pointerCount > 1) {
+        if (touchFingerNum > 1) {
             mScaleGestureDetector.onTouchEvent(event)
             mMoveGestureDetector.onTouchEvent(event)
+            activeDrawLineData = null
             return true
         }
 
@@ -103,7 +105,9 @@ class DrawImageView : ImageView {
             }
             MotionEvent.ACTION_UP -> {
                 mMoveGestureDetector.onTouchEvent(event)
-                drawLineRows.add(activeDrawLineData!!)
+                activeDrawLineData?.also {
+                    drawLineRows.add(it)
+                }
                 activeDrawLineData = null
             }
         }
@@ -114,6 +118,7 @@ class DrawImageView : ImageView {
 
     private fun initMoveGesture() {
         mMoveGestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+
             override fun onScroll(
                 start: MotionEvent?,
                 current: MotionEvent?,
@@ -125,15 +130,11 @@ class DrawImageView : ImageView {
                 return true
             }
 
-
             override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-                debugInfo("我的坐标", velocityX.toString())
                 val flingX = FlingAnimation(FloatValueHolder())
                 val flingY = FlingAnimation(FloatValueHolder())
                 var beforeValueX = 0f
                 var beforeValueY = 0f
-                // val vX = Math.max(velocityX, if (velocityX > 0) 1000f else -1000f)
-                // val vY = Math.max(velocityY, if (velocityY > 0) 1000f else -1000f)
                 flingX.addUpdateListener { _, value, _ ->
                     drawMatrix.postTranslate(value - beforeValueX, 0f)
                     beforeValueX = value
@@ -170,20 +171,23 @@ class DrawImageView : ImageView {
         })
     }
 
-    private fun getMatrixPoint(matrix: Matrix): PointF {
-        val mtrValues = FloatArray(9)
-        matrix.getValues(mtrValues)
-        val x = mtrValues[Matrix.MTRANS_X]
-        val y = mtrValues[Matrix.MTRANS_Y]
-        return PointF(x, y)
-    }
-
     private fun getMatrixScale(matrix: Matrix): Float {
         val mtrValues = FloatArray(9)
         matrix.getValues(mtrValues)
         return mtrValues[Matrix.MSCALE_X]
     }
 
+    private fun drawLines(canvas: Canvas) {
+        canvas.save()
+        canvas.clipRect(fitRect)
+        for (line in drawLineRows) {
+            drawLine(canvas, line)
+        }
+        activeDrawLineData?.also {
+            drawLine(canvas, it)
+        }
+        canvas.restore()
+    }
 
     private fun drawLine(canvas: Canvas, lineData: DrawLineData) {
         for (i in 0 until lineData.points.size - 1) {
@@ -209,7 +213,12 @@ class DrawImageView : ImageView {
                 parentSize = Size(width, height),
                 childSize = fitSize
             )
-            fitRect = Rect(fitPoint.x.toInt(), fitPoint.y.toInt(), fitSize.width, fitSize.height)
+            fitRect = Rect(
+                fitPoint.x.toInt(),
+                fitPoint.y.toInt(),
+                fitPoint.x.toInt() + fitSize.width,
+                fitPoint.y.toInt() + fitSize.height
+            )
         }
     }
 
@@ -269,7 +278,6 @@ class DrawImageView : ImageView {
          * 计算一个适合面板的缩放尺寸
          */
         private fun getScaleFitSize(containerSize: Size, originSize: Size): Size {
-            // 我们把视频尺寸缩放为容器宽度,高度按视频比例缩放
             val cwOW = 1f * containerSize.width / originSize.width
             val expW = containerSize.width
             val expH = (originSize.height * cwOW).toInt()
