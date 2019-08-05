@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.data.PhotoData
@@ -13,15 +14,14 @@ import com.example.androidx_example.until.GlideApp
 
 class AlbumViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+    private val cardView = view.findViewById<CardView>(R.id.photo_card)
     private val imageView = view.findViewById<ImageView>(R.id.photo_view)
 
     fun bind(photo: PhotoData) {
-        // 预先计算出ImageView的大小
-        val lp = imageView.layoutParams
+        val lp = cardView.layoutParams
         val fitSize = getFitSize(photo.size)
         lp.height = fitSize.height
-        lp.width = fitSize.width
-        imageView.layoutParams = lp
+        cardView.layoutParams = lp
         GlideApp.with(itemView)
             .load(photo.src)
             .into(imageView)

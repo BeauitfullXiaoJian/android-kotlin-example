@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/photo_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"/>
+        android:id="@+id/photo_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_sm"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/thumb"/>
+</androidx.cardview.widget.CardView>
+
 

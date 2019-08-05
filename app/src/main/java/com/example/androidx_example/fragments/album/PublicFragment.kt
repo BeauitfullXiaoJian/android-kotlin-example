@@ -11,6 +11,7 @@ import com.example.androidx_example.R
 import com.example.androidx_example.data.PhotoData
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.api.HttpRequest
+import com.example.androidx_example.until.getPxFromDpIntegerId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_public.*
 
@@ -30,9 +31,14 @@ class PublicFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         public_recycler_view.post {
             public_recycler_view.adapter = AlbumAdapter(loadAlbum(), public_recycler_view.width)
-            public_recycler_view.layoutManager = StaggeredGridLayoutManager(
-                2,
-                StaggeredGridLayoutManager.VERTICAL
+            public_recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            public_recycler_view.addItemDecoration(
+                PhotoItemDecoration(
+                    getPxFromDpIntegerId(
+                        resources,
+                        R.integer.space_sm_value
+                    )
+                )
             )
         }
     }
