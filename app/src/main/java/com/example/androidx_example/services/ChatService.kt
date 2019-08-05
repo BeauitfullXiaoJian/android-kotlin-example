@@ -23,7 +23,6 @@ class ChatService : LifecycleService() {
 
     private fun createWebSocketClient() {
         mWebSocket = HttpRequest.webSocket("", "cool1024") { type, content ->
-            debugInfo("接收到消息=========================")
             if (type == HttpRequest.WebSocketContentType.MESSAGE) {
                 ChatMessage.createFromString(content)?.also {
                     ChatMessageBus.postMessage(it)

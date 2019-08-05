@@ -51,7 +51,7 @@ class DevViewFragment : BaseFragment() {
                 val view = DrawImageView(context!!)
                 devView = view
                 view.activeColor = Color.RED
-                view.drawBitmap = BitmapFactory.decodeResource(resources, R.drawable.splash)
+                view.drawBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_center)
                 container_view.addView(view, 0)
                 initDrawToolbar()
             }

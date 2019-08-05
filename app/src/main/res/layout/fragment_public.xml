@@ -77,31 +77,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--<androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
-
-    <!--</androidx.recyclerview.widget.RecyclerView>-->
-
-    <androidx.core.widget.NestedScrollView
-            android:visibility="gone"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/public_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:id="@+id/btn_http"
-                    android:text="OkHttp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

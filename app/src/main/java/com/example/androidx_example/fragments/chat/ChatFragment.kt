@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.example.androidx_example.R
 import com.example.androidx_example.data.ChatMessage
+import com.example.androidx_example.entity.MessageSaveData
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.ChatMessageBus
+import com.example.androidx_example.until.RoomUntil
 import com.example.androidx_example.works.MessageSendWorker
 import com.google.gson.Gson
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat.*
 
@@ -35,7 +38,19 @@ class ChatFragment : BaseFragment() {
         initMsgAction()
     }
 
+    private fun loadLocalMsgData() {
+        Thread(Runnable {
+            val msgSaveRows = RoomUntil.db.msgSaveDataDao().getPageMessage(1, 1)
+            debugLog("数据量", msgSaveRows.size.toString())
+        }).start()
+//        val msgRows = msgSaveRows.map {
+//            ChatMessage.createFromString(it.msgData)!!
+//        }
+//        mChatRows.addAll(msgRows)
+    }
+
     private fun initRecyclerView() {
+        loadLocalMsgData()
         val messageDisposable = ChatMessageBus.obsOnMainThread {
             val size = mChatRows.size
             mChatRows.add(it)
