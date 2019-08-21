@@ -21,4 +21,5 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 * Chat
 
 ## TODO
+* Search
 * Picture in picture
