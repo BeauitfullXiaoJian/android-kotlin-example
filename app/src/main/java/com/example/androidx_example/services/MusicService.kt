@@ -73,9 +73,9 @@ class MusicService : LifecycleService() {
                 // 通常需要暂停音乐播放，若没有暂停播放就会出现和其他音乐同时输出声音
                 pauseMusic()
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ->
-                //短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时，
-                //会触发此回调事件，例如播放短视频，拨打电话等。
-                //通常需要暂停音乐播放
+                // 短暂性丢失焦点，当其他应用申请AUDIOFOCUS_GAIN_TRANSIENT或AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE时，
+                // 会触发此回调事件，例如播放短视频，拨打电话等。
+                // 通常需要暂停音乐播放
                 pauseMusic()
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
                 // 短暂性丢失焦点并作降音处理
@@ -111,7 +111,6 @@ class MusicService : LifecycleService() {
             }
         }
         intervalDisposable = intervalObs.subscribe {
-            debugInfo("我触发了咯")
             if (mMediaPlayer.isPlaying) {
                 mPosition = mMediaPlayer.currentPosition
                 debugInfo("这个进度", mMediaPlayer.currentPosition.toString())

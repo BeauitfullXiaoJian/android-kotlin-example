@@ -23,6 +23,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".GlobalSearchActivity">
+        </activity>
         <activity
                 android:name=".SplashActivity"
                 android:theme="@style/AppSplashTheme">
@@ -33,12 +35,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-        <!-- android:configChanges="orientation|keyboardHidden|screenSize"/> -->
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/> <!-- android:configChanges="orientation|keyboardHidden|screenSize"/> -->
         <activity android:name=".SettingsActivity"/>
-        <service android:name=".services.MusicService" android:exported="false"/>
-        <service android:name=".services.ChatService" android:exported="false"/>
+
+        <service
+                android:name=".services.MusicService"
+                android:exported="false"/>
+        <service
+                android:name=".services.ChatService"
+                android:exported="false"/>
+
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.example.cool1024.file"
