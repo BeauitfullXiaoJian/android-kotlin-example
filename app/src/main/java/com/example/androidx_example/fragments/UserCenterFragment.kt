@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.work.WorkInfo
-import com.example.androidx_example.activity.GlobalSearchActivity
+import com.example.androidx_example.activity.search.GlobalSearchActivity
 import com.example.androidx_example.R
 import com.example.androidx_example.services.MusicService
 import com.example.androidx_example.works.ImageDownloadWorker

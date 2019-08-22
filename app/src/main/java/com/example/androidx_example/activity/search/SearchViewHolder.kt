@@ -1,4 +1,4 @@
-package com.example.androidx_example.activity
+package com.example.androidx_example.activity.search
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.ViewUntil
-import kotlinx.android.synthetic.main.activity_global_search.*
 
 class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

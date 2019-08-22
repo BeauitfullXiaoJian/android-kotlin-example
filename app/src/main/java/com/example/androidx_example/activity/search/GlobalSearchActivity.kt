@@ -1,4 +1,4 @@
-package com.example.androidx_example.activity
+package com.example.androidx_example.activity.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -23,7 +23,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.GlobalSearchActivity">
+        <activity android:name=".activity.search.GlobalSearchActivity">
         </activity>
         <activity
                 android:name=".SplashActivity"
