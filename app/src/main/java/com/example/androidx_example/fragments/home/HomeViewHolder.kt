@@ -14,7 +14,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.fragments.player.PlayerFragmentArgs
 import com.example.androidx_example.until.getPxFromDpIntegerId
 
 class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
