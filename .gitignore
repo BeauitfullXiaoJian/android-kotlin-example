@@ -9,3 +9,5 @@ app/build
 /captures
 .externalNativeBuild
 local.properties
+.settings
+.project
