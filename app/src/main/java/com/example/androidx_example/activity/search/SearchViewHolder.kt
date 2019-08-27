@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.ViewUntil
+import com.example.androidx_example.databinding.SearchItemBinding
 
 class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -32,8 +34,14 @@ class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     companion object {
         fun create(parentView: ViewGroup, context: Context): SearchViewHolder {
-            val itemView = LayoutInflater.from(context).inflate(R.layout.video_item, parentView, false)
-            return SearchViewHolder(itemView)
+            val itemView = LayoutInflater.from(context).inflate(R.layout.search_item, parentView, false)
+            val binding = DataBindingUtil.inflate<SearchItemBinding>(
+                LayoutInflater.from(context),
+                R.layout.search_item,
+                parentView,
+                false
+            )
+            return SearchViewHolder(binding.root)
         }
     }
 }

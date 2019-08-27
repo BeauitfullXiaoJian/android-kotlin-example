@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<layout>
 
-    <ImageView
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"
-            android:scaleType="centerCrop"
-            android:id="@+id/imageView"/>
+    <data>
 
-    <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <variable
+                name="item"
+                type="com.example.androidx_example.activity.search.SearchItemData"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+        <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:contentDescription="@string/thumb"
+                android:scaleType="centerCrop"
+                app:itemThumb="@{item.imgUrl}"
+                android:id="@+id/imageView"/>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:textSize="@dimen/font_lg"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:text="项目标题"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:textSize="@dimen/font_lg"
-                android:gravity="center_vertical"
-                android:text="相关说明文件"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="@dimen/font_lg"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:text="@{item.text}"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="@dimen/font_lg"
+                    android:gravity="center_vertical"
+                    android:text="@{item.text}"/>
+
+        </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+</layout>

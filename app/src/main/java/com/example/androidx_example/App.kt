@@ -25,7 +25,6 @@ class App : Application(), Configuration.Provider {
      * 初始化错误日志保存操作
      */
     private fun initDefaultErrorSave() {
-        // 未捕获异常统一处理
         val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             val pw = PrintWriter(StringWriter())
@@ -37,7 +36,6 @@ class App : Application(), Configuration.Provider {
                     stackIno = pw.toString()
                 )
             )
-            // 使用默认的处理方式让APP停止运行
             defaultHandler.uncaughtException(thread, throwable)
         }
     }
