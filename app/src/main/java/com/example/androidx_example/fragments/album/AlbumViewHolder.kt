@@ -17,11 +17,15 @@ class AlbumViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val cardView = view.findViewById<CardView>(R.id.photo_card)
     private val imageView = view.findViewById<ImageView>(R.id.photo_view)
 
+
     fun bind(photo: PhotoData) {
         val lp = cardView.layoutParams
         val fitSize = getFitSize(photo.size)
         lp.height = fitSize.height
         cardView.layoutParams = lp
+        cardView.setOnClickListener {
+            PhotoPopupWindow.createAndShow(photo.src,it.context,it as ViewGroup)
+        }
         GlideApp.with(itemView)
             .load(photo.src)
             .into(imageView)
