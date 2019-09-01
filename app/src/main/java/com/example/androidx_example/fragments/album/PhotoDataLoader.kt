@@ -1,27 +1,51 @@
 package com.example.androidx_example.fragments.album
 
 import android.content.res.Resources
+import com.example.androidx_example.App
 import com.example.androidx_example.R
 import com.example.androidx_example.data.AlbumData
 import com.example.androidx_example.data.PhotoData
-import com.example.androidx_example.data.PhotoSize
+import com.example.androidx_example.until.debugInfo
 import com.google.gson.Gson
+import io.reactivex.Observable
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
+typealias AlbumObservable = Observable<Array<AlbumData>>
+typealias PhotoObservable = Observable<Array<PhotoData>>
 
 object PhotoDataLoader {
 
-    fun loadAlbum(resources: Resources): Array<AlbumData> {
-        val inputStream = resources.openRawResource(R.raw.album)
-        val byteArray = ByteArray(inputStream.available())
-        inputStream.read(byteArray)
-        return Gson().fromJson(byteArray.toString(Charsets.UTF_8), Array<AlbumData>::class.java)
+    private val packageName by lazy {
+        App.instance.packageName
     }
 
-    fun loadPhoto(name: String, resources: Resources, packageName: String): Array<PhotoData> {
-        return arrayOf<PhotoData>()
-//        resources.getIdentifier(name, "raw", packageName)
-//        val inputStream = resources.openRawResource(R.raw.album)
-//        val byteArray = ByteArray(inputStream.available())
-//        inputStream.read(byteArray)
-//        return Gson().fromJson(byteArray.toString(Charsets.UTF_8), Array<PhotoData>::class.java)
+    private val resources by lazy {
+        App.instance.resources
+    }
+
+    fun loadAlbum(): AlbumObservable {
+        return Observable.create<Array<AlbumData>> { sub ->
+            val inputStream = resources.openRawResource(R.raw.album)
+            val byteArray = ByteArray(inputStream.available())
+            inputStream.read(byteArray)
+            val albums = Gson().fromJson(byteArray.toString(Charsets.UTF_8), Array<AlbumData>::class.java)
+            sub.onNext(albums)
+            sub.onComplete()
+        }.subscribeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun loadPhoto(name: String): PhotoObservable {
+        return Observable.create<Array<PhotoData>> { sub ->
+            debugInfo(name)
+            val resId = resources.getIdentifier(name, "raw", packageName)
+            val inputStream = resources.openRawResource(resId)
+            val byteArray = ByteArray(inputStream.available())
+            inputStream.read(byteArray)
+            val albums = Gson().fromJson(byteArray.toString(Charsets.UTF_8), Array<PhotoData>::class.java)
+            sub.onNext(albums)
+            sub.onComplete()
+        }.subscribeOn(AndroidSchedulers.mainThread())
     }
 }

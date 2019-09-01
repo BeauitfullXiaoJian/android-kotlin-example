@@ -5,18 +5,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.androidx_example.data.AlbumData
+import io.reactivex.disposables.Disposable
 
-class AlbumPagerAdapter(
-    fm: FragmentManager,
-    private val albums: Array<AlbumData>,
-    private val resources: Resources,
-    private val packageName: String
-) :
-    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class AlbumPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+    private var albums: Array<AlbumData> = arrayOf()
+
+    fun setAlbums(albums: Array<AlbumData>) {
+        this@AlbumPagerAdapter.albums = albums
+        notifyDataSetChanged()
+    }
 
     override fun getItem(position: Int): Fragment {
         val album = albums[position]
-        return PhotoPreviewFragment.create(PhotoDataLoader.loadPhoto(album.path, resources, packageName))
+        return PhotoPreviewFragment.create(album.path)
     }
 
     override fun getCount(): Int {
@@ -26,4 +28,6 @@ class AlbumPagerAdapter(
     override fun getPageTitle(position: Int): CharSequence {
         return albums[position].title
     }
+
+
 }

@@ -235,7 +235,7 @@ class HttpRequest {
             return Observable
                 .fromCallable<ApiData> {
                     val response = getInstance().newCall(request).execute()
-                    val body = response.body()
+                    // val body = response.body()
                     return@fromCallable sendSyncRequest(request)
                 }.subscribeOn(Schedulers.newThread())
                 .onErrorReturn {

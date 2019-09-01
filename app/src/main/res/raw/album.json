@@ -1,14 +1,14 @@
 [
   {
     "title": "童年嬉戏",
-    "path": "photo_a.json"
+    "path": "photo_a"
   },
   {
     "title": "复古印象",
-    "path": "photo_b.json"
+    "path": "photo_b"
   },
   {
     "title": "未来儿童",
-    "path": "photo_c.json"
+    "path": "photo_c"
   }
 ]

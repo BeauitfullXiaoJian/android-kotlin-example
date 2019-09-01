@@ -23,12 +23,12 @@ class PublicFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        public_view_pager.adapter = AlbumPagerAdapter(
-            childFragmentManager,
-            PhotoDataLoader.loadAlbum(resources),
-            resources,
-            activity!!.packageName
-        )
+        public_view_pager.adapter = AlbumPagerAdapter(childFragmentManager).also { adapter ->
+            val dps = PhotoDataLoader.loadAlbum().subscribe { albums ->
+                adapter.setAlbums(albums)
+            }
+            addDisposableToCompositeDisposable(dps)
+        }
         public_tab.setupWithViewPager(public_view_pager)
     }
 }

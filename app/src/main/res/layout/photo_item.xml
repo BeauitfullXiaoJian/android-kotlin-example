@@ -4,6 +4,7 @@
         android:id="@+id/photo_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     <ImageView
             android:id="@+id/photo_view"
             android:layout_width="match_parent"
@@ -11,6 +12,15 @@
             android:layout_margin="@dimen/margin_sm"
             android:scaleType="fitXY"
             android:contentDescription="@string/thumb"/>
+
+    <!--<com.github.chrisbanes.photoview.PhotoView-->
+            <!--android:id="@+id/photo_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="@dimen/margin_sm"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:contentDescription="@string/thumb"/>-->
+
 </androidx.cardview.widget.CardView>
 
 

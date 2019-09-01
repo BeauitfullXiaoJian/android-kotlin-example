@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.androidx_example.R
-import com.example.androidx_example.data.PhotoData
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.until.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_photo_preview.*
 
 class PhotoPreviewFragment : BaseFragment() {
 
-    private val photos: Array<PhotoData> by lazy {
-        arguments!!.getSerializable(PHOTO_DATA) as Array<PhotoData>
+    private val albumName: String by lazy {
+        arguments!!.getString(ALBUM_NAME, ALBUM_NAME)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -24,9 +23,14 @@ class PhotoPreviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         photo_recycler_view.post {
             photo_recycler_view.apply {
-                adapter = AlbumAdapter(photos, photo_recycler_view.width)
                 layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                photo_recycler_view.addItemDecoration(
+                adapter = AlbumAdapter(width).also {
+                    val dps = PhotoDataLoader.loadPhoto(albumName).subscribe { photos ->
+                        it.setAlbums(photos)
+                    }
+                    this@PhotoPreviewFragment.addDisposableToCompositeDisposable(dps)
+                }
+                addItemDecoration(
                     PhotoItemDecoration(
                         getPxFromDpIntegerId(
                             resources,
@@ -39,11 +43,11 @@ class PhotoPreviewFragment : BaseFragment() {
     }
 
     companion object {
-        private const val PHOTO_DATA: String = "PHOTO_DATA"
-        fun create(photos: Array<PhotoData>): PhotoPreviewFragment {
+        private const val ALBUM_NAME: String = "ALBUM_NAME"
+        fun create(name: String): PhotoPreviewFragment {
             return PhotoPreviewFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(PHOTO_DATA, photos)
+                    putString(ALBUM_NAME, name)
                 }
             }
         }
