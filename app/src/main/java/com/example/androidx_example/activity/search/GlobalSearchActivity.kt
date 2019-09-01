@@ -2,6 +2,7 @@ package com.example.androidx_example.activity.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
@@ -36,17 +37,18 @@ class GlobalSearchActivity : AppCompatActivity() {
     }
 
     private fun initSearchView() {
-        val searchView = search_toolbar.menu.findItem(R.id.search_item).actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
+        (search_toolbar.menu.findItem(R.id.search_item).actionView as SearchView).apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                loadLikeData()
-                return true
-            }
-        })
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    loadLikeData()
+                    return true
+                }
+            })
+        }
     }
 
     private fun loadLikeData() {

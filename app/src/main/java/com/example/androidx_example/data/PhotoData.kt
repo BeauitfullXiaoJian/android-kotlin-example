@@ -1,3 +1,5 @@
 package com.example.androidx_example.data
 
-data class PhotoData(val src: String, val size: PhotoSize)
+import java.io.Serializable
+
+data class PhotoData(val src: String, val size: PhotoSize) : Serializable

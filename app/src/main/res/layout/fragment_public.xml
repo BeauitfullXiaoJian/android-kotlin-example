@@ -37,6 +37,7 @@
                 android:orientation="vertical">
 
             <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/public_tab"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     app:tabSelectedTextColor="@color/colorPrimary"
@@ -47,43 +48,41 @@
                     app:tabMode="fixed"
                     android:layout_gravity="center">
 
-                <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home"/>
+                <!--<com.google.android.material.tabs.TabItem-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/home"/>-->
 
-                <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/web"/>
+                <!--<com.google.android.material.tabs.TabItem-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/web"/>-->
 
-                <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/open"/>
+                <!--<com.google.android.material.tabs.TabItem-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/open"/>-->
 
-                <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/center"/>
+                <!--<com.google.android.material.tabs.TabItem-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/center"/>-->
 
             </com.google.android.material.tabs.TabLayout>
 
-            <View android:layout_width="match_parent"
-                  android:layout_height="@dimen/line_height"
-                  android:background="@color/colorLine"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/colorLine"/>
 
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/public_recycler_view"
-            android:padding="@dimen/padding_sm"
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/public_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-    </androidx.recyclerview.widget.RecyclerView>
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
