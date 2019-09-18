@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import kotlin.math.max
 
 /**

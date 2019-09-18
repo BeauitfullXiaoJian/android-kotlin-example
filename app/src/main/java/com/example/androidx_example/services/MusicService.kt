@@ -19,13 +19,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.androidx_example.R
 import com.example.androidx_example.components.CircleProgressView
-import com.example.androidx_example.until.dpToPx
+import com.example.androidx_example.until.tool.dpToPx
 import android.net.wifi.WifiManager
 import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
@@ -113,7 +113,10 @@ class MusicService : LifecycleService() {
         intervalDisposable = intervalObs.subscribe {
             if (mMediaPlayer.isPlaying) {
                 mPosition = mMediaPlayer.currentPosition
-                debugInfo("这个进度", mMediaPlayer.currentPosition.toString())
+                debugInfo(
+                    "这个进度",
+                    mMediaPlayer.currentPosition.toString()
+                )
             }
         }
     }

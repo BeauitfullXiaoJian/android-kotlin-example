@@ -9,12 +9,10 @@ import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import android.widget.RelativeLayout
-import androidx.annotation.MainThread
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.util.concurrent.TimeUnit
 

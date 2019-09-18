@@ -1,9 +1,10 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.ui
 
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.example.androidx_example.R
 
@@ -26,8 +27,18 @@ object ViewUntil {
      * 获取图片默认加载动画-Drawable对象
      */
     fun getAnimationDrawable(context: Context): AnimationDrawable {
-        val animationDrawable = ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable
+        val animationDrawable =
+            ContextCompat.getDrawable(context, R.drawable.bg_loading) as AnimationDrawable
         animationDrawable.start()
         return animationDrawable
+    }
+
+    /**
+     * 关闭虚拟键盘
+     */
+    fun closeKeyBoard(context: Context, window: Window) {
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
+            hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        }
     }
 }

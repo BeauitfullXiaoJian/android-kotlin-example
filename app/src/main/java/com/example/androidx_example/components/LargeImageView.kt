@@ -2,19 +2,13 @@ package com.example.androidx_example.components
 
 import android.content.Context
 import android.graphics.*
-import android.net.Uri
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.example.androidx_example.R
-import com.example.androidx_example.until.GlideApp
-import com.example.androidx_example.until.debugInfo
-import kotlinx.coroutines.*
-import java.io.File
+import com.example.androidx_example.until.tool.debugInfo
 import java.io.InputStream
-import java.net.URI
 import java.net.URL
 
 /**

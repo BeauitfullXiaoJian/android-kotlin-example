@@ -1,4 +1,4 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.tool
 
 import android.app.Activity
 import android.app.Application
@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.util.TypedValue
@@ -16,15 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.androidx_example.App
 import com.example.androidx_example.BaseActivity
 import com.example.androidx_example.entity.ApiSaveData
 import com.example.androidx_example.until.api.HttpRequest
+import com.example.androidx_example.until.sql.RoomUntil
 import io.reactivex.disposables.Disposable
 import java.io.File
 import java.io.OutputStream
@@ -46,7 +44,10 @@ fun postSuccess(
     successDo: (res: HttpRequest.ApiData) -> Unit,
     completeDo: ((result: Boolean) -> Unit)? = null
 ): Disposable = HttpRequest.post(apiName, params).subscribe {
-    if (it.isOk()) successDo(it) else showToast(it.getMessage(), activity)
+    if (it.isOk()) successDo(it) else showToast(
+        it.getMessage(),
+        activity
+    )
     completeDo?.invoke(it.isOk())
 }
 
@@ -96,7 +97,9 @@ fun getWithSaveSuccess(
                         paramHash = params.hashCode(),
                         apiData = it.getStringData(),
                         saveTime = currentTime,
-                        lostTime = currentTime + hourToMillis(1)
+                        lostTime = currentTime + hourToMillis(
+                            1
+                        )
                     )
                 )
             },
@@ -146,7 +149,10 @@ fun <T : ViewModel> createViewModel(app: Application, modelClass: Class<T>): T {
 }
 
 fun <T : ViewModel> createViewModel(activity: FragmentActivity, modelClass: Class<T>): T {
-    return createViewModel(activity as AppCompatActivity, modelClass)
+    return createViewModel(
+        activity as AppCompatActivity,
+        modelClass
+    )
 }
 
 fun <T : ViewModel> createViewModel(activity: AppCompatActivity, modelClass: Class<T>): T {
@@ -226,19 +232,12 @@ fun tenThousandNumFormat(num: Int): String {
     else num.toString()
 }
 
-/**
- * 获取一个NotifyId
- */
-var notifyIdCx = 1000
-
-fun getNewNotifyId(): Int {
-    return notifyIdCx++
-}
-
 fun shareImage(context: Context, bitmap: Bitmap) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/*"
-        putExtra(Intent.EXTRA_STREAM, getTempBitmapUri(context, bitmap))
+        putExtra(Intent.EXTRA_STREAM,
+            getTempBitmapUri(context, bitmap)
+        )
     }
     context.startActivity(Intent.createChooser(intent, "图片分享到"));
 }

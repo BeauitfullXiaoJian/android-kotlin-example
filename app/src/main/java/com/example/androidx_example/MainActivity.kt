@@ -8,8 +8,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
 import com.example.androidx_example.services.ChatService
-import com.example.androidx_example.until.TimeLock
-import com.example.androidx_example.until.showToast
+import com.example.androidx_example.until.tool.TimeLock
+import com.example.androidx_example.until.tool.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_tool_bar.*
 import kotlin.system.exitProcess

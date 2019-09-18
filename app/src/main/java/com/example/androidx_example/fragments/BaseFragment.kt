@@ -51,22 +51,22 @@ open class BaseFragment : Fragment() {
     }
 
     fun <T : ViewModel> createViewModel(modelClass: Class<T>): T {
-        return com.example.androidx_example.until.createViewModel(modelClass)
+        return com.example.androidx_example.until.tool.createViewModel(modelClass)
     }
 
     fun <T : ViewModel> activityViewModel(modelClass: Class<T>): T {
-        return com.example.androidx_example.until.createViewModel(
+        return com.example.androidx_example.until.tool.createViewModel(
             activity = this.activity!!,
             modelClass = modelClass
         )
     }
 
     fun <T : ViewModel> fragmentViewModel(modelClass: Class<T>, fragment: Fragment = this): T {
-        return com.example.androidx_example.until.createViewModel(fragment, modelClass)
+        return com.example.androidx_example.until.tool.createViewModel(fragment, modelClass)
     }
 
     fun showToast(message: String) {
-        com.example.androidx_example.until.showToast(message, activity as Activity)
+        com.example.androidx_example.until.tool.showToast(message, activity as Activity)
     }
 
     fun debugLog(vararg messages: String) {

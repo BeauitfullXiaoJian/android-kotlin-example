@@ -17,7 +17,7 @@ import com.example.androidx_example.R
 import com.example.androidx_example.data.Video
 import com.example.androidx_example.databinding.VideoPopupWindowBinding
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.AnimateUntil
+import com.example.androidx_example.until.ui.AnimateUntil
 
 class VideoPopupWindow(parentFragment: BaseFragment, rootView: ViewGroup, video: Video) :
     PopupWindow(parentFragment.context) {

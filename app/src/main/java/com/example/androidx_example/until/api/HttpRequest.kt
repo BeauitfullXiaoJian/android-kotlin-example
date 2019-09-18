@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.androidx_example.R
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import java.util.*
 import kotlin.collections.HashMap
 import io.reactivex.Observable

@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleService
 import com.example.androidx_example.data.ChatMessage
 import com.example.androidx_example.until.ChatMessageBus
 import com.example.androidx_example.until.api.HttpRequest
-import com.example.androidx_example.until.debugInfo
 import okhttp3.WebSocket
 
 class ChatService : LifecycleService() {

@@ -28,8 +28,9 @@ import androidx.core.content.ContextCompat;
 
 import com.example.androidx_example.R;
 import com.example.androidx_example.components.AutoFitCameraTextureView;
-import com.example.androidx_example.until.AnimateUntil;
-import com.example.androidx_example.until.UntilKt;
+import com.example.androidx_example.until.tool.UntilKt;
+import com.example.androidx_example.until.ui.AnimateUntil;
+
 import kotlin.Unit;
 
 import java.io.File;

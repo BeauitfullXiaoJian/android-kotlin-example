@@ -1,4 +1,4 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.ui
 
 import android.view.View
 import android.animation.ObjectAnimator
@@ -157,7 +157,11 @@ class AnimateUntil {
             duration: Long = ANIMATION_TIME,
             doOnEnd: () -> Unit = fun() {}
         ) {
-            setSizeTo(target, targetSize, duration) {
+            setSizeTo(
+                target,
+                targetSize,
+                duration
+            ) {
                 moveTo(
                     target,
                     PointF(-target.x + offset.x, -target.y + offset.y),

@@ -1,16 +1,13 @@
 package com.example.androidx_example.fragments.album
 
-import android.content.res.Resources
 import com.example.androidx_example.App
 import com.example.androidx_example.R
 import com.example.androidx_example.data.AlbumData
 import com.example.androidx_example.data.PhotoData
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 typealias AlbumObservable = Observable<Array<AlbumData>>
 typealias PhotoObservable = Observable<Array<PhotoData>>

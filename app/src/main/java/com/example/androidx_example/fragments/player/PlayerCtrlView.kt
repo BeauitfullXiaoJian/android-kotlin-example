@@ -13,7 +13,7 @@ import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.*
 import com.example.androidx_example.data.Video
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.Observable

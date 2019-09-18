@@ -1,4 +1,4 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.sql
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.androidx_example.App
 
 class AppSQLiteHelp(context: Context) :
-    SQLiteOpenHelper(context, SQLiteUntil.DATABASE_NAME, null, SQLiteUntil.DATABASE_VERSION) {
+    SQLiteOpenHelper(context,
+        SQLiteUntil.DATABASE_NAME, null,
+        SQLiteUntil.DATABASE_VERSION
+    ) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(

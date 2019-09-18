@@ -11,14 +11,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import com.example.androidx_example.R
 import com.example.androidx_example.data.VideoComment
 import com.example.androidx_example.until.GlideApp
-import com.example.androidx_example.until.debugInfo
-import com.example.androidx_example.until.tenThousandNumFormat
+import com.example.androidx_example.until.tool.tenThousandNumFormat
 
 object DetailBindingAdapter {
 

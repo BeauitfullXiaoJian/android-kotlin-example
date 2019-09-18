@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.getPxFromDpIntegerId
+import com.example.androidx_example.until.tool.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
@@ -86,7 +85,10 @@ class HomeFragment : BaseFragment() {
         recyclerLayoutManager?.run {
             val position = findFirstVisibleItemPosition()
             val top = findViewByPosition(position)?.top ?: 0
-            val offset = getPxFromDpIntegerId(resources, R.integer.space_sm_value) * 2
+            val offset = getPxFromDpIntegerId(
+                resources,
+                R.integer.space_sm_value
+            ) * 2
             viewModel?.recyclerPosition?.value = RecyclerPositionData(position, top - offset)
         }
     }

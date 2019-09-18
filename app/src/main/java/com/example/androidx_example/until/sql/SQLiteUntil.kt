@@ -1,8 +1,7 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.sql
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 
 object SQLiteUntil {
 

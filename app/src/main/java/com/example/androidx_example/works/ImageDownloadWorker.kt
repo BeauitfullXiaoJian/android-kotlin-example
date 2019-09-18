@@ -1,22 +1,19 @@
 package com.example.androidx_example.works
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.media.RingtoneManager
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.example.androidx_example.R
-import com.example.androidx_example.until.TimeLock
+import com.example.androidx_example.until.tool.TimeLock
 import com.example.androidx_example.until.api.CODE_SUCCESS
 import com.example.androidx_example.until.api.HttpRequest
-import com.example.androidx_example.until.debugInfo
-import com.example.androidx_example.until.getFileNameStrByTime
-import com.example.androidx_example.until.getNewNotifyId
+import com.example.androidx_example.until.tool.debugInfo
+import com.example.androidx_example.until.tool.getFileNameStrByTime
+import com.example.androidx_example.until.ui.NotifyUntil
 import okhttp3.Response
 import java.io.File
 import java.io.FileOutputStream
@@ -29,15 +26,20 @@ import java.io.OutputStream
 class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
 
-    private val chanelId = "ImageDownloadWorker"
-    private val notifyId = getNewNotifyId()
-
     override fun doWork(): Result {
         val imageUrl = inputData.getString(DOWNLOAD_IMAGE_URL)
         return imageUrl?.let {
             val res = HttpRequest.download(it)
             val notifyManagerCompat = NotificationManagerCompat.from(applicationContext)
-            val notifyBuilder = createNotifyBuilder(applicationContext, chanelId)
+            val notifyBuilder = NotifyUntil.getSimpleNotifyBuilder(
+                appContext = applicationContext,
+                notifyName = "下载任务",
+                title = "图片下载",
+                content = "正在下载.",
+                iconId = R.mipmap.ic_launcher,
+                descriptionText = "图片下载消息"
+            )
+            val notifyId = NotifyUntil.getCurrentNotifyId()
             saveImage(res, applicationContext) { progress ->
                 when (progress) {
                     DOWNLOAD_COMPLETE_VALUE -> {
@@ -89,7 +91,11 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
         /**
          * 保存文件
          */
-        fun saveImage(res: Response, appContext: Context, progressCallback: (progress: Int) -> Unit): Result {
+        fun saveImage(
+            res: Response,
+            appContext: Context,
+            progressCallback: (progress: Int) -> Unit
+        ): Result {
             val body = res.body()
             if (res.code() != CODE_SUCCESS || body == null) return Result.failure()
 
@@ -135,28 +141,6 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
                     e.printStackTrace()
                 }
             }
-        }
-
-        /**
-         * 创建一个通知Builder
-         */
-        fun createNotifyBuilder(appContext: Context, chanelId: String): NotificationCompat.Builder {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val name = "下载任务"
-                val descriptionText = "图片下载消息"
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel = NotificationChannel(chanelId, name, importance).apply {
-                    description = descriptionText
-                }
-                val notificationManager: NotificationManager =
-                    appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(channel)
-            }
-            return NotificationCompat.Builder(appContext, chanelId)
-                .setContentTitle("图片下载")
-                .setContentText("正在下载.")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
         }
     }
 }

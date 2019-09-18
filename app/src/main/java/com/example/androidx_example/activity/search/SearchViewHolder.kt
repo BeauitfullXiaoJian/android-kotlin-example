@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.until.GlideApp
-import com.example.androidx_example.until.ViewUntil
+import com.example.androidx_example.until.ui.ViewUntil
 import com.example.androidx_example.databinding.SearchItemBinding
 
 class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,11 +1,9 @@
 package com.example.androidx_example.fragments.album
 
-import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.androidx_example.data.AlbumData
-import io.reactivex.disposables.Disposable
 
 class AlbumPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -28,6 +26,5 @@ class AlbumPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEH
     override fun getPageTitle(position: Int): CharSequence {
         return albums[position].title
     }
-
 
 }

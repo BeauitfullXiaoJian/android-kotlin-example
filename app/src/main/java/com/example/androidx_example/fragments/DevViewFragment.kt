@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.navigation.fragment.navArgs
@@ -16,9 +15,7 @@ import com.example.androidx_example.components.DrawImageView
 import com.example.androidx_example.components.FlingImageView
 import com.example.androidx_example.components.ScaleImageView
 import com.example.androidx_example.components.SpringImageView
-import com.example.androidx_example.until.getTempBitmapUri
-import com.example.androidx_example.until.getTempSaveFileOutputStream
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.androidx_example.until.tool.getTempSaveFileOutputStream
 import kotlinx.android.synthetic.main.fragment_dev_view.*
 
 class DevViewFragment : BaseFragment() {
@@ -83,7 +80,11 @@ class DevViewFragment : BaseFragment() {
             when (it.tag) {
                 getString(R.string.save) -> it.setOnClickListener {
                     dv.getSnapshotBitmap()?.also { bmp ->
-                        val os = getTempSaveFileOutputStream(context!!, "jpg")
+                        val os =
+                            getTempSaveFileOutputStream(
+                                context!!,
+                                "jpg"
+                            )
                         bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
                         os.close()
                         showToast("保存图片成功")

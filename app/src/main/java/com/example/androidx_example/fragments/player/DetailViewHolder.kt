@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
 import com.example.androidx_example.data.VideoDetailInfo
 import com.example.androidx_example.until.GlideApp
-import com.example.androidx_example.until.debugInfo
-import com.example.androidx_example.until.tenThousandNumFormat
+import com.example.androidx_example.until.tool.tenThousandNumFormat
 
 class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -35,8 +34,10 @@ class DetailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .into(videoThumb)
         videoTitle.text = videoData.video.videoTitle
         videoUpName.text = ""
-        videoBrowserNum.text = tenThousandNumFormat(videoData.video.viewNum)
-        videoCommentNum.text = tenThousandNumFormat(videoData.video.commentNum)
+        videoBrowserNum.text =
+            tenThousandNumFormat(videoData.video.viewNum)
+        videoCommentNum.text =
+            tenThousandNumFormat(videoData.video.commentNum)
         videoUpName.text = videoData.up.nickName
         videoItem.setOnClickListener {
             val direction = PlayerFragmentDirections.actionPlayerFragmentSelf(videoData.video.id)

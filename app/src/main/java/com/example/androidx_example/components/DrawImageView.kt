@@ -8,7 +8,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.dynamicanimation.animation.FlingAnimation
 import androidx.dynamicanimation.animation.FloatValueHolder
-import com.example.androidx_example.until.debugInfo
+import com.example.androidx_example.until.tool.debugInfo
 
 /**
  * 涂鸦组件

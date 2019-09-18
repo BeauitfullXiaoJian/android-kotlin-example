@@ -5,7 +5,7 @@ import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.Video
 import com.example.androidx_example.data.VideoComment
 import com.example.androidx_example.data.VideoDetailInfo
-import com.example.androidx_example.until.getSuccess
+import com.example.androidx_example.until.tool.getSuccess
 
 class PlayerViewModel : ViewModel() {
 

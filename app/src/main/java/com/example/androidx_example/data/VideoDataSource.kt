@@ -1,9 +1,8 @@
 package com.example.androidx_example.data
 
 import androidx.paging.PageKeyedDataSource
-import com.example.androidx_example.until.debugInfo
-import com.example.androidx_example.until.getSuccess
-import com.example.androidx_example.until.getWithSaveSuccess
+import com.example.androidx_example.until.tool.debugInfo
+import com.example.androidx_example.until.tool.getWithSaveSuccess
 
 class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
 

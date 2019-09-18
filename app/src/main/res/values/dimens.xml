@@ -58,5 +58,6 @@
     <dimen name="bottom_nav_height">@dimen/actionbar_height</dimen>
     <dimen name="line_height">1dp</dimen>
     <dimen name="tab_height">40dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

@@ -2,13 +2,12 @@ package com.example.androidx_example.activity.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.Video
-import com.example.androidx_example.until.getWithSaveSuccess
+import com.example.androidx_example.until.tool.getWithSaveSuccess
 import kotlinx.android.synthetic.main.activity_global_search.*
 
 class GlobalSearchActivity : AppCompatActivity() {

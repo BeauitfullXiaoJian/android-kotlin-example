@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.getPxFromDpIntegerId
+import com.example.androidx_example.until.tool.getPxFromDpIntegerId
 import kotlinx.android.synthetic.main.fragment_photo_preview.*
 
 class PhotoPreviewFragment : BaseFragment() {

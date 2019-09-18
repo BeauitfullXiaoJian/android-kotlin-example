@@ -1,4 +1,4 @@
-package com.example.androidx_example.until
+package com.example.androidx_example.until.sql
 
 import androidx.room.Room
 import com.example.androidx_example.App
@@ -13,7 +13,8 @@ object RoomUntil {
         if (!this::db.isInitialized) {
             db = Room.databaseBuilder(
                 App.instance,
-                AppDatabase::class.java, SQLiteUntil.DATABASE_NAME
+                AppDatabase::class.java,
+                SQLiteUntil.DATABASE_NAME
             ).build()
         }
     }
