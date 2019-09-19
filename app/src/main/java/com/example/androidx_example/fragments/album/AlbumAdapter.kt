@@ -1,29 +1,19 @@
 package com.example.androidx_example.fragments.album
 
+import android.util.Size
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.data.PhotoData
+import com.example.androidx_example.until.adapter.BaseRecyclerAdapter
 
 class AlbumAdapter(private val containerWidth: Int) :
-    RecyclerView.Adapter<AlbumViewHolder>() {
+    BaseRecyclerAdapter<AlbumViewHolder, PhotoData>() {
 
-    private var photos: Array<PhotoData> = arrayOf()
-
-    fun setAlbums(photos: Array<PhotoData>) {
-        this@AlbumAdapter.photos = photos
-        notifyDataSetChanged()
+    init {
+        items = arrayOf()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        AlbumViewHolder.containerViewWidth = containerWidth
-        return AlbumViewHolder.create(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return photos.size
-    }
-
-    override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        holder.bind(photos[position])
+        val containerSize = Size(containerWidth / 2, Int.MAX_VALUE)
+        return AlbumViewHolder.create(parent, containerSize)
     }
 }

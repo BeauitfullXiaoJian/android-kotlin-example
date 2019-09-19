@@ -16,7 +16,11 @@ class PhotoPreviewFragment : BaseFragment() {
         arguments!!.getString(ALBUM_NAME, ALBUM_NAME)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_photo_preview, container, false)
     }
 
@@ -26,7 +30,7 @@ class PhotoPreviewFragment : BaseFragment() {
                 layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 adapter = AlbumAdapter(width).also {
                     val dps = PhotoDataLoader.loadPhoto(albumName).subscribe { photos ->
-                        it.setAlbums(photos)
+                        it.updateItems(photos)
                     }
                     this@PhotoPreviewFragment.addDisposableToCompositeDisposable(dps)
                 }

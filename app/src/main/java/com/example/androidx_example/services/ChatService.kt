@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleService
 import com.example.androidx_example.data.ChatMessage
 import com.example.androidx_example.until.ChatMessageBus
 import com.example.androidx_example.until.api.HttpRequest
+import com.example.androidx_example.until.tool.debugInfo
 import okhttp3.WebSocket
 
 class ChatService : LifecycleService() {
@@ -21,12 +22,14 @@ class ChatService : LifecycleService() {
     }
 
     private fun createWebSocketClient() {
-        mWebSocket = HttpRequest.webSocket("", "cool1024") { type, content ->
+        HttpRequest.webSocket("", "cool1024") { type, content, ws ->
             if (type == HttpRequest.WebSocketContentType.MESSAGE) {
                 ChatMessage.createFromString(content)?.also {
                     ChatMessageBus.postMessage(it)
                 }
             }
+            mWebSocket = ws
+            debugInfo("收到消息", content, type.name)
         }
     }
 }

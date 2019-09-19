@@ -25,7 +25,7 @@ class PublicFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         public_view_pager.adapter = AlbumPagerAdapter(childFragmentManager).also { adapter ->
             val dps = PhotoDataLoader.loadAlbum().subscribe { albums ->
-                adapter.setAlbums(albums)
+                adapter.updateItems(albums)
             }
             addDisposableToCompositeDisposable(dps)
         }

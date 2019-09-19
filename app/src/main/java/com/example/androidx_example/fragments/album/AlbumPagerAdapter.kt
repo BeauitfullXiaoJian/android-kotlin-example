@@ -2,29 +2,21 @@ package com.example.androidx_example.fragments.album
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.androidx_example.data.AlbumData
+import com.example.androidx_example.until.adapter.BaseViewPagerAdapter
 
-class AlbumPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class AlbumPagerAdapter(fm: FragmentManager) : BaseViewPagerAdapter<AlbumData>(fm) {
 
-    private var albums: Array<AlbumData> = arrayOf()
-
-    fun setAlbums(albums: Array<AlbumData>) {
-        this@AlbumPagerAdapter.albums = albums
-        notifyDataSetChanged()
+    init {
+        items = arrayOf()
     }
 
     override fun getItem(position: Int): Fragment {
-        val album = albums[position]
+        val album = items[position]
         return PhotoPreviewFragment.create(album.path)
     }
 
-    override fun getCount(): Int {
-        return albums.size
-    }
-
     override fun getPageTitle(position: Int): CharSequence {
-        return albums[position].title
+        return items[position].title
     }
-
 }

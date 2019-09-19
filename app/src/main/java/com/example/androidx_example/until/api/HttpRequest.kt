@@ -14,7 +14,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import io.reactivex.schedulers.Schedulers
 import okhttp3.EventListener
-import okio.ByteString
 import java.io.IOException
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -27,6 +26,7 @@ import java.util.concurrent.TimeUnit
 const val REQUEST_HOST = "REQUEST_HOST"
 const val WEB_SOCKET_HOST = "WEB_SOCKET_HOST"
 const val REQUEST_TIMEOUT = "REQUEST_TIMEOUT"
+const val RECONNECT_TIME = "RECONNECT_TIME"
 
 /**
  * Request config default value
@@ -34,6 +34,7 @@ const val REQUEST_TIMEOUT = "REQUEST_TIMEOUT"
 const val REQUEST_DEFAULT_HOST = ""
 const val WEB_SOCKET_DEFAULT_HOST = ""
 const val REQUEST_DEFAULT_TIME_OUT = "10"
+const val RECONNECT_TIME_DEFAULT_TIME = "2"
 
 /**
  * Error  message string
@@ -45,14 +46,13 @@ const val REQUEST_ERROR = "请求错误，服务器响应异常"
 /**
  * Http Code
  */
-
 const val CODE_200 = 200
 const val CODE_401 = 401
 const val CODE_403 = 403
 const val CODE_422 = 422
 const val CODE_500 = 500
 const val CODE_SUCCESS = CODE_200
-const val CODE_ERROR = CODE_500
+// const val CODE_ERROR = CODE_500
 const val HTTP_CODE_UNKNOWN_MESSAGE = "其它错误"
 
 val HTTP_CODE_MESSAGES = mapOf(
@@ -92,6 +92,10 @@ class HttpRequest {
                     requestTimeout = properties.getProperty(
                         REQUEST_TIMEOUT,
                         REQUEST_DEFAULT_TIME_OUT
+                    ).toInt(),
+                    reconnectTime = properties.getProperty(
+                        RECONNECT_TIME,
+                        RECONNECT_TIME_DEFAULT_TIME
                     ).toInt()
                 )
         }
@@ -101,7 +105,10 @@ class HttpRequest {
             return sendRequest(request)
         }
 
-        private fun prepareGetRequest(apiName: String, params: HashMap<String, Any>? = null): Request {
+        private fun prepareGetRequest(
+            apiName: String,
+            params: HashMap<String, Any>? = null
+        ): Request {
             var apiPath = apiName
             if (params != null) apiPath += getQueryString(
                 params
@@ -130,7 +137,7 @@ class HttpRequest {
         fun webSocket(
             authToken: String,
             protocol: String,
-            messageCallbackFun: (type: WebSocketContentType, content: String) -> Unit
+            messageCallbackFun: (type: WebSocketContentType, content: String, webSocket: WebSocket) -> Unit
         ): WebSocket {
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(config!!.requestTimeout.toLong(), TimeUnit.SECONDS)
@@ -141,27 +148,32 @@ class HttpRequest {
                 .addHeader("Sec-WebSocket-Protocol", protocol)
                 .url("${config!!.webSocketHost}\\token=$authToken")
                 .build()
-            return okHttpClient.newWebSocket(request, object : WebSocketListener() {
+            val listener = object : WebSocketListener() {
                 override fun onOpen(webSocket: WebSocket, response: Response) =
-                    messageCallbackFun(WebSocketContentType.OPEN_MESSAGE, response.message())
+                    messageCallbackFun(
+                        WebSocketContentType.OPEN_MESSAGE,
+                        response.message(),
+                        webSocket
+                    )
 
-                override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) =
-                    messageCallbackFun(WebSocketContentType.ERROR_MESSAGE, t.toString())
+                override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                    webSocket.cancel()
+                    Thread.sleep(config!!.reconnectTime * 1000L)
+                    messageCallbackFun(
+                        WebSocketContentType.ERROR_MESSAGE,
+                        t.toString(),
+                        okHttpClient.newWebSocket(request, this)
+                    )
+                }
 
                 override fun onClosed(webSocket: WebSocket, code: Int, reason: String) =
-                    messageCallbackFun(WebSocketContentType.CLOSE_MESSAGE, reason)
+                    messageCallbackFun(WebSocketContentType.CLOSE_MESSAGE, reason, webSocket)
 
                 override fun onMessage(webSocket: WebSocket, text: String) =
-                    messageCallbackFun(WebSocketContentType.MESSAGE, text)
+                    messageCallbackFun(WebSocketContentType.MESSAGE, text, webSocket)
+            }
 
-                override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                    super.onMessage(webSocket, bytes)
-                }
-
-                override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                    super.onClosing(webSocket, code, reason)
-                }
-            })
+            return okHttpClient.newWebSocket(request, listener)
         }
 
         private fun getInstance(): OkHttpClient {
@@ -177,7 +189,10 @@ class HttpRequest {
             return "${config!!.requestHost}/$apiName"
         }
 
-        private fun createPostRequest(requestUrl: String, params: HashMap<String, Any>? = null): Request {
+        private fun createPostRequest(
+            requestUrl: String,
+            params: HashMap<String, Any>? = null
+        ): Request {
             var requestBuilder = Request.Builder()
             requestBuilder = requestBuilder.url(
                 getRequestUrl(
@@ -186,7 +201,8 @@ class HttpRequest {
             )
             if (params != null) {
                 val jsonStr = Gson().toJson(params)
-                val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr)
+                val body =
+                    RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr)
                 requestBuilder.post(body)
             }
             return requestBuilder.build()
@@ -234,8 +250,7 @@ class HttpRequest {
         private fun sendRequest(request: Request): Observable<ApiData> {
             return Observable
                 .fromCallable<ApiData> {
-                    val response = getInstance().newCall(request).execute()
-                    // val body = response.body()
+                    getInstance().newCall(request).execute()
                     return@fromCallable sendSyncRequest(request)
                 }.subscribeOn(Schedulers.newThread())
                 .onErrorReturn {
@@ -255,7 +270,8 @@ class HttpRequest {
     data class HttpConfig(
         val requestHost: String,
         var webSocketHost: String,
-        val requestTimeout: Int
+        val requestTimeout: Int,
+        val reconnectTime: Int
     )
 
     data class ApiSourceData(
@@ -269,7 +285,11 @@ class HttpRequest {
         var rows: List<T> = listOf()
     )
 
-    class ApiData(private val sourceData: ApiSourceData, val originBodyStr: String) {
+    class ApiData(private val sourceData: ApiSourceData, originBodyStr: String) {
+
+        init {
+            debugInfo("响应内容", originBodyStr)
+        }
 
         fun getMessage(): String {
             return sourceData.message
@@ -371,7 +391,11 @@ class HttpRequest {
             debugInfo("DNS解析开始")
         }
 
-        override fun dnsEnd(call: Call, domainName: String, inetAddressList: MutableList<InetAddress>) {
+        override fun dnsEnd(
+            call: Call,
+            domainName: String,
+            inetAddressList: MutableList<InetAddress>
+        ) {
             debugInfo("DNS解析结束")
         }
 
@@ -405,7 +429,7 @@ class HttpRequest {
         }
 
         override fun callFailed(call: Call, ioe: IOException) {
-            super.callFailed(call, ioe)
+//            super.callFailed(call, ioe)
 //            debugInfo(
 //                """
 //                =====执行失败=====

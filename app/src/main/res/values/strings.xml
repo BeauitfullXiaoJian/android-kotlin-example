@@ -109,6 +109,9 @@
 
     <!-- Chat Fragment -->
     <string name="say_something">说点什么吧~</string>
+    <string name="holder_chat_content">这是一段聊天内容~</string>
+    <string name="holder_chat_nick_name">梦想的乡</string>
+    <string name="holder_chat_badge">本群守护者</string>
 
     <!-- Setting Preferences -->
     <string name="setting_play">播放设置</string>

@@ -23,8 +23,10 @@ open class BaseFragment : Fragment() {
     private var _actionBar: ActionBar? = null
     private var _toolbarView: Toolbar? = null
 
-    fun addDisposableToCompositeDisposable(disposable: Disposable) {
-        compositeDisposable.add(disposable)
+    fun addDisposableToCompositeDisposable(vararg disposables: Disposable) {
+        disposables.forEach {
+            compositeDisposable.addAll(it)
+        }
     }
 
     fun setNavToolBar(toolbar: Toolbar, title: String? = null) {
