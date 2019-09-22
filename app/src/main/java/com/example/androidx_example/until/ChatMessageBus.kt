@@ -8,8 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 
-object
-ChatMessageBus {
+object ChatMessageBus {
 
     private val busSubject = PublishSubject.create<ChatMessage>()
 

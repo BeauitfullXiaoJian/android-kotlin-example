@@ -3,7 +3,7 @@ package com.example.androidx_example.until.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerAdapter<VH : BaseRecyclerAdapter.ViewHolderBinder<ITEM>, ITEM>() :
+abstract class BaseRecyclerAdapter<VH : BaseRecyclerAdapter.ViewHolderBinder<ITEM>, ITEM> :
     RecyclerView.Adapter<VH>() {
 
     protected lateinit var items: Array<ITEM>

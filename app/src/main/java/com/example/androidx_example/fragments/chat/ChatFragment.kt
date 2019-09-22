@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.androidx_example.R
 import com.example.androidx_example.data.ChatMessage
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.ChatMessageBus
-import com.example.androidx_example.until.sql.RoomUntil
-import com.example.androidx_example.until.tool.RxUntil
 import com.example.androidx_example.until.ui.ViewUntil
 import com.example.androidx_example.works.MessageSendWorker
 import com.google.gson.Gson
@@ -22,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 class ChatFragment : BaseFragment() {
 
     private var mChatAdapter: ChatAdapter? = null
-    private var mChatRows: ArrayList<ChatMessage> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +31,6 @@ class ChatFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerView()
         initMsgAction()
-        loadLocalMsgData()
     }
 
     override fun onStop() {
@@ -43,42 +39,18 @@ class ChatFragment : BaseFragment() {
     }
 
     /**
-     * 加载本地消息
-     */
-    private fun loadLocalMsgData() {
-        val task = Runnable {
-            val msgSaveRows = RoomUntil.db.msgSaveDataDao().getPageMessage(1, 100)
-            debugLog("数据量", msgSaveRows.size.toString())
-            val msgRows = msgSaveRows.map {
-                ChatMessage.createFromString(it.msgData)!!
-            }
-            mChatRows.addAll(msgRows)
-        }
-
-        val messageLoaderDisposable = RxUntil.mainTask(task) {
-            mChatAdapter?.notifyDataSetChanged()
-            chat_recycler_view.scrollToPosition(mChatRows.size - 1)
-        }
-
-        addDisposableToCompositeDisposable(messageLoaderDisposable)
-    }
-
-    /**
      * 初始化消息列表
      */
     private fun initRecyclerView() {
-        val messageDisposable = ChatMessageBus.obsOnMainThread {
-            val size = mChatRows.size
-            mChatRows.add(it)
-            mChatAdapter?.notifyItemRangeChanged(size, 1)
-            chat_recycler_view.scrollToPosition(size)
-        }
-        addDisposableToCompositeDisposable(messageDisposable)
-        mChatAdapter = mChatAdapter ?: ChatAdapter(mChatRows, "cool1024")
+        mChatAdapter = mChatAdapter ?: ChatAdapter("cool1024")
         chat_recycler_view.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = mChatAdapter
         }
+        createViewModel(ChatViewModel::class.java).msgRows.observe(this, Observer {
+            mChatAdapter?.submitList(it)
+            chat_recycler_view?.scrollToPosition(mChatAdapter!!.itemCount)
+        })
     }
 
 

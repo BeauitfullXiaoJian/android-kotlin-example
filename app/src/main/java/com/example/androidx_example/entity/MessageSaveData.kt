@@ -3,12 +3,13 @@ package com.example.androidx_example.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.androidx_example.until.adapter.BasePagedListAdapter
 
 @Entity(tableName = "msg_data")
 data class MessageSaveData(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
+    override val id: Long? = null,
 
     @ColumnInfo(name = "work_request_id")
     val requestId: String,
@@ -27,4 +28,4 @@ data class MessageSaveData(
 
     @ColumnInfo(name = "receiver_time")
     val receiverTime: Long? = null
-)
+) : BasePagedListAdapter.DiffItem

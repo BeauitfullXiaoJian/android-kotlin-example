@@ -250,7 +250,6 @@ class HttpRequest {
         private fun sendRequest(request: Request): Observable<ApiData> {
             return Observable
                 .fromCallable<ApiData> {
-                    getInstance().newCall(request).execute()
                     return@fromCallable sendSyncRequest(request)
                 }.subscribeOn(Schedulers.newThread())
                 .onErrorReturn {

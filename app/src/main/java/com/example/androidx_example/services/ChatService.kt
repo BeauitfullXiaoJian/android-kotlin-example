@@ -2,9 +2,13 @@ package com.example.androidx_example.services
 
 import androidx.lifecycle.LifecycleService
 import com.example.androidx_example.data.ChatMessage
+import com.example.androidx_example.entity.MessageSaveData
 import com.example.androidx_example.until.ChatMessageBus
 import com.example.androidx_example.until.api.HttpRequest
+import com.example.androidx_example.until.sql.RoomUntil
 import com.example.androidx_example.until.tool.debugInfo
+import com.example.androidx_example.works.MessageSendWorker
+import com.google.gson.Gson
 import okhttp3.WebSocket
 
 class ChatService : LifecycleService() {
@@ -26,10 +30,29 @@ class ChatService : LifecycleService() {
             if (type == HttpRequest.WebSocketContentType.MESSAGE) {
                 ChatMessage.createFromString(content)?.also {
                     ChatMessageBus.postMessage(it)
+                    this.trySaveMsgLog(it.toUid, Gson().toJson(it))
                 }
             }
             mWebSocket = ws
             debugInfo("收到消息", content, type.name)
         }
+    }
+
+    private fun trySaveMsgLog(
+        receiverUid: String,
+        msgData: String
+    ) {
+        Runnable {
+            if (receiverUid != "cool1024") {
+                val msg = MessageSaveData(
+                    requestId = "",
+                    sendState = MessageSendWorker.MessageState.SENDING.value,
+                    msgData = msgData,
+                    receiverUid = receiverUid,
+                    sendTime = System.currentTimeMillis()
+                )
+                RoomUntil.db.msgSaveDataDao().insert(msg)
+            }
+        }.run()
     }
 }
