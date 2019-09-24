@@ -2,19 +2,22 @@ package com.example.httprequest
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.google.gson.Gson
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.Request
-import okhttp3.RequestBody
+import java.lang.RuntimeException
+import java.util.concurrent.TimeUnit
 
 class HttpRequest(
     private val config: HttpConfig,
     private val instance: OkHttpClient,
-    private val transformer: ApiDataTransformer
+    val transformer: ApiDataTransformer,
+    val dataSaver: ApiDataSaver
 ) {
 
 
@@ -47,6 +50,54 @@ class HttpRequest(
     ): ApiOriginData {
         val request = createPostRequest(apiName, queryParams, params)
         return sendSyncRequest(request)
+    }
+
+    fun download(downloadUrl: String): Response {
+        val requestBuilder = Request.Builder()
+        val request = requestBuilder.url(downloadUrl).build()
+        return instance.newCall(request).execute()
+    }
+
+    fun webSocket(
+        authToken: String,
+        protocol: String,
+        messageCallbackFun: (type: WebSocketContentType, content: String, webSocket: WebSocket) -> Unit
+    ): WebSocket {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(config.requestTimeout.toLong(), TimeUnit.SECONDS)
+            .pingInterval(config.requestTimeout.toLong(), TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build()
+        val request = Request.Builder()
+            .addHeader("Sec-WebSocket-Protocol", protocol)
+            .url("${config.webSocketHost}\\token=$authToken")
+            .build()
+        val listener = object : WebSocketListener() {
+            override fun onOpen(webSocket: WebSocket, response: Response) =
+                messageCallbackFun(
+                    WebSocketContentType.OPEN_MESSAGE,
+                    response.message(),
+                    webSocket
+                )
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                webSocket.cancel()
+                Thread.sleep(config.reconnectTime * 1000L)
+                messageCallbackFun(
+                    WebSocketContentType.ERROR_MESSAGE,
+                    t.toString(),
+                    okHttpClient.newWebSocket(request, this)
+                )
+            }
+
+            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) =
+                messageCallbackFun(WebSocketContentType.CLOSE_MESSAGE, reason, webSocket)
+
+            override fun onMessage(webSocket: WebSocket, text: String) =
+                messageCallbackFun(WebSocketContentType.MESSAGE, text, webSocket)
+        }
+
+        return okHttpClient.newWebSocket(request, listener)
     }
 
     /**
@@ -90,6 +141,7 @@ class HttpRequest(
      *  发送异步请求，返回观察对象
      */
     private fun sendRequest(request: Request): Single<ApiOriginData> {
+        val disposableTool = DisposableTool()
         return Single.fromCallable<ApiOriginData> {
             sendSyncRequest(request)
         }.subscribeOn(Schedulers.newThread())
@@ -115,6 +167,7 @@ class HttpRequest(
         queryParams: HashMap<String, Any>? = null
     ): Request {
         val apiPath = getRequestUrl(apiName, queryParams)
+        log(apiPath)
         return Request.Builder().url(apiPath).build()
     }
 
@@ -152,11 +205,27 @@ class HttpRequest(
             queryParams.keys.forEach { key ->
                 builder.appendQueryParameter(key, queryParams[key].toString())
             }
-            return builder.build().toString()
+            builder.build().toString()
         } ?: String()
         return "${config.requestHost}/$apiName$queryStr"
     }
 
+
+    class DisposableTool {
+        lateinit var disposable: Disposable
+        fun dispose() {
+            if (this@DisposableTool::disposable.isInitialized && !disposable.isDisposed) {
+                disposable.dispose()
+            }
+        }
+    }
+
+    enum class WebSocketContentType {
+        MESSAGE,
+        OPEN_MESSAGE,
+        CLOSE_MESSAGE,
+        ERROR_MESSAGE
+    }
 
     companion object {
 
@@ -169,7 +238,7 @@ class HttpRequest(
         private const val CODE_422 = 422
         private const val CODE_500 = 500
         private const val CODE_UNKNOWN = 0
-        private const val CODE_SUCCESS = CODE_200
+        const val CODE_SUCCESS = CODE_200
 
         /**
          * Error  message string
@@ -209,9 +278,20 @@ class HttpRequest(
         }
 
         fun prepareByConfigRawId(appContext: Context, configRawId: Int): Completable {
-            return Completable.create {
+            return Completable.fromRunnable {
                 requestInstance = createSimpleInstance(appContext, configRawId)
             }.subscribeOn(Schedulers.newThread())
+        }
+
+        fun instance(): HttpRequest {
+            if (!this::requestInstance.isInitialized) {
+                throw RuntimeException("You must call prepare() before use it!")
+            }
+            return requestInstance
+        }
+
+        fun log(message: String) {
+            Log.d(HttpRequest::class.java.name, message)
         }
     }
 }

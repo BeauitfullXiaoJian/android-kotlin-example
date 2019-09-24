@@ -26,6 +26,15 @@ class ApiData(
         }
     }
 
+    fun <T> getObjectData(classOfT: Class<T>, defaultValue: T): T {
+        return try {
+            Gson().fromJson(data, classOfT)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            defaultValue
+        }
+    }
+
     fun <T> getObjectList(classOfT: Class<T>): List<T> {
         var objectRows = listOf<T>()
         try {
@@ -39,5 +48,23 @@ class ApiData(
             e.printStackTrace()
         }
         return objectRows
+    }
+
+    fun <T> getPageData(classOfT: Class<T>): Pagination.PageData<T> {
+        var pageData = Pagination.PageData<T>()
+        try {
+            if (data != null) {
+                val jsonObject = JsonParser().parse(data).asJsonObject
+                val jsonArray = jsonObject.get("rows").asJsonArray
+                pageData = Pagination.PageData(
+                    total = jsonObject.get("total").asInt,
+                    rows = jsonArray.map {
+                        Gson().fromJson(it.toString(), classOfT)
+                    })
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return pageData
     }
 }

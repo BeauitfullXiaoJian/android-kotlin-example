@@ -3,17 +3,16 @@ package com.example.androidx_example.works
 import android.app.Application
 import android.content.Context
 import android.media.RingtoneManager
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.example.androidx_example.R
 import com.example.androidx_example.until.tool.TimeLock
 import com.example.androidx_example.until.api.CODE_SUCCESS
-import com.example.androidx_example.until.api.HttpRequest
 import com.example.androidx_example.until.tool.debugInfo
 import com.example.androidx_example.until.tool.getFileNameStrByTime
 import com.example.androidx_example.until.ui.NotifyUntil
+import com.example.httprequest.Request
 import okhttp3.Response
 import java.io.File
 import java.io.FileOutputStream
@@ -29,7 +28,7 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
         val imageUrl = inputData.getString(DOWNLOAD_IMAGE_URL)
         return imageUrl?.let {
-            val res = HttpRequest.download(it)
+            val res = Request.download(it)
             val notifyManagerCompat = NotificationManagerCompat.from(applicationContext)
             val notifyBuilder = NotifyUntil.getSimpleNotifyBuilder(
                 appContext = applicationContext,

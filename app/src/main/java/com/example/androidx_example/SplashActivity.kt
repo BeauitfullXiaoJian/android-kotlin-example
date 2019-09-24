@@ -3,10 +3,8 @@ package com.example.androidx_example
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.accessibility.AccessibilityEvent
 import com.example.httprequest.HttpRequest
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -29,12 +27,10 @@ class SplashActivity : AppCompatActivity() {
         // val obsAds = Banner.display()
 
         // 跳转到主页
-        disposable = Completable.concatArray(obsRequest)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                startActivity(Intent(this, MainActivity::class.java));
-                finish()
-            }
+        disposable= Completable.concatArray(obsRequest).subscribe {
+            startActivity(Intent(this, MainActivity::class.java));
+            finish()
+        }
     }
 
     override fun onDestroy() {

@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.R
-import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.fragments.BaseFragment
+import com.example.httprequest.Pagination
 import kotlinx.android.synthetic.main.fragment_player_tab_comment.*
 
 class CommentFragment : BaseFragment() {

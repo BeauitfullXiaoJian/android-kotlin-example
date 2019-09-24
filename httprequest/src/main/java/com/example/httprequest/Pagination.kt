@@ -1,4 +1,4 @@
-package com.example.androidx_example.data
+package com.example.httprequest
 
 class Pagination {
 
@@ -60,6 +60,12 @@ class Pagination {
         total = 0
         isActive = false
     }
+
+    data class PageData<T>(
+        var total: Int = 0,
+        var rows: List<T> = listOf()
+    )
+
 
     companion object {
         const val DEFAULT_PAGE_SIZE = 10

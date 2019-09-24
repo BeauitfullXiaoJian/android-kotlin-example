@@ -2,8 +2,8 @@ package com.example.androidx_example.fragments.home
 
 import androidx.lifecycle.*
 import androidx.paging.toLiveData
-import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.VideoDataSourceFactory
+import com.example.httprequest.Pagination
 
 class HomeViewModel : ViewModel() {
 

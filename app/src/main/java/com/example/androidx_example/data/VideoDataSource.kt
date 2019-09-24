@@ -2,16 +2,21 @@ package com.example.androidx_example.data
 
 import androidx.paging.PageKeyedDataSource
 import com.example.androidx_example.until.tool.debugInfo
-import com.example.androidx_example.until.tool.getWithSaveSuccess
+import com.example.httprequest.Pagination
+import com.example.httprequest.Request
 
 class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
 
-    override fun loadInitial(params: LoadInitialParams<Pagination>, callback: LoadInitialCallback<Pagination, Video>) {
+    override fun loadInitial(
+        params: LoadInitialParams<Pagination>,
+        callback: LoadInitialCallback<Pagination, Video>
+    ) {
         val page = Pagination.create(params.requestedLoadSize)
         debugInfo("加载数据量" + params.requestedLoadSize)
-        getWithSaveSuccess(
+        Request.get(
             apiName = "videos",
             params = page.pageParams,
+            allowSave = true,
             successDo = { res ->
                 val pageData = res.getPageData(Video::class.java)
                 page.updateTotal(pageData.total)
@@ -25,13 +30,17 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
         )
     }
 
-    override fun loadBefore(params: LoadParams<Pagination>, callback: LoadCallback<Pagination, Video>) {
+    override fun loadBefore(
+        params: LoadParams<Pagination>,
+        callback: LoadCallback<Pagination, Video>
+    ) {
         val page = params.key
         if (page.hasPrev) {
             page.prevPage()
-            getWithSaveSuccess(
+            Request.get(
                 apiName = "videos",
                 params = page.pageParams,
+                allowSave = true,
                 successDo = { res ->
                     val pageData = res.getPageData(Video::class.java)
                     page.updateTotal(pageData.total)
@@ -46,14 +55,18 @@ class VideoDataSource : PageKeyedDataSource<Pagination, Video>() {
         }
     }
 
-    override fun loadAfter(params: LoadParams<Pagination>, callback: LoadCallback<Pagination, Video>) {
+    override fun loadAfter(
+        params: LoadParams<Pagination>,
+        callback: LoadCallback<Pagination, Video>
+    ) {
         val page = params.key
         debugInfo("加载更多")
         if (page.hasNext) {
             page.nextPage()
-            getWithSaveSuccess(
+            Request.get(
                 apiName = "videos",
                 params = page.pageParams,
+                allowSave = true,
                 successDo = { res ->
                     val pageData = res.getPageData(Video::class.java)
                     page.updateTotal(pageData.total)

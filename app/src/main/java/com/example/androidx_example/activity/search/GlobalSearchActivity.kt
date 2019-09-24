@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
-import com.example.androidx_example.data.Pagination
 import com.example.androidx_example.data.Video
 import com.example.androidx_example.until.tool.getWithSaveSuccess
+import com.example.httprequest.Pagination
 import kotlinx.android.synthetic.main.activity_global_search.*
 
 class GlobalSearchActivity : AppCompatActivity() {

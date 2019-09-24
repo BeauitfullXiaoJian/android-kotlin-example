@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.*
 import com.example.androidx_example.entity.MessageSaveData
 import com.example.androidx_example.until.sql.RoomUntil
-import com.example.androidx_example.until.api.HttpRequest
+import com.example.httprequest.Request
 import kotlin.Exception
 
 /**
@@ -19,7 +19,8 @@ class MessageSendWorker(appContext: Context, workerParameters: WorkerParameters)
         return try {
             val log = trySaveMsgLog(id.toString(), msgReceiverUid!!, msgData!!)
             log?.let {
-                val apiData = HttpRequest.getSync(
+
+                val apiData = Request.getSync(
                     "message/send", hashMapOf(
                         "to" to it.receiverUid,
                         "content" to it.msgData
@@ -70,7 +71,11 @@ class MessageSendWorker(appContext: Context, workerParameters: WorkerParameters)
             workManager.enqueue(workRequest)
         }
 
-        private fun trySaveMsgLog(requestId: String, receiverUid: String, msgData: String): MessageSaveData? {
+        private fun trySaveMsgLog(
+            requestId: String,
+            receiverUid: String,
+            msgData: String
+        ): MessageSaveData? {
             return RoomUntil.db.msgSaveDataDao().findMsgByRequestId(requestId) ?: insertMsg(
                 requestId,
                 msgData,
@@ -78,8 +83,12 @@ class MessageSendWorker(appContext: Context, workerParameters: WorkerParameters)
             )
         }
 
-        private fun insertMsg(requestId: String, msgData: String, receiverUid: String): MessageSaveData? {
-                val msg = MessageSaveData(
+        private fun insertMsg(
+            requestId: String,
+            msgData: String,
+            receiverUid: String
+        ): MessageSaveData? {
+            val msg = MessageSaveData(
                 requestId = requestId,
                 sendState = MessageState.SENDING.value,
                 msgData = msgData,
@@ -91,11 +100,13 @@ class MessageSendWorker(appContext: Context, workerParameters: WorkerParameters)
         }
 
         private fun updateMsgToSuccess(data: MessageSaveData) {
-            RoomUntil.db.msgSaveDataDao().update(data.copy(sendState = MessageState.SEND_SUCCESS.value))
+            RoomUntil.db.msgSaveDataDao()
+                .update(data.copy(sendState = MessageState.SEND_SUCCESS.value))
         }
 
         private fun updateMsgToError(data: MessageSaveData) {
-            RoomUntil.db.msgSaveDataDao().update(data.copy(sendState = MessageState.SEND_ERROR.value))
+            RoomUntil.db.msgSaveDataDao()
+                .update(data.copy(sendState = MessageState.SEND_ERROR.value))
         }
     }
 }
