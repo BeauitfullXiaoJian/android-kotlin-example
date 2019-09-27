@@ -141,7 +141,6 @@ class HttpRequest(
      *  发送异步请求，返回观察对象
      */
     private fun sendRequest(request: Request): Single<ApiOriginData> {
-        val disposableTool = DisposableTool()
         return Single.fromCallable<ApiOriginData> {
             sendSyncRequest(request)
         }.subscribeOn(Schedulers.newThread())

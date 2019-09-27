@@ -3,6 +3,7 @@ package com.example.androidx_example
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidx_example.until.sql.RoomUntil
 import com.example.httprequest.HttpRequest
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +19,9 @@ class SplashActivity : AppCompatActivity() {
 
         // 初始化HttpRequest
         val obsRequest = HttpRequest.prepareByConfigRawId(this, R.raw.http)
-        // HttpRequest.loadConfig(this)
+
+        // 初始化RoomDB
+        val obsDB = RoomUntil.initDB()
 
         // 校验登入状态
         // val obsAuth = AuthCheck.checkLogin()
@@ -27,7 +30,10 @@ class SplashActivity : AppCompatActivity() {
         // val obsAds = Banner.display()
 
         // 跳转到主页
-        disposable= Completable.concatArray(obsRequest).subscribe {
+        disposable = Completable.concatArray(
+            obsRequest,
+            obsDB
+        ).subscribe {
             startActivity(Intent(this, MainActivity::class.java));
             finish()
         }

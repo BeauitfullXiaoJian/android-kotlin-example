@@ -20,99 +20,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidx_example.BaseActivity
-import com.example.androidx_example.entity.ApiSaveData
-import com.example.androidx_example.until.api.HttpRequest
-import com.example.androidx_example.until.sql.RoomUntil
-import io.reactivex.disposables.Disposable
 import java.io.File
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
-/**
- * 发送一个POST请求，并剔除掉错误的消息
- * @param apiName String 接口名称
- * @param params HashMap<String, Any> 请求参数
- * @param activity? Activity 当前活动，如果提供了这个参数，将显示错误提示消息
- * @param successDo (res: HttpRequest.ApiData) -> Unit 成功回调方法
- */
-fun postSuccess(
-    apiName: String,
-    params: HashMap<String, Any>,
-    activity: Activity? = null,
-    successDo: (res: HttpRequest.ApiData) -> Unit,
-    completeDo: ((result: Boolean) -> Unit)? = null
-): Disposable = HttpRequest.post(apiName, params).subscribe {
-    if (it.isOk()) successDo(it) else showToast(
-        it.getMessage(),
-        activity
-    )
-    completeDo?.invoke(it.isOk())
-}
-
-/**
- * 发送一个GET请求，并剔除掉错误的消息
- * @param apiName String 接口名称
- * @param params HashMap<String, Any> 请求参数
- * @param activity? Activity 当前活动，如果提供了这个参数，将显示错误提示消息
- * @param successDo (res: HttpRequest.ApiData) -> Unit 成功回调方法
- */
-fun getSuccess(
-    apiName: String,
-    params: HashMap<String, Any>,
-    activity: Activity? = null,
-    successDo: (res: HttpRequest.ApiData) -> Unit,
-    completeDo: ((result: Boolean) -> Unit)? = null
-): Disposable = HttpRequest.get(apiName, params).subscribe {
-    if (it.isOk()) successDo(it)
-    else showToast(it.getMessage(), activity)
-    completeDo?.invoke(it.isOk())
-}
-
-/**
- * 发送一个GET请求，并剔除掉错误的消息，并保存数据，下次获取直接从本地获取
- * @param apiName String 接口名称
- * @param params HashMap<String, Any> 请求参数
- * @param activity? Activity 当前活动，如果提供了这个参数，将显示错误提示消息
- * @param successDo (res: HttpRequest.ApiData) -> Unit 成功回调方法
- */
-fun getWithSaveSuccess(
-    apiName: String,
-    params: HashMap<String, Any>,
-    activity: Activity? = null,
-    successDo: (res: HttpRequest.ApiData) -> Unit,
-    completeDo: ((result: Boolean) -> Unit)? = null
-) {
-    RoomUntil.initDB()
-    val saveDataStr = RoomUntil.db.apiSaveDataDao().findSaveData(apiName, params.hashCode())
-    if (saveDataStr == null) {
-        getSuccess(apiName, params, activity,
-            {
-                successDo(it)
-                val currentTime = System.currentTimeMillis()
-                RoomUntil.db.apiSaveDataDao().insert(
-                    ApiSaveData(
-                        apiName = apiName,
-                        paramHash = params.hashCode(),
-                        apiData = it.getStringData(),
-                        saveTime = currentTime,
-                        lostTime = currentTime + hourToMillis(
-                            1
-                        )
-                    )
-                )
-            },
-            {
-                completeDo?.invoke(it)
-            }
-        )
-    } else {
-        debugInfo("命中缓存")
-        successDo(HttpRequest.ApiData.successData("SUCCESS", saveDataStr, "EMPTY"))
-        completeDo?.invoke(true)
-    }
-}
 
 // 每次允许显示TOAST的最小间隔
 const val MIN_TOAST_TIME = 3000
@@ -235,7 +147,8 @@ fun tenThousandNumFormat(num: Int): String {
 fun shareImage(context: Context, bitmap: Bitmap) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/*"
-        putExtra(Intent.EXTRA_STREAM,
+        putExtra(
+            Intent.EXTRA_STREAM,
             getTempBitmapUri(context, bitmap)
         )
     }

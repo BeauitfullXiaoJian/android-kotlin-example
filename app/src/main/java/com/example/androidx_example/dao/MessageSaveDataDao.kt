@@ -16,6 +16,6 @@ interface MessageSaveDataDao : BaseDao<MessageSaveData> {
     @Query("select * from msg_data where work_request_id = :requestId limit 1")
     fun findMsgByRequestId(requestId: String): MessageSaveData?
 
-    @Query("select * from msg_data")
+    @Query("select * from msg_data order by id desc")
     fun messages(): DataSource.Factory<Int, MessageSaveData>
 }

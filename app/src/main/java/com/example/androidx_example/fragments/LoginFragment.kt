@@ -9,7 +9,6 @@ import android.widget.EditText
 import  androidx.core.content.ContextCompat
 
 import com.example.androidx_example.R
-import com.example.androidx_example.until.tool.postSuccess
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.btn_login
 
@@ -35,7 +34,8 @@ class LoginFragment : BaseFragment() {
         val defaultColor = ContextCompat.getColor(context!!, R.color.colorMuted)
         val activeColor = ContextCompat.getColor(context!!, R.color.colorPrimary)
         val focusAction = fun(v: View, hasFocus: Boolean) {
-            (v as EditText).compoundDrawables.first()?.setTint(if (hasFocus) activeColor else defaultColor)
+            (v as EditText).compoundDrawables.first()
+                ?.setTint(if (hasFocus) activeColor else defaultColor)
             updatePasswordImageState()
         }
         input_password.setOnFocusChangeListener(focusAction)
@@ -62,18 +62,11 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun submitLoginForm() {
-        val disposable = postSuccess(
-            apiName = "managerapi/signin",
-            params = hashMapOf(
-                "account" to input_account.text.toString(),
-                "password" to input_password.text.toString(),
-                "platform" to "manager"
-            ),
-            activity = activity,
-            successDo = {
-                debugLog(it.getStringData())
-            }
+        val params = hashMapOf(
+            "account" to input_account.text.toString(),
+            "password" to input_password.text.toString(),
+            "platform" to "manager"
         )
-        addDisposableToCompositeDisposable(disposable)
+        debugLog("提交登录", params.toString())
     }
 }

@@ -44,12 +44,11 @@ class ChatFragment : BaseFragment() {
     private fun initRecyclerView() {
         mChatAdapter = mChatAdapter ?: ChatAdapter("cool1024")
         chat_recycler_view.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
             adapter = mChatAdapter
         }
         createViewModel(ChatViewModel::class.java).msgRows.observe(this, Observer {
             mChatAdapter?.submitList(it)
-            chat_recycler_view?.scrollToPosition(mChatAdapter!!.itemCount)
         })
     }
 
@@ -63,13 +62,13 @@ class ChatFragment : BaseFragment() {
                 if (v.text.isNotEmpty()) {
                     val msg = ChatMessage.MessageData(
                         fromUid = "cool1024",
-                        toUid = "cool1024",
+                        toUid = "梦想的乡",
                         type = "TEXT",
                         content = v.text.toString()
                     )
                     v.text = ""
                     // v.clearFocus()
-                    MessageSendWorker.send(context!!, "cool1024", Gson().toJson(msg))
+                    MessageSendWorker.send(context!!, msg.toUid, Gson().toJson(msg))
                 } else {
                     showToast("不能发空消息哦～")
                 }

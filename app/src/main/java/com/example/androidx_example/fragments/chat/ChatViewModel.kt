@@ -8,8 +8,7 @@ class ChatViewModel : ViewModel() {
 
     val msgRows by lazy {
         RoomUntil.db.msgSaveDataDao().messages().toLiveData(
-            pageSize = 3,
-            initialLoadKey = 2
+            pageSize = 3
         )
     }
 }

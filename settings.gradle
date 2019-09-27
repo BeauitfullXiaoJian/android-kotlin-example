@@ -1,1 +1,1 @@
-include ':app', ':webchat', ':httprequest'
+include ':app', ':httprequest'

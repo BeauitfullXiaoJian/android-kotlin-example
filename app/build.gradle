@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation project(':httprequest')
+    // implementation project(':httprequest')
 
     //  webrtc
     // implementation 'org.webrtc:google-webrtc:1.0.28262'

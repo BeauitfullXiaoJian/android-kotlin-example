@@ -85,6 +85,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initChatService() {
-        // startService(Intent(this, ChatService::class.java))
+        startService(Intent(this, ChatService::class.java))
     }
 }

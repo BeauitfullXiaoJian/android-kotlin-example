@@ -1,9 +1,7 @@
 package com.example.httprequest
 
-import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
-import java.sql.ParameterMetaData
 
 object Request {
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.work.WorkInfo
-import com.example.androidx_example.activity.search.GlobalSearchActivity
 import com.example.androidx_example.R
 import com.example.androidx_example.services.MusicService
 import com.example.androidx_example.works.ImageDownloadWorker
@@ -102,10 +101,6 @@ class UserCenterFragment : BaseFragment() {
             )
         }
 
-        // 全局搜索
-        btn_search.setOnClickListener {
-            startActivity(Intent(activity, GlobalSearchActivity::class.java))
-        }
     }
 
     override fun onStop() {

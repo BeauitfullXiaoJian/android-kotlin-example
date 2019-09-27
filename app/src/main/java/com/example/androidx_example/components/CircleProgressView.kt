@@ -51,7 +51,9 @@ class CircleProgressView : View {
         init(attrs, defStyle)
     }
 
-    private fun init(attrs: AttributeSet?, defStyle: Int) {}
+    private fun init(attrs: AttributeSet?, defStyle: Int) {
+
+    }
 
     override fun onDraw(canvas: Canvas) {
         val d = width.toFloat() - borderWidth * 2
