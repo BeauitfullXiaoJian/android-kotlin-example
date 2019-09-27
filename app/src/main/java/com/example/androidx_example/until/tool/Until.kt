@@ -85,53 +85,11 @@ fun <T : ViewModel> createViewModel(modelClass: Class<T>): T {
 }
 
 /**
- * 将dp转换为pxf
- */
-fun dpToPx(dp: Int): Int {
-    val res = Resources.getSystem()
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), res.displayMetrics)
-        .toInt()
-}
-
-fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
-    val dp = res.getInteger(id)
-    return dpToPx(dp)
-}
-
-/**
- *  小时转毫秒数
- */
-fun hourToMillis(hour: Int): Long {
-    return (hour * 60 * 60 * 1000).toLong()
-}
-
-/**
  * 按时间生成一个文件名
  */
 fun getFileNameStrByTime(suffix: String): String {
-    val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+    val simpleDateFormat = SimpleDateFormat("yyyyMMddHH_mm_ss", Locale.US);
     return simpleDateFormat.format(Date()) + ".$suffix"
-}
-
-
-// 权限请求列表计数器
-var requestCodeCx = 1000
-
-/**
- * 请求权限
- */
-fun requestPermission(activity: BaseActivity, permission: String, successDo: () -> Unit) {
-    val hasPermission = ContextCompat.checkSelfPermission(activity, permission)
-    if (hasPermission == PackageManager.PERMISSION_DENIED) {
-        ActivityCompat.requestPermissions(
-            activity,
-            listOf(permission).toTypedArray(),
-            ++requestCodeCx
-        )
-        activity.addPermissionRequest(requestCodeCx, successDo)
-    } else {
-        successDo()
-    }
 }
 
 const val TEN_THOUSAND = 10000
@@ -144,7 +102,7 @@ fun tenThousandNumFormat(num: Int): String {
     else num.toString()
 }
 
-fun shareImage(context: Context, bitmap: Bitmap) {
+fun shareImage(context: Context, bitmap: Bitmap, title: String) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/*"
         putExtra(
@@ -152,7 +110,7 @@ fun shareImage(context: Context, bitmap: Bitmap) {
             getTempBitmapUri(context, bitmap)
         )
     }
-    context.startActivity(Intent.createChooser(intent, "图片分享到"));
+    context.startActivity(Intent.createChooser(intent, title))
 }
 
 fun getTempSaveFileOutputStream(context: Context, suffix: String): OutputStream {

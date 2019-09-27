@@ -3,6 +3,7 @@ package com.example.androidx_example
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidx_example.until.ChatMessageBus
 import com.example.androidx_example.until.sql.RoomUntil
 import com.example.httprequest.HttpRequest
 import io.reactivex.Completable
@@ -23,6 +24,9 @@ class SplashActivity : AppCompatActivity() {
         // 初始化RoomDB
         val obsDB = RoomUntil.initDB()
 
+        // 注册消息通知
+        ChatMessageBus.registerNotify(application)
+
         // 校验登入状态
         // val obsAuth = AuthCheck.checkLogin()
 
@@ -34,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
             obsRequest,
             obsDB
         ).subscribe {
-            startActivity(Intent(this, MainActivity::class.java));
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }

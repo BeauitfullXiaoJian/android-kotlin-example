@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.tool.getPxFromDpIntegerId
+import com.example.androidx_example.until.ui.ViewUntil
 import kotlinx.android.synthetic.main.fragment_photo_preview.*
 
 class PhotoPreviewFragment : BaseFragment() {
@@ -36,7 +36,7 @@ class PhotoPreviewFragment : BaseFragment() {
                 }
                 addItemDecoration(
                     PhotoItemDecoration(
-                        getPxFromDpIntegerId(
+                        ViewUntil.getPxFromDpIntegerId(
                             resources,
                             R.integer.space_sm_value
                         )

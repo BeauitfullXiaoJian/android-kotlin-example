@@ -19,7 +19,11 @@ class DetailFragment : BaseFragment() {
         fragmentViewModel(PlayerViewModel::class.java, parentFragment!!)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_player_tab_detail, container, false)
     }
 
@@ -51,7 +55,7 @@ class DetailFragment : BaseFragment() {
         // 设置分享
         btn_share.setOnClickListener {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.splash);
-            shareImage(context!!, bitmap)
+            shareImage(context!!, bitmap, "图片分享到")
         }
     }
 }

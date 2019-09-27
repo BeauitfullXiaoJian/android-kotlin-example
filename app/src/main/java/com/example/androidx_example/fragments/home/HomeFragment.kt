@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidx_example.R
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.tool.getPxFromDpIntegerId
+import com.example.androidx_example.until.ui.ViewUntil
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
@@ -85,7 +85,7 @@ class HomeFragment : BaseFragment() {
         recyclerLayoutManager?.run {
             val position = findFirstVisibleItemPosition()
             val top = findViewByPosition(position)?.top ?: 0
-            val offset = getPxFromDpIntegerId(
+            val offset = ViewUntil.getPxFromDpIntegerId(
                 resources,
                 R.integer.space_sm_value
             ) * 2

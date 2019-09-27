@@ -19,13 +19,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.androidx_example.R
 import com.example.androidx_example.components.CircleProgressView
-import com.example.androidx_example.until.tool.dpToPx
 import android.net.wifi.WifiManager
 import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import com.example.androidx_example.until.tool.debugInfo
+import com.example.androidx_example.until.ui.ViewUntil
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
@@ -234,13 +234,15 @@ class MusicService : LifecycleService() {
                     contentView.addView(it)
                     val lp = it.layoutParams as FrameLayout.LayoutParams
                     lp.gravity = Gravity.BOTTOM or Gravity.END
-                    lp.bottomMargin = dpToPx(dpOffset)
+                    lp.bottomMargin = ViewUntil.dpToPx(dpOffset)
                     it.layoutParams = lp
                     val progressView = it.findViewById<CircleProgressView>(R.id.progress)
                     val playIcon = it.findViewById<ImageView>(R.id.icon)
                     progressView.borderWidth = 5f
-                    progressView.progressColor = ContextCompat.getColor(service, R.color.colorPrimary)
-                    progressView.progressBackgroundColor = ContextCompat.getColor(service, R.color.colorLightPrimary)
+                    progressView.progressColor =
+                        ContextCompat.getColor(service, R.color.colorPrimary)
+                    progressView.progressBackgroundColor =
+                        ContextCompat.getColor(service, R.color.colorLightPrimary)
                     progressView.setOnClickListener {
                         if (playIcon.isActivated) pauseMusic() else resumeMusic()
                     }

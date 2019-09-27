@@ -38,20 +38,6 @@ open class BaseFragment : Fragment() {
         title?.also { _toolbarView?.title = it }
     }
 
-    fun setMainDrawerMenuIcon() {
-        val parentActivity = activity as MainActivity
-        val toggle = ActionBarDrawerToggle(
-            parentActivity,
-            parentActivity.main_drawer,
-            parentActivity.app_toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        parentActivity.app_toolbar.setupWithNavController(nav_host.findNavController())
-        parentActivity.main_drawer.addDrawerListener(toggle)
-        toggle.syncState()
-    }
-
     fun <T : ViewModel> createViewModel(modelClass: Class<T>): T {
         return com.example.androidx_example.until.tool.createViewModel(modelClass)
     }

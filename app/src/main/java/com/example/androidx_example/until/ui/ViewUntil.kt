@@ -1,8 +1,10 @@
 package com.example.androidx_example.until.ui
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.util.Size
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,4 +71,26 @@ object ViewUntil {
             containerSize.height
         )
     }
+
+    /**
+     * 将dp转换为px
+     */
+    fun dpToPx(dp: Int): Int {
+        val res = Resources.getSystem()
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            res.displayMetrics
+        ).toInt()
+    }
+
+    /**
+     * 通过dp值的value_id获取对应的px
+     */
+    fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
+        val dp = res.getInteger(id)
+        return com.example.androidx_example.until.tool.dpToPx(dp)
+    }
+
+
 }

@@ -26,7 +26,7 @@ open class BaseActivity : AppCompatActivity() {
         toolbar.setupWithNavController(navCtrl)
     }
 
-    fun addPermissionRequest(requestCode: Int, successCall: () -> Unit) {
+    fun requestPermission(requestCode: Int, successCall: () -> Unit) {
         permissionCallbacks[requestCode] = successCall
     }
 }

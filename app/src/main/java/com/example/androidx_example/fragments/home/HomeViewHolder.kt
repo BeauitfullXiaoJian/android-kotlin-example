@@ -14,7 +14,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.until.tool.getPxFromDpIntegerId
+import com.example.androidx_example.until.ui.ViewUntil
 
 class HomeViewHolder(view: View, private val parent: ViewGroup, private val parentFragment: BaseFragment) :
     RecyclerView.ViewHolder(view) {
@@ -36,7 +36,7 @@ class HomeViewHolder(view: View, private val parent: ViewGroup, private val pare
         val resources = itemView.resources
         val context = itemView.context
         val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
-        val paddingValue = getPxFromDpIntegerId(
+        val paddingValue = ViewUntil.getPxFromDpIntegerId(
             resources,
             R.integer.space_sm_value
         )

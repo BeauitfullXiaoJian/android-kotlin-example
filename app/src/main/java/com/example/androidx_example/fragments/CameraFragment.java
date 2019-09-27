@@ -30,6 +30,7 @@ import com.example.androidx_example.R;
 import com.example.androidx_example.components.AutoFitCameraTextureView;
 import com.example.androidx_example.until.tool.UntilKt;
 import com.example.androidx_example.until.ui.AnimateUntil;
+import com.example.androidx_example.until.ui.ViewUntil;
 
 import kotlin.Unit;
 
@@ -407,7 +408,7 @@ public class CameraFragment extends BaseFragment {
         mPhotoImageView.setImageBitmap(bitmap);
         AnimateUntil.Companion.setSizeAndToTopStart(
                 mPhotoImageContainerView,
-                new Size(UntilKt.dpToPx(200), UntilKt.dpToPx(120)),
+                new Size(ViewUntil.INSTANCE.dpToPx(200), ViewUntil.INSTANCE.dpToPx(120)),
                 new Point(20, 20),
                 500,
                 () -> Unit.INSTANCE);
