@@ -123,4 +123,7 @@
     <string name="setting_message_allow_notify">显示通知消息详情</string>
     <string name="setting_message_allow_notify_subject">关闭后，当收到微信消息是，通知提示将不显示发信人和内容摘要</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

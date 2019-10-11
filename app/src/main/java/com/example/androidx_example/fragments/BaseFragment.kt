@@ -57,7 +57,7 @@ open class BaseFragment : Fragment() {
         com.example.androidx_example.until.tool.showToast(message, activity as Activity)
     }
 
-    fun debugLog(vararg messages: String) {
+    fun debugLog(vararg messages: Any) {
         Log.d(this.javaClass.name, messages.joinToString(","))
     }
 

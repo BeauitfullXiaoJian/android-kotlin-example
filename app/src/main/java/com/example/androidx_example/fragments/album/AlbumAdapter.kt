@@ -14,6 +14,6 @@ class AlbumAdapter(private val containerWidth: Int) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         val containerSize = Size(containerWidth / 2, Int.MAX_VALUE)
-        return AlbumViewHolder.create(parent, containerSize)
+        return AlbumViewHolder.create(parent, containerSize, items)
     }
 }

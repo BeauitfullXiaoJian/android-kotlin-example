@@ -30,11 +30,11 @@ class ChatViewHolder(view: View) : BaseRecyclerAdapter.ViewHolderBinder<MessageS
             ChatMessage.MessageType.IMAGE -> {
                 msgImg.visibility = View.VISIBLE
                 msgImg.setOnClickListener {
-                    PhotoPopupWindow.createAndShow(
-                        msg.content,
-                        itemView.context,
-                        itemView as ViewGroup
-                    )
+//                    PhotoPopupWindow.createAndShow(
+//                        msg.content,
+//                        itemView.context,
+//                        itemView as ViewGroup
+//                    )
                 }
                 GlideApp.with(itemView).load(msg.content)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

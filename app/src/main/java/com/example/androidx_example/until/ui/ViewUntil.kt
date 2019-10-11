@@ -89,7 +89,7 @@ object ViewUntil {
      */
     fun getPxFromDpIntegerId(res: Resources, id: Int): Int {
         val dp = res.getInteger(id)
-        return com.example.androidx_example.until.tool.dpToPx(dp)
+        return dpToPx(dp)
     }
 
 

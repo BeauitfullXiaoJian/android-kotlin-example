@@ -38,8 +38,9 @@ class UserCenterFragment : BaseFragment() {
 
         // 显示相机
         btn_camera.setOnClickListener {
-            val action =
-                UserCenterFragmentDirections.actionUserCenterFragmentToCameraFragment()
+            val action = UserCenterFragmentDirections.actionUserCenterFragmentToCameraXFragment()
+//            val action =
+//                UserCenterFragmentDirections.actionUserCenterFragmentToCameraFragment()
             findNavController().navigate(action)
         }
 

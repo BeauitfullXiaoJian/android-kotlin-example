@@ -11,7 +11,11 @@ import com.example.androidx_example.until.adapter.BaseRecyclerAdapter
 import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.ui.ViewUntil
 
-class AlbumViewHolder(view: View, val containerSize: Size) :
+class AlbumViewHolder(
+    view: View,
+    private val containerSize: Size,
+    private val photos: Array<PhotoData>
+) :
     BaseRecyclerAdapter.ViewHolderBinder<PhotoData>(view) {
 
     private val cardView = view.findViewById<CardView>(R.id.photo_card)
@@ -24,7 +28,12 @@ class AlbumViewHolder(view: View, val containerSize: Size) :
         lp.height = fitSize.height
         cardView.layoutParams = lp
         cardView.setOnClickListener {
-            PhotoPopupWindow.createAndShow(item.src, it.context, it as ViewGroup)
+            PhotoPopupWindow.createAndShow(
+                photos.indexOf(item),
+                photos.map { it.src }.toTypedArray(),
+                it.context,
+                it as ViewGroup
+            )
         }
         GlideApp.with(itemView)
             .load(item.src)
@@ -32,9 +41,13 @@ class AlbumViewHolder(view: View, val containerSize: Size) :
     }
 
     companion object {
-        fun create(parentView: ViewGroup, containerSize: Size): AlbumViewHolder {
+        fun create(
+            parentView: ViewGroup,
+            containerSize: Size,
+            photos: Array<PhotoData>
+        ): AlbumViewHolder {
             val view = ViewUntil.createViewHolderView(parentView, R.layout.photo_item)
-            return AlbumViewHolder(view, containerSize)
+            return AlbumViewHolder(view, containerSize, photos)
         }
     }
 }

@@ -108,7 +108,7 @@ dependencies {
     // implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
 
     // navigation
-    def nav_version = "2.2.0-alpha03"
+    def nav_version = "2.2.0-beta01"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
@@ -125,6 +125,11 @@ dependencies {
 
     // photo view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // CameraX
+    def camerax_version = "1.0.0-alpha06"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
 
     // test
     testImplementation 'junit:junit:4.12'

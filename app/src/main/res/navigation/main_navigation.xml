@@ -23,6 +23,9 @@
         <action android:id="@+id/action_userCenterFragment_to_devViewFragment"
                 app:destination="@id/devViewFragment"/>
         <action android:id="@+id/action_userCenterFragment_to_settingsActivity" app:destination="@id/settingsActivity"/>
+        <action
+                android:id="@+id/action_userCenterFragment_to_cameraXFragment"
+                app:destination="@id/cameraXFragment" />
     </fragment>
     <fragment android:id="@+id/webFragment" android:name="com.example.androidx_example.fragments.WebFragment"
               android:label="我的网站" tools:layout="@layout/fragment_web">
@@ -56,5 +59,10 @@
               android:label="用户设置"/>
     <fragment android:id="@+id/chatFragment" android:name="com.example.androidx_example.fragments.chat.ChatFragment"
               android:label="聊天" tools:layout="@layout/fragment_chat"/>
+    <fragment
+            android:id="@+id/cameraXFragment"
+            android:name="com.example.androidx_example.fragments.CameraXFragment"
+            android:label="相机"
+            tools:layout="@layout/fragment_camera_x" />
 
 </navigation>
