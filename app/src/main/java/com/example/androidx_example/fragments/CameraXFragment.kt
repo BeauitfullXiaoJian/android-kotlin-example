@@ -4,17 +4,18 @@ package com.example.androidx_example.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.camera.core.CameraX
-import androidx.camera.core.Preview
-import androidx.camera.core.PreviewConfig
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageProxy
 import androidx.core.content.ContextCompat
 
 import com.example.androidx_example.R
+import com.example.androidx_example.until.RequestCodes
 import kotlinx.android.synthetic.main.fragment_camera_x.*
+import java.util.*
+import java.util.concurrent.Executor
 
 class CameraXFragment : BaseFragment() {
 
@@ -32,14 +33,14 @@ class CameraXFragment : BaseFragment() {
 
     private fun prepareCameraX() {
         if (checkCameraPermission()) {
-            val config = PreviewConfig.Builder().build()
-            Preview(config).apply {
-                setOnPreviewOutputUpdateListener { output ->
-                    camera_preview_view.surfaceTexture = output.surfaceTexture
-                }
-                CameraX.bindToLifecycle(this@CameraXFragment, this)
-            }
-
+            camera_preview_view.bindToLifecycle(this@CameraXFragment)
+            camera_preview_view.takePicture(
+                Executor { },
+                object : ImageCapture.OnImageCapturedListener() {
+                    override fun onCaptureSuccess(image: ImageProxy?, rotationDegrees: Int) {
+                        
+                    }
+                })
         } else {
             requestCameraPermission()
         }
@@ -48,7 +49,7 @@ class CameraXFragment : BaseFragment() {
     private fun requestCameraPermission() {
         requestPermissions(
             arrayOf(Manifest.permission.CAMERA),
-            Manifest.permission.CAMERA.hashCode()
+            RequestCodes.CAMERA
         )
     }
 
