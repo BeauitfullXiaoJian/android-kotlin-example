@@ -92,5 +92,11 @@ object ViewUntil {
         return dpToPx(dp)
     }
 
+    fun getStringFromValueId(res: Resources, id: Int): String {
+        return res.getString(id)
+    }
 
+    fun getStringFromValueId(context: Context, id: Int): String {
+        return getStringFromValueId(context.resources, id)
+    }
 }

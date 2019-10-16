@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CameraXFragment">
 
-    <!--    <com.example.androidx_example.components.AutoFitCameraTextureView-->
-    <!--        android:id="@+id/camera_preview_view"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="center" />-->
-
     <androidx.camera.view.CameraView
         android:id="@+id/camera_preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:contentDescription="@string/error"-->
+    <!--        android:src="@drawable/img_permission_error" />-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/margin_lg"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_camera_white"
+        android:tint="@color/colorWhite"
+        app:fabSize="auto" />
+
+    <FrameLayout
+        android:id="@+id/photo_view_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_white_radius"
+        android:padding="@dimen/padding_tiny"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_camera" />
+
+    </FrameLayout>
+
 
 </FrameLayout>

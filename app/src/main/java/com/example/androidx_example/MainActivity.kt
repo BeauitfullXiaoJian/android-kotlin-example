@@ -55,7 +55,8 @@ class MainActivity : BaseActivity() {
                     R.id.webFragment,
                     R.id.publicFragment,
                     R.id.userCenterFragment,
-                    R.id.playerFragment
+                    R.id.playerFragment,
+                    R.id.cameraXFragment
                 )
 
                 // 设置toolbar显示/隐藏

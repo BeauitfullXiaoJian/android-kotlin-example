@@ -113,6 +113,10 @@
     <string name="holder_chat_nick_name">梦想的乡</string>
     <string name="holder_chat_badge">本群守护者</string>
 
+
+    <!-- Chat Fragment -->
+    <string name="image_saved_success">图片保存成功</string>
+
     <!-- Setting Preferences -->
     <string name="setting_play">播放设置</string>
     <string name="setting_play_decode_method">解码方式</string>
@@ -122,8 +126,5 @@
     <string name="setting_message_allow_call_subject">关闭后将不会接收到对方的语音/视频通话请求</string>
     <string name="setting_message_allow_notify">显示通知消息详情</string>
     <string name="setting_message_allow_notify_subject">关闭后，当收到微信消息是，通知提示将不显示发信人和内容摘要</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

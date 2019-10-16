@@ -3,19 +3,14 @@ package com.example.androidx_example.fragments
 import android.app.Activity
 import android.util.Log
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.androidx_example.MainActivity
-import com.example.androidx_example.R
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.main_tool_bar.*
 
 open class BaseFragment : Fragment() {
 
