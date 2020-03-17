@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidx_example.data.VideoComment
-import com.example.androidx_example.data.VideoDetailInfo
 
 class CommentAdapter(val context: Context) : RecyclerView.Adapter<CommentViewHolder>() {
 
