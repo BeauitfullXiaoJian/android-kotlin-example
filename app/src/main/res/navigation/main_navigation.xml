@@ -31,6 +31,9 @@
               android:label="我的网站" tools:layout="@layout/fragment_web">
         <argument android:name="webUrl" app:argType="string" android:defaultValue="https://blog.cool1024.com"/>
     </fragment>
+    <fragment android:id="@+id/dirExplorerFragment" android:name="com.example.androidx_example.fragments.dir_explorer.DirExplorerFragment"
+        android:label="文件浏览器" tools:layout="@layout/dir_explorer_fragment">
+    </fragment>
     <fragment android:id="@+id/playerFragment"
               android:name="com.example.androidx_example.fragments.player.PlayerFragment"
               android:label="视频播放" tools:layout="@layout/fragment_player">

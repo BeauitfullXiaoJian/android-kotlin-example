@@ -1,4 +1,4 @@
-package com.example.androidx_example.fragments
+package com.example.androidx_example.fragments.dir_explorer
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ class DirExplorerViewModel : ViewModel() {
 
     // 当前文件夹文件列表
     val fileList by lazy {
-        MutableLiveData<List<FileItem>>().also { loadFileList() }
+        MutableLiveData<Array<FileItem>>().also { loadFileList() }
     }
     // 当前显示的文件夹
     val parentDirPath = MutableLiveData<String>().apply { value = String() }
@@ -18,11 +18,15 @@ class DirExplorerViewModel : ViewModel() {
     /**
      * 加载文件夹文件列表
      */
-    private fun loadFileList() {
+    fun loadFileList() {
+        refreshing.postValue(true)
         Request.get(
             apiName = "dir",
-            params = hashMapOf("dir" to parentDirPath.value!!),
-            successDo = { res -> fileList.postValue(res.getObjectList(FileItem::class.java)) },
+            params = hashMapOf("dir" to (this.parentDirPath.value ?: String())),
+            successDo = { res ->
+                val items = res.getObjectList(FileItem::class.java).toTypedArray()
+                fileList.postValue(items)
+            },
             completeDo = { refreshing.postValue(false) }
         )
     }

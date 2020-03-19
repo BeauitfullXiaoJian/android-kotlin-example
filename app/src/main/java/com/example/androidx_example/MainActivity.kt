@@ -1,13 +1,13 @@
 package com.example.androidx_example
 
-import android.content.Intent
+//import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.services.ChatService
+//import com.example.androidx_example.services.ChatService
 import com.example.androidx_example.until.tool.TimeLock
 import com.example.androidx_example.until.tool.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNav()
-        initChatService()
+//        initChatService()
     }
 
     override fun onBackPressed() {
@@ -85,7 +85,7 @@ class MainActivity : BaseActivity() {
         app_toolbar.setupWithNavController(navCtrl)
     }
 
-    private fun initChatService() {
-        startService(Intent(this, ChatService::class.java))
-    }
+//    private fun initChatService() {
+//        startService(Intent(this, ChatService::class.java))
+//    }
 }

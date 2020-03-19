@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
         val obsDB = RoomUntil.initDB()
 
         // 注册消息通知
-        ChatMessageBus.registerNotify(application)
+//        ChatMessageBus.registerNotify(application)
 
         // 校验登入状态
         // val obsAuth = AuthCheck.checkLogin()

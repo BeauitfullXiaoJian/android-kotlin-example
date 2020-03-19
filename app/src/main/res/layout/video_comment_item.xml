@@ -25,7 +25,7 @@
                     android:layout_height="@dimen/avatar_size_md"
                     android:contentDescription="@string/avatar"
                     android:src="@drawable/ic_avatar"
-                    app:glideUrl="@{comment.user.avatarImageUrl}"/>
+                    app:avatarUrl="@{comment.user.avatarImageUrl}"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
