@@ -10,12 +10,15 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.Request
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
 class HttpRequest(
-    private val config: HttpConfig,
-    private val instance: OkHttpClient,
+    val config: HttpConfig,
+    val instance: OkHttpClient,
     val transformer: ApiDataTransformer,
     val dataSaver: ApiDataSaver
 ) {
@@ -56,6 +59,20 @@ class HttpRequest(
         val requestBuilder = Request.Builder()
         val request = requestBuilder.url(downloadUrl).build()
         return instance.newCall(request).execute()
+    }
+
+    fun syncDownload(downloadUrl: String, outputStream: FileOutputStream): Boolean {
+        var result = false
+        download(downloadUrl).body()?.byteStream()?.let { stream ->
+            var len: Int
+            val buffer = ByteArray(1024)
+            while (stream.read(buffer).also { len = it } > 0) {
+                outputStream.write(buffer, 0, len)
+            }
+            outputStream.close()
+            result = true
+        }
+        return result
     }
 
     fun webSocket(

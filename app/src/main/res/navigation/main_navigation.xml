@@ -33,6 +33,15 @@
     </fragment>
     <fragment android:id="@+id/dirExplorerFragment" android:name="com.example.androidx_example.fragments.dir_explorer.DirExplorerFragment"
         android:label="文件浏览器" tools:layout="@layout/dir_explorer_fragment">
+        <action
+            android:id="@+id/action_dirExplorerFragment_self"
+            app:destination="@id/dirExplorerFragment" >
+            <argument
+                android:name="dirPath" />
+        </action>
+        <argument
+            android:name="dirPath"
+            app:argType="string" />
     </fragment>
     <fragment android:id="@+id/playerFragment"
               android:name="com.example.androidx_example.fragments.player.PlayerFragment"

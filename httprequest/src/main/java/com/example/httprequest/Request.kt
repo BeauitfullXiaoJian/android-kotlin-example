@@ -2,8 +2,14 @@ package com.example.httprequest
 
 import okhttp3.Response
 import okhttp3.WebSocket
+import java.io.FileOutputStream
 
 object Request {
+
+    val config: HttpConfig
+        get() = HttpRequest.instance().config
+
+    fun getRequestUrl(apiName: String) = "${config.requestHost}/$apiName"
 
     fun getSync(
         apiName: String,
@@ -103,9 +109,13 @@ object Request {
 
     fun download(downloadUrl: String): Response = HttpRequest.instance().download(downloadUrl)
 
+    fun syncDownload(downloadUrl: String, outputStream: FileOutputStream): Boolean =
+        HttpRequest.instance().syncDownload(downloadUrl, outputStream)
+
     fun webSocket(
         authToken: String,
         protocol: String,
         messageCallbackFun: (type: HttpRequest.WebSocketContentType, content: String, webSocket: WebSocket) -> Unit
     ) = HttpRequest.instance().webSocket(authToken, protocol, messageCallbackFun)
+
 }

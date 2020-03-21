@@ -1,5 +1,7 @@
 package com.example.androidx_example.fragments.dir_explorer
 
+import android.util.Size
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.httprequest.Request
@@ -31,6 +33,10 @@ class DirExplorerViewModel : ViewModel() {
         )
     }
 
+    data class ViewSize(val width: Int, val height: Int, val type: String) {
+        fun toSize() = Size(width, height)
+    }
+
     data class FileItem(
         // 文件地址
         val filePath: String,
@@ -41,6 +47,29 @@ class DirExplorerViewModel : ViewModel() {
         // 文件下载地址
         val downloadUrl: String,
         // 所属目录地址
-        val parentDir: String
-    )
+        val parentDir: String,
+        // 预览尺寸
+        val size: ViewSize?
+    ) {
+        val type: FileType
+            get() = FileType.values().find {
+                it.typeStr == fileType
+            } ?: FileType.OTHER
+
+        val visibility: Int
+            get() {
+                return when (type) {
+                    FileType.DIR, FileType.OTHER -> View.VISIBLE
+                    else -> View.GONE
+                }
+            }
+    }
+
+    enum class FileType(val typeStr: String) {
+        PDF("pdf"),
+        VIDEO("video"),
+        IMAGE("img"),
+        DIR("dir"),
+        OTHER("other")
+    }
 }

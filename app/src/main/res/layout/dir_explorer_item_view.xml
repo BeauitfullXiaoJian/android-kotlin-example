@@ -9,33 +9,62 @@
             name="file"
             type="com.example.androidx_example.fragments.dir_explorer.DirExplorerViewModel.FileItem" />
 
+        <variable
+            name="handler"
+            type="com.example.androidx_example.fragments.dir_explorer.DirExplorerViewHolder" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{()->handler.showFileExplorer(file)}">
 
-        <LinearLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_sm"
-            android:orientation="vertical">
+            android:contentDescription="@string/thumb"
+            android:scaleType="fitXY"
+            app:glideUrl="@{file.previewUrl}"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/thumb"
-                app:glideUrl="@{file.previewUrl}"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_lg"
+            android:text="@{file.filePath}"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/font_lg"
+            android:visibility="@{file.visibility}" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_sm"
-                android:text="@{file.filePath}"
-                android:textSize="@dimen/font_sm" />
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="@dimen/margin_sm"-->
+        <!--            android:orientation="vertical"-->
+        <!--            tools:ignore="UseCompoundDrawables">-->
 
-        </LinearLayout>
+        <!--            <ImageView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="@string/thumb"-->
+        <!--                app:glideUrl="@{file.previewUrl}"-->
+        <!--                tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="@dimen/margin_sm"-->
+        <!--                android:text="@{file.filePath}"-->
+        <!--                android:textColor="@color/colorText"-->
+        <!--                android:textSize="@dimen/font_sm" />-->
+
+        <!--        </LinearLayout>-->
 
     </androidx.cardview.widget.CardView>
 

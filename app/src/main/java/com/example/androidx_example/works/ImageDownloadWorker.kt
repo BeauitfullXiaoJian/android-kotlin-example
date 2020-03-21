@@ -99,14 +99,14 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
             if (res.code() != CODE_SUCCESS || body == null) return Result.failure()
 
             var inputStream: InputStream? = null
-            var outputSteam: OutputStream? = null
+            var outputStream: OutputStream? = null
             return try {
                 val saveFile = File(
                     appContext.getExternalFilesDir(null),
                     getFileNameStrByTime("jpg")
                 )
                 inputStream = body.byteStream()
-                outputSteam = FileOutputStream(saveFile)
+                outputStream = FileOutputStream(saveFile)
                 val buffer = ByteArray(1024)
                 val total = body.contentLength()
                 var completed = 0
@@ -115,7 +115,7 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
                 val timeLock = TimeLock.getDefaultLock()
                 while (inputStream.read(buffer).also { len = it } > 0) {
                     completed += len
-                    outputSteam.write(buffer, 0, len)
+                    outputStream.write(buffer, 0, len)
                     val currentPercent = (completed * 100 / total).toInt()
                     if (!timeLock.isLock) {
                         percent = currentPercent
@@ -135,7 +135,7 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
             } finally {
                 try {
                     inputStream?.close()
-                    outputSteam?.close()
+                    outputStream?.close()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
