@@ -83,9 +83,9 @@ class PlayerCtrlView : RelativeLayout {
         }
 
         // 横屏才允许拖动&三指以上操作
-        if (actionPointMinNum == 3 && !checkLandScreen(resources)) {
-            return super.onTouchEvent(event)
-        }
+//        if (actionPointMinNum == 3 && !checkLandScreen(resources)) {
+//            return super.onTouchEvent(event)
+//        }
 
         // 每次拖动结束后恢复位置
         if (event.action == MotionEvent.ACTION_UP) {

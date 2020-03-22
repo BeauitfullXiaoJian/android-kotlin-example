@@ -45,5 +45,6 @@ class App : Application(), Configuration.Provider {
 
     companion object {
         lateinit var instance: Application
+        lateinit var mainActivity: MainActivity
     }
 }

@@ -37,7 +37,7 @@ class DirExplorerViewHolder(
                 PdfWindow.createAndShow(pdfUrl, itemView.rootView as ViewGroup)
             }
             DirExplorerViewModel.FileType.VIDEO -> {
-
+                VideoWindow.createAndShow(item, itemView.rootView as ViewGroup)
             }
             DirExplorerViewModel.FileType.OTHER -> {
 

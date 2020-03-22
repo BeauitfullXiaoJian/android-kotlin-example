@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.androidx_example.fragments.player.PlayerCtrlView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/player_ctrl_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBlack"
+    app:layout_collapseMode="parallax">
+
+    <!-- 播放器 -->
+    <com.example.androidx_example.fragments.player.PlayerView
+        android:id="@+id/player_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <!-- 视频封面 -->
+    <ImageView
+        android:id="@+id/player_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/popup_window_bg"
+        android:contentDescription="@string/thumb"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <!-- 播放相关控件 -->
+    <LinearLayout
+        android:id="@+id/player_ctrl_pad_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorTransparent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/player_btn_start"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/click_ripple_full"
+            android:clickable="true"
+            android:contentDescription="@string/play"
+            android:focusable="true"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_sm"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_play" />
+
+        <SeekBar
+            android:id="@+id/player_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:maxHeight="2dp"
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:progressDrawable="@drawable/bg_seek_bar"
+            android:splitTrack="false"
+            android:thumb="@drawable/ic_seek_bar"
+            android:thumbOffset="0dp" />
+
+        <TextView
+            android:id="@+id/player_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/player_time"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_sm" />
+
+    </LinearLayout>
+
+    <!-- 加载动画控件 -->
+    <ProgressBar
+        android:id="@+id/player_loading_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</com.example.androidx_example.fragments.player.PlayerCtrlView>

@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNav()
-//        initChatService()
+        App.mainActivity = this
     }
 
     override fun onBackPressed() {

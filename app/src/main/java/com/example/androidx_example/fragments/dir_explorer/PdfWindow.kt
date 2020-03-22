@@ -32,10 +32,10 @@ class PdfWindow(
         )
         setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         AnimateUntil.popup(contentView)
-        initPadView(pdfUrl)
+        initPafView(pdfUrl)
     }
 
-    private fun initPadView(pdfUrl: String) {
+    private fun initPafView(pdfUrl: String) {
         val pdfView = contentView.findViewById<PDFView>(R.id.pdf_view)
         val loadingView = contentView.findViewById<ImageView>(R.id.pdf_loading_view)
         loadingView.setImageDrawable(ViewUntil.getAnimationDrawable(contentView.context))
