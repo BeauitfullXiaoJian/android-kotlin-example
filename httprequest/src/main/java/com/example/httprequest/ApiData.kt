@@ -4,9 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 
 class ApiData(
-    private val result: Boolean, // 接口成功|失败
+    val result: Boolean, // 接口调用结果，成功|失败
     val message: String, // 接口提示消息
-    private val data: String?   // 接口数据,强制为String类型
+    val data: String?   // 接口数据串
 ) {
 
     fun isOk(): Boolean {

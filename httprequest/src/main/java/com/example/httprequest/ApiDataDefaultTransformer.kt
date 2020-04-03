@@ -16,9 +16,9 @@ class ApiDataDefaultTransformer : ApiDataTransformer {
         val jsonObject = JsonParser().parse(body).asJsonObject
         return try {
             ApiData(
-                result = jsonObject.get("result").asBoolean,
-                message = jsonObject.get("message").asOnlyString,
-                data = jsonObject.get("data")?.asOnlyString
+                result = jsonObject.get(API_DATA_RESULT_KEY_STR).asBoolean,
+                message = jsonObject.get(API_DATA_MESSAGE_KEY_STR).asOnlyString,
+                data = jsonObject.get(API_DATA_DATA_KEY_STR)?.asOnlyString
             )
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -28,5 +28,11 @@ class ApiDataDefaultTransformer : ApiDataTransformer {
                 data = body
             )
         }
+    }
+
+    companion object {
+        const val API_DATA_RESULT_KEY_STR = "result"
+        const val API_DATA_MESSAGE_KEY_STR = "message"
+        const val API_DATA_DATA_KEY_STR = "data"
     }
 }
