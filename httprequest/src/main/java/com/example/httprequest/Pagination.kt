@@ -1,5 +1,8 @@
 package com.example.httprequest
 
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+
 class Pagination {
 
     // 当前页码，0为启始页
@@ -30,16 +33,22 @@ class Pagination {
     val canLoadNext get() = hasNext && !isLoading
     // 分页参数
     val pageParams
-        get() = hashMapOf<String, Any>(
-            "limit" to limit,
-            "offset" to offset
+        get() = hashMapOf(
+            PAGE_LIMIT_KEY_STR to limit,
+            PAGE_OFFSET_KEY_STR to offset
         )
 
+    /**
+     * 更新数据统计
+     */
     fun updateTotal(nowTotal: Int) {
         total = if (nowTotal > 0) nowTotal else 0
         isActive = true
     }
 
+    /**
+     * 切换到下一页
+     */
     fun nextPage(): Int {
         if (hasNext) {
             currentPageNum++
@@ -47,6 +56,9 @@ class Pagination {
         return currentPageNum
     }
 
+    /**
+     * 切换到下一页
+     */
     fun prevPage(): Int {
         if (hasPrev) {
             currentPageNum--
@@ -54,6 +66,9 @@ class Pagination {
         return currentPageNum
     }
 
+    /**
+     * 重置分页对象
+     */
     fun resetPagination() {
         isLoading = false
         currentPageNum = START_PAGE
@@ -68,12 +83,38 @@ class Pagination {
 
 
     companion object {
-        const val DEFAULT_PAGE_SIZE = 10
-        const val START_PAGE = 0
+
+        private const val PAGE_LIMIT_KEY_STR = "limit"
+        private const val PAGE_OFFSET_KEY_STR = "offset"
+        private const val PAGE_DATA_TOTAL_KEY_STR = "total"
+        private const val PAGE_DATA_ROW_KEY_STR = "rows"
+        private const val DEFAULT_PAGE_SIZE = 10
+        private const val START_PAGE = 0
+
+        /**
+         * 创建一个分页对象
+         */
         fun create(limit: Int): Pagination {
             val page = Pagination()
             page.limit = limit
             return page
+        }
+
+        /**
+         * 字符串转换为分页数据对象
+         */
+        fun <T> stringToPageData(data: String, classOfT: Class<T>): PageData<T> {
+            return try {
+                val json = JsonParser().parse(data).asJsonObject
+                val rows = json.get(PAGE_DATA_ROW_KEY_STR).asJsonArray
+                PageData(
+                    total = json.get(PAGE_DATA_TOTAL_KEY_STR).asInt,
+                    rows = rows.map { Gson().fromJson(it.toString(), classOfT) }
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                PageData()
+            }
         }
     }
 }

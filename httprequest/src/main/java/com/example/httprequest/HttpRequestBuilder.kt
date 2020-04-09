@@ -18,8 +18,6 @@ class HttpRequestBuilder {
 
     fun config(sourceFileId: Int): HttpRequestBuilder {
         config = HttpConfig.loadConfig(context, sourceFileId)
-        HttpRequest.log("请求地址")
-        HttpRequest.log(config.requestHost)
         return this
     }
 

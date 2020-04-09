@@ -20,7 +20,11 @@ data class ApiOriginData(
             code: Int
         ): ApiOriginData {
             return ApiOriginData(
-                apiData = ApiData(false, errorMsg, responseData),
+                apiData = ApiData(
+                    result = false,
+                    message = errorMsg,
+                    data = responseData
+                ),
                 originBodyStr = body,
                 code = code
             )

@@ -85,6 +85,9 @@ dependencies {
     // pdf viewer
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
+    // vr player
+    implementation 'com.github.ashqal:MD360Player4Android:2.5.0'
+
     // room
     def room_version = '2.2.5'
     implementation "androidx.room:room-runtime:$room_version"

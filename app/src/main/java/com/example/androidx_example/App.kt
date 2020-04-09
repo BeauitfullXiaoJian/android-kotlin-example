@@ -8,6 +8,7 @@ import com.example.androidx_example.until.ChatMessageBus
 import com.example.androidx_example.until.sql.RoomUntil
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.system.exitProcess
 
 class App : Application(), Configuration.Provider {
 
@@ -33,6 +34,7 @@ class App : Application(), Configuration.Provider {
                 )
             )
             defaultHandler?.uncaughtException(thread, throwable)
+            exitProcess(0)
         }
     }
 

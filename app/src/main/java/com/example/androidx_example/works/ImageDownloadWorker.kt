@@ -8,10 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.example.androidx_example.R
 import com.example.androidx_example.until.tool.TimeLock
-import com.example.androidx_example.until.api.CODE_SUCCESS
 import com.example.androidx_example.until.tool.debugInfo
 import com.example.androidx_example.until.tool.getFileNameStrByTime
 import com.example.androidx_example.until.ui.NotifyUntil
+import com.example.httprequest.HttpRequest
 import com.example.httprequest.Request
 import okhttp3.Response
 import java.io.File
@@ -96,7 +96,7 @@ class ImageDownloadWorker(appContext: Context, workerParams: WorkerParameters) :
             progressCallback: (progress: Int) -> Unit
         ): Result {
             val body = res.body()
-            if (res.code() != CODE_SUCCESS || body == null) return Result.failure()
+            if (res.code() != HttpRequest.CODE_SUCCESS || body == null) return Result.failure()
 
             var inputStream: InputStream? = null
             var outputStream: OutputStream? = null

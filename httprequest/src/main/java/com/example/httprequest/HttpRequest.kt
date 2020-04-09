@@ -10,9 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.Request
-import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStream
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
@@ -87,7 +85,7 @@ class HttpRequest(
             .build()
         val request = Request.Builder()
             .addHeader("Sec-WebSocket-Protocol", protocol)
-            .url("${config.webSocketHost}\\token=$authToken")
+            .url("{$config.webSocketHost}$authToken")
             .build()
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) =
@@ -99,7 +97,7 @@ class HttpRequest(
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 webSocket.cancel()
-                Thread.sleep(config.reconnectTime * 1000L)
+                Thread.sleep(config.reconnectTime.toLong())
                 messageCallbackFun(
                     WebSocketContentType.ERROR_MESSAGE,
                     t.toString(),
@@ -183,7 +181,7 @@ class HttpRequest(
         queryParams: HashMap<String, Any>? = null
     ): Request {
         val apiPath = getRequestUrl(apiName, queryParams)
-        log(apiPath)
+        debug(apiPath)
         return Request.Builder().url(apiPath).build()
     }
 
@@ -306,7 +304,7 @@ class HttpRequest(
             return requestInstance
         }
 
-        fun log(message: String) {
+        fun debug(message: String) {
             Log.d(HttpRequest::class.java.name, message)
         }
     }

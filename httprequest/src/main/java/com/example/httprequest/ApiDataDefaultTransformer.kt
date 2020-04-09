@@ -1,32 +1,24 @@
 package com.example.httprequest
 
 import com.example.httprequest.HttpRequest.Companion.RESPONSE_DATA_ERROR
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 
 class ApiDataDefaultTransformer : ApiDataTransformer {
 
-    private val JsonElement.asOnlyString: String
-        get() = when {
-            isJsonArray || isJsonObject -> toString()
-            else -> asString
-        }
+    class TransformerData(val result: Boolean, val message: String, val data: Any?)
 
     override fun transform(body: String, code: Int): ApiData {
-        val jsonObject = JsonParser().parse(body).asJsonObject
         return try {
+            val json = Gson().fromJson(body, TransformerData::class.java)
             ApiData(
-                result = jsonObject.get("result").asBoolean,
-                message = jsonObject.get("message").asOnlyString,
-                data = jsonObject.get("data")?.asOnlyString
+                result = json.result,
+                message = json.message,
+                data = json.data?.toString() ?: String()
             )
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-            ApiData(
-                result = false,
-                message = RESPONSE_DATA_ERROR,
-                data = body
-            )
+        } catch (e: Exception) {
+            ApiData.dataError(body, e.toString()).storeException(e)
         }
     }
 }
