@@ -1,13 +1,11 @@
 package com.example.androidx_example
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidx_example.fragments.BaseFragment
-import com.example.androidx_example.services.ChatService
 import com.example.androidx_example.until.tool.TimeLock
 import com.example.androidx_example.until.tool.showToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +17,11 @@ class MainActivity : BaseActivity() {
     private var canBack = false
     private var showMainToolBar = true
     private val mTimeLock = TimeLock(2000)
+
+    init {
+        App.mainActivity = this
+        // startService(Intent(this, ChatService::class.java))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,9 +86,5 @@ class MainActivity : BaseActivity() {
             itemIconTintList = null
         }
         app_toolbar.setupWithNavController(navCtrl)
-    }
-
-    private fun initChatService() {
-        startService(Intent(this, ChatService::class.java))
     }
 }

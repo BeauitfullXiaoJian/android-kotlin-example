@@ -1,4 +1,4 @@
-package com.example.httprequest
+package com.example.message
 
 import org.junit.Test
 
