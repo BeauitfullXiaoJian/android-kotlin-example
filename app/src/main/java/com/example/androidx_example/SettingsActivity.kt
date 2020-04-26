@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import com.example.androidx_example.until.ui.ViewUntil
 import kotlinx.android.synthetic.main.settings_activity.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings, SettingsFragment())
             .commit()
         setSupportActionBar(setting_toolbar)
-        supportActionBar?.title = "设置"
+        supportActionBar?.title = ViewUntil.getStringFromValueId(resources, R.string.setting)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

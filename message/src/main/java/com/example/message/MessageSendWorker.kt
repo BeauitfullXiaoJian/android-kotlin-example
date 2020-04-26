@@ -27,7 +27,6 @@ class MessageSendWorker(
             msg.updateStats(result)
             saver.update(msg)
             if (result) Result.success() else Result.failure()
-
         } catch (e: Exception) {
             e.printStackTrace()
             Result.failure()

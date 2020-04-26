@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/homeFragment"
-          android:title="@string/home"
+          android:title="@string/directory"
           android:checkable="true"
           android:icon="@drawable/ic_vector_tab_bar_home"/>
     <item android:id="@+id/webFragment"

@@ -80,6 +80,8 @@
 
     <!-- Main BottomNavigationView Menu -->
     <string name="home">首页</string>
+    <string name="directory">文件夹</string>
+    <string name="chat">聊天</string>
     <string name="web">浏览器</string>
     <string name="open">公开</string>
     <string name="center">我</string>
