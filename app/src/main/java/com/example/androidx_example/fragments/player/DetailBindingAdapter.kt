@@ -20,7 +20,7 @@ import com.example.androidx_example.until.tool.tenThousandNumFormat
 
 object DetailBindingAdapter {
 
-    @BindingAdapter("avatarUrl")
+    @BindingAdapter("glideUrl")
     @JvmStatic
     fun loadAvatarImage(imageView: ImageView, imageUrl: String?) {
         imageUrl?.run {

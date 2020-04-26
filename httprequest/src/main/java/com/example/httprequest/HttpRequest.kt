@@ -15,8 +15,8 @@ import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
 class HttpRequest(
-    val config: HttpConfig,
-    val instance: OkHttpClient,
+    private val config: HttpConfig,
+    private val instance: OkHttpClient,
     val transformer: ApiDataTransformer,
     val dataSaver: ApiDataSaver
 ) {
@@ -57,20 +57,6 @@ class HttpRequest(
         val requestBuilder = Request.Builder()
         val request = requestBuilder.url(downloadUrl).build()
         return instance.newCall(request).execute()
-    }
-
-    fun syncDownload(downloadUrl: String, outputStream: FileOutputStream): Boolean {
-        var result = false
-        download(downloadUrl).body()?.byteStream()?.let { stream ->
-            var len: Int
-            val buffer = ByteArray(1024)
-            while (stream.read(buffer).also { len = it } > 0) {
-                outputStream.write(buffer, 0, len)
-            }
-            outputStream.close()
-            result = true
-        }
-        return result
     }
 
     fun webSocket(

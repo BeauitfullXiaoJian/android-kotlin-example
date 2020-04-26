@@ -7,15 +7,15 @@ data class Video(
     val videoTitle: String,
     val videoSourceUrl: String,
     val videoThumbUrl: String,
-    val videoLabel: String = "",
+    val videoLabel: String,
     val likeNum: Int = 0,
     val dislikeNum: Int = 0,
     val coinNum: Int = 0,
     val shareNum: Int = 0,
     val favoriteNum: Int = 0,
     val viewNum: Int = 0,
-    val commentNum: Int = 0,
-    val uploadAt: String = ""
+    val commentNum:Int =0,
+    val uploadAt:String
 ) : Serializable
 //
 //class VideoBuilder {

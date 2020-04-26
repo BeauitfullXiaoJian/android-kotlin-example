@@ -7,7 +7,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import com.example.androidx_example.R
-import com.example.androidx_example.until.GlideApp
 import com.example.androidx_example.until.tool.debugInfo
 import java.io.InputStream
 import java.net.URL
@@ -96,7 +95,7 @@ class LargeImageView : View {
     companion object {
 
         fun downloadImage(context: Context, imageUrl: String) {
-             // GlideApp.with(context).load(imageUrl)
+            // GlideApp.with(context).load(imageUrl)
         }
 
         fun createBitmapRegionDecoder(inputStream: InputStream) {

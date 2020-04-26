@@ -121,7 +121,7 @@ class MusicService : LifecycleService() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent?): IBinder? {
         super.onBind(intent)
         return MusicBinder(this)
     }

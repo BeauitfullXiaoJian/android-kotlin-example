@@ -47,21 +47,18 @@ class CircleProgressView : View {
         init(attrs, 0)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    ) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(attrs, defStyle)
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
-        print(attrs)
-        print(defStyle)
+
     }
 
     override fun onDraw(canvas: Canvas) {
         val d = width.toFloat() - borderWidth * 2
+        // val r = d / 2
+        // canvas.drawCircle(r, r, r, progressPaint)
 
         // 背景圆环
         canvas.drawArc(

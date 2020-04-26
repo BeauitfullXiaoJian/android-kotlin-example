@@ -2,12 +2,10 @@ package com.example.androidx_example.until.tool
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.io.InputStream
-import java.util.concurrent.Callable
+import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.concurrent.TimeUnit
 
 object RxUntil {
@@ -25,11 +23,5 @@ object RxUntil {
             .subscribe {
                 delayDo()
             }
-    }
-
-    fun <T> mainObs(getData: () -> T?): Single<T?> {
-        return Single.fromCallable<T> { getData() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.newThread())
     }
 }

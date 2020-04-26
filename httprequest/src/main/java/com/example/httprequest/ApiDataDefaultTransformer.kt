@@ -21,4 +21,10 @@ class ApiDataDefaultTransformer : ApiDataTransformer {
             ApiData.dataError(body, e.toString()).storeException(e)
         }
     }
+
+    companion object {
+        const val API_DATA_RESULT_KEY_STR = "result"
+        const val API_DATA_MESSAGE_KEY_STR = "message"
+        const val API_DATA_DATA_KEY_STR = "data"
+    }
 }

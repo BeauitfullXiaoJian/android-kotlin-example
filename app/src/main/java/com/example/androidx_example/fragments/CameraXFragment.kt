@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.core.content.ContextCompat
 
@@ -72,26 +71,28 @@ class CameraXFragment : BaseFragment() {
         )
     }
 
-    private val imageSavedListener = object : ImageCapture.OnImageSavedCallback {
+    private val imageSavedListener = object : ImageCapture.OnImageSavedListener {
 
-
-        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-            this@CameraXFragment.showPhotoView(
-                BitmapFactory.decodeFile(outputFileResults.savedUri!!.path)
-            )
-            this@CameraXFragment.showToast(resources.getString(R.string.image_saved_success))
+        override fun onImageSaved(file: File) {
+            val msg = resources.getString(R.string.image_saved_success)
+            this@CameraXFragment.showPhotoView(BitmapFactory.decodeFile(file.path))
+            this@CameraXFragment.showToast(msg)
         }
 
-        override fun onError(exception: ImageCaptureException) {
-            this@CameraXFragment.showToast(exception.toString())
+        override fun onError(
+            imageCaptureError: ImageCapture.ImageCaptureError,
+            message: String,
+            cause: Throwable?
+        ) {
+            this@CameraXFragment.showToast(message)
         }
-
     }
 
 
     private fun showPhotoView(bitmap: Bitmap) {
         photo_view.post {
             photo_view_container.apply {
+                val lp = layoutParams
                 layoutParams.apply {
                     width = 0
                     height = 0

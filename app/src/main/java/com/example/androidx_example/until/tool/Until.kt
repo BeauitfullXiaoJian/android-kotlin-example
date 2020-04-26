@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import java.io.File
-import java.io.FileOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -108,15 +107,12 @@ fun shareImage(context: Context, bitmap: Bitmap, title: String) {
     context.startActivity(Intent.createChooser(intent, title))
 }
 
-fun getTempSaveFileOutputStream(context: Context, suffix: String): FileOutputStream {
-    return getTempSaveFile(context, suffix).outputStream()
-}
-
-fun getTempSaveFile(context: Context, suffix: String): File {
-    return File(
+fun getTempSaveFileOutputStream(context: Context, suffix: String): OutputStream {
+    val saveFile = File(
         context.getExternalFilesDir(null),
         getFileNameStrByTime(suffix)
     )
+    return saveFile.outputStream()
 }
 
 fun getTempBitmapUri(context: Context, bitmap: Bitmap): Uri {

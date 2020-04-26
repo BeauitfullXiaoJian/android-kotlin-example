@@ -3,25 +3,22 @@ package com.example.message
 import com.google.gson.Gson
 
 class Message(
-    var id: Long,
-    var workRequestId: String,
-    var sendState: Int,
-    var fromUid: String,
-    var toUid: String,
-    var sendTime: Long,
-    var receiverTime: Long
+    val msgData: MessageData
 ) {
+    var sendTime: Long = 0L
+    var receiverTime: Long = 0L
+    var sendState: MessageState = MessageState.SENDING
 
     fun success() {
-        sendState = MessageState.SEND_SUCCESS.value
+        sendState = MessageState.SEND_SUCCESS
     }
 
     fun error() {
-        sendState = MessageState.SEND_ERROR.value
+        sendState = MessageState.SEND_ERROR
     }
 
     fun sending() {
-        sendState = MessageState.SENDING.value
+        sendState = MessageState.SENDING
     }
 
     fun updateStats(result: Boolean) {
@@ -33,8 +30,16 @@ class Message(
     }
 
     companion object {
+
         fun createFromString(msg: String): Message {
             return Gson().fromJson(msg, Message::class.java)
+        }
+
+        fun text(text: String, fromUid: String, toUid: String): Message {
+            val data = MessageData(fromUid, toUid, MessageType.TEXT, text)
+            return Message(data).apply {
+                sendTime = System.currentTimeMillis()
+            }
         }
     }
 
